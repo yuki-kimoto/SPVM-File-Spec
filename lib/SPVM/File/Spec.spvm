@@ -1,3 +1,19 @@
 class File::Spec {
-
+  use Sys;
+  use File::Spec::Unix;
+  use File::Spec::Win32;
+  
+  static method new : File::Spec () {
+    
+    my $self : File::Spec;
+    
+    if (Sys->defined("_WIN32")) {
+      $self = File::Spec::Win32->new;
+    }
+    else {
+      $self = File::Spec::Unix->new;
+    }
+    
+    return $self;
+  }
 }
