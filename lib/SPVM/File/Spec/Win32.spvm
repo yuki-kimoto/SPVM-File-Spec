@@ -13,4 +13,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
   method rootdir : string () {
     return "\\";
   }
+
+  method case_tolerant : int () {
+    die "Not yet implemented";
+  }
 }
