@@ -1,4 +1,7 @@
 class File::Spec {
+  
+  interface File::Spec::Interface;
+  
   use Sys;
   use File::Spec::Unix;
   use File::Spec::Win32;
@@ -16,4 +19,6 @@ class File::Spec {
     
     return $self;
   }
+  
+  method has_interfaces : int () { return 1; }
 }
