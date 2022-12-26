@@ -9,4 +9,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
   method devnull : string () {
     return "nul";
   }
+  
+  method rootdir : string () {
+    return "\\";
+  }
 }
