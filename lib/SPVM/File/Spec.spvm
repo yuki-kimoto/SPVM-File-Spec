@@ -22,7 +22,75 @@ class File::Spec {
   
   method has_interfaces : int () { return 1; }
   
+  method canonpath : string ($path : string) {
+    return $self->(File::Spec::Interface)->devnull;
+  }
+  
+  method catdir : string ($directories : string[]) {
+    return $self->(File::Spec::Interface)->catdir($directories);
+  }
+  
+  method catfile : string ($directories : string[], $filename : string) {
+    return $self->(File::Spec::Interface)->catfile($directories, $filename);
+  }
+  
+  method curdir : string () {
+    return $self->(File::Spec::Interface)->curdir;
+  }
+  
   method devnull : string () {
     return $self->(File::Spec::Interface)->devnull;
+  }
+  
+  method rootdir : string () {
+    return $self->(File::Spec::Interface)->rootdir;
+  }
+  
+  method tmpdir : string () {
+    return $self->(File::Spec::Interface)->tmpdir;
+  }
+  
+  method updir : string () {
+    return $self->(File::Spec::Interface)->updir;
+  }
+  
+  method no_upwards : string[] ($directories : string[]) {
+    return $self->(File::Spec::Interface)->no_upwards($directories);
+  }
+  
+  method case_tolerant : int () {
+    return $self->(File::Spec::Interface)->case_tolerant;
+  }
+  
+  method file_name_is_absolute : int ($path : string) {
+    return $self->(File::Spec::Interface)->file_name_is_absolute($path);
+  }
+  
+  method path : string[] () {
+    return $self->(File::Spec::Interface)->path;
+  }
+  
+  method join : string ($directories : string[], $filename : string) {
+    return $self->(File::Spec::Interface)->join($directories, $filename);
+  }
+  
+  method splitpath : string[] ($path : string, $no_file = 0 : int) {
+    return $self->(File::Spec::Interface)->splitpath($path, $no_file);
+  }
+  
+  method splitdir : string[] ($directories : string[]) {
+    return $self->(File::Spec::Interface)->splitdir($directories);
+  }
+   
+  method catpath : string ($volume : string, $directory : string, $file : string) {
+    return $self->(File::Spec::Interface)->catpath($volume, $directory, $file);
+  }
+  
+  method abs2rel : string ($path : string, $base : string) {
+    return $self->(File::Spec::Interface)->abs2rel($path, $base);
+  }
+  
+  method rel2abs : string ($path : string, $base : string) {
+    return $self->(File::Spec::Interface)->rel2abs($path, $base);
   }
 }
