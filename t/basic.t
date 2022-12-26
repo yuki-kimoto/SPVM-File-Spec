@@ -14,7 +14,7 @@ use SPVM 'TestCase::File::Spec';
 
 ok(SPVM::TestCase::File::Spec->test);
 
-ok(SPVM::TestCase::File::Spec->devnull);
+ok(SPVM::File::Spec->new->devnull, File::Spec->devnull);
 
 ok(SPVM::File::Spec->new->rootdir, File::Spec->rootdir);
 

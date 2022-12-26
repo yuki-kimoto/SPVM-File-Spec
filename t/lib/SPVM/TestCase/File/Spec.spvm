@@ -64,22 +64,4 @@ class TestCase::File::Spec {
     
     return 1;
   }
-
-  static method devnull : int () {
-    my $spec = File::Spec->new;
-    my $devnull = $spec->devnull;
-    
-    if (Sys->defined("_WIN32")) {
-      unless ($devnull eq "nul") {
-        return 0;
-      }
-    }
-    else {
-      unless ($devnull eq "/dev/null") {
-        return 0;
-      }
-    }
-    
-    return 1;
-  }
 }
