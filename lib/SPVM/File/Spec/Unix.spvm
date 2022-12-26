@@ -8,6 +8,11 @@ class File::Spec::Unix extends File::Spec {
     return $self;
   }
 
+  method devnull : string () {
+    return "/dev/null";
+  }
+  
+
 =pod TODO
 
   method canonpath : string ($path : string);
@@ -17,8 +22,6 @@ class File::Spec::Unix extends File::Spec {
   method catfile : string ($directories : string[], $filename : string);
   
   method curdir : string ();
-  
-  method devnull : string ();
   
   method rootdir : string ();
   

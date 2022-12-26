@@ -21,4 +21,8 @@ class File::Spec {
   }
   
   method has_interfaces : int () { return 1; }
+  
+  method devnull : string () {
+    return $self->(File::Spec::Interface)->devnull;
+  }
 }

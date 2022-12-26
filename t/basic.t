@@ -10,4 +10,6 @@ use SPVM 'TestCase::File::Spec';
 
 ok(SPVM::TestCase::File::Spec->test);
 
+ok(SPVM::TestCase::File::Spec->devnull);
+
 done_testing;

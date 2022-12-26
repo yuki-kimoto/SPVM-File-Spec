@@ -5,4 +5,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     return $self;
   }
+  
+  method devnull : string () {
+    return "nul";
+  }
 }
