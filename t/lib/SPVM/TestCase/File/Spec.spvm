@@ -64,4 +64,48 @@ class TestCase::File::Spec {
     
     return 1;
   }
+  
+  static method unix_canonpath : int () {
+    
+    my $spec = File::Spec::Unix->new;
+    
+    {
+      my $canonpath = $spec->canonpath("xx////xx");
+      unless ($canonpath eq "xx/xx") {
+        return 0;
+      }
+    }
+    {
+      my $canonpath = $spec->canonpath("xx/././xx");
+      unless ($canonpath eq "xx/xx") {
+        return 0;
+      }
+    }
+    {
+      my $canonpath = $spec->canonpath("./xx");
+      unless ($canonpath eq "xx") {
+        return 0;
+      }
+    }
+    {
+      my $canonpath = $spec->canonpath("/../../xx");
+      unless ($canonpath eq "/xx") {
+        return 0;
+      }
+    }
+    {
+      my $canonpath = $spec->canonpath("/..");
+      unless ($canonpath eq "/") {
+        return 0;
+      }
+    }
+    {
+      my $canonpath = $spec->canonpath("xx/");
+      unless ($canonpath eq "xx") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }

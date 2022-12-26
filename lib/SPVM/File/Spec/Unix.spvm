@@ -28,10 +28,38 @@ class File::Spec::Unix extends File::Spec {
     return 0;
   }
 
+  method canonpath : string ($path : string) {
+    unless ($path) {
+      die "The \$path must be defined";
+    }
+    
+    # xx////xx  -> xx/xx
+    $path = Regex->new("/{2,}")->replace_g($path, "/");
+    
+    # xx/././xx -> xx/xx
+    $path = Regex->new("(?:/\.)+(?:/|\z)")->replace_g($path, "/");
+    
+    # ./xx      -> xx
+    unless ($path eq "./") {
+      $path = Regex->new("(?s)^(?:\./)+")->replace_g($path, "");
+    }
+    
+    # /../../xx -> xx
+    $path = Regex->new("^/(?:\.\./)+")->replace($path, "/");
+    
+    # /..       -> /
+    $path = Regex->new("^/\.\.$")->replace($path, "/");
+    
+    # xx/       -> xx
+    unless ($path eq "/") {
+      $path = Regex->new("/\z")->replace($path, "");
+    }
+    
+    return $path;
+  }
+
 =pod TODO
 
-  method canonpath : string ($path : string);
-  
   method catdir : string ($directories : string[]);
   
   method catfile : string ($directories : string[], $filename : string);

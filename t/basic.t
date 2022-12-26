@@ -20,4 +20,6 @@ ok(SPVM::File::Spec->new->rootdir, File::Spec->rootdir);
 
 ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 
+ok(SPVM::TestCase::File::Spec->unix_canonpath);
+
 done_testing;
