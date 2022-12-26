@@ -1,4 +1,4 @@
-class File::Spec::Win32 extends File::Spec {
+class File::Spec::Win32 extends File::Spec::Unix {
   static method new : File::Spec::Win32 () {
     
     my $self = new File::Spec::Win32;
