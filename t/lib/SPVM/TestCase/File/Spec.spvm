@@ -62,6 +62,16 @@ class TestCase::File::Spec {
       }
     }
     
+    {
+      my $spec = (File::Spec::Interface)File::Spec::Win32->new;
+      $spec->curdir;
+    }
+    
+    {
+      my $spec = (File::Spec)File::Spec::Win32->new;
+      $spec->curdir;
+    }
+    
     return 1;
   }
   
