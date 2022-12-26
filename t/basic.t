@@ -18,4 +18,6 @@ ok(SPVM::File::Spec->new->devnull, File::Spec->devnull);
 
 ok(SPVM::File::Spec->new->rootdir, File::Spec->rootdir);
 
+ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
+
 done_testing;
