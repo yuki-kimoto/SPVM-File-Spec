@@ -27,4 +27,6 @@ ok(SPVM::TestCase::File::Spec::Unix->catdir);
 
 ok(SPVM::TestCase::File::Spec::Unix->catfile);
 
+ok(SPVM::TestCase::File::Spec::Unix->no_upwards);
+
 done_testing;

@@ -1,5 +1,6 @@
 class File::Spec::Unix extends File::Spec {
   use Regex;
+  use StringList;
   
   static method new : File::Spec::Unix () {
     
@@ -87,13 +88,23 @@ class File::Spec::Unix extends File::Spec {
     return $dir_file;    
   }
 
-=pod TODO
 
-  
-  method tmpdir : string ();
-  
-  method no_upwards : string[] ($directories : string[]);
-  
+  method no_upwards : string[] ($directories : string[]) {
+    my $no_upwards_list = StringList->new;
+    
+    my $re = Regex->new("(?s)^\.{1,2}\z");
+    for my $dir (@$directories) {
+      unless ($re->match($dir)) {
+        $no_upwards_list->push($dir);
+      }
+    }
+    
+    my $no_upwards = $no_upwards_list->to_array;
+    
+    return $no_upwards;
+  }
+
+=pod TODO
   method file_name_is_absolute : int ($path : string);
   
   method path : string[] ();
@@ -109,7 +120,9 @@ class File::Spec::Unix extends File::Spec {
   method abs2rel : string ($path : string, $base : string);
   
   method rel2abs : string ($path : string, $base : string);
-
+  
+  method tmpdir : string ();
+  
 =cut
 
 }

@@ -1,6 +1,7 @@
 class TestCase::File::Spec::Unix {
   use File::Spec::Unix;
   use Sys;
+  use Array;
   
   static method canonpath : int () {
     
@@ -67,6 +68,20 @@ class TestCase::File::Spec::Unix {
     {
       my $catdir = $spec->catfile(["foo", "bar", "baz"], "a.txt");
       unless ($catdir eq "foo/bar/baz/a.txt") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
+  static method no_upwards : int () {
+    
+    my $spec = File::Spec::Unix->new;
+    
+    {
+      my $no_upwards = $spec->no_upwards([".", "..", "./foo", "../bar", "bar/baz"]);
+      unless (Array->equals_string($no_upwards, ["./foo", "../bar", "bar/baz"])) {
         return 0;
       }
     }
