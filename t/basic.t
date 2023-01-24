@@ -22,4 +22,6 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 
 ok(SPVM::TestCase::File::Spec->unix_canonpath);
 
+ok(SPVM::TestCase::File::Spec->unix_catdir);
+
 done_testing;
