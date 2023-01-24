@@ -132,4 +132,18 @@ class TestCase::File::Spec {
     
     return 1;
   }
+
+  static method unix_catfile : int () {
+    
+    my $spec = File::Spec::Unix->new;
+    
+    {
+      my $catdir = $spec->catfile(["foo", "bar", "baz"], "a.txt");
+      unless ($catdir eq "foo/bar/baz/a.txt") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }

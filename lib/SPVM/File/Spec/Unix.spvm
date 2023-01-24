@@ -58,8 +58,8 @@ class File::Spec::Unix extends File::Spec {
     return $path;
   }
 
-  method catdir : string ($dir_part_names : string[]) {
-    my $path = Fn->join("/", $dir_part_names);
+  method catdir : string ($directories : string[]) {
+    my $path = Fn->join("/", $directories);
     $path .= "/";
     
     my $canonpath = $self->canonpath($path);
@@ -67,9 +67,28 @@ class File::Spec::Unix extends File::Spec {
     return $canonpath;
   }
 
+  method catfile : string ($directories : string[], $filename : string) {
+    
+    my $file = $self->canonpath($filename);
+    
+    unless ($directories) {
+      return $file;
+    }
+    
+    my $dir = $self->catdir($directories);
+    my $dir_length = length $dir;
+    
+    unless ($dir_length >= 1 && $dir->[$dir_length - 1] == '/') {
+      $dir .= "/";
+    }
+    
+    my $dir_file = $dir . $file;
+    
+    return $dir_file;    
+  }
+
 =pod TODO
 
-  method catfile : string ($directories : string[], $filename : string);
   
   method tmpdir : string ();
   

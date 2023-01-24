@@ -24,4 +24,6 @@ ok(SPVM::TestCase::File::Spec->unix_canonpath);
 
 ok(SPVM::TestCase::File::Spec->unix_catdir);
 
+ok(SPVM::TestCase::File::Spec->unix_catfile);
+
 done_testing;
