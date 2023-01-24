@@ -11,6 +11,7 @@ use File::Spec;
 use SPVM 'File::Spec';
 
 use SPVM 'TestCase::File::Spec';
+use SPVM 'TestCase::File::Spec::Unix';
 
 ok(SPVM::TestCase::File::Spec->test);
 
@@ -20,10 +21,10 @@ ok(SPVM::File::Spec->new->rootdir, File::Spec->rootdir);
 
 ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 
-ok(SPVM::TestCase::File::Spec->unix_canonpath);
+ok(SPVM::TestCase::File::Spec::Unix->canonpath);
 
-ok(SPVM::TestCase::File::Spec->unix_catdir);
+ok(SPVM::TestCase::File::Spec::Unix->catdir);
 
-ok(SPVM::TestCase::File::Spec->unix_catfile);
+ok(SPVM::TestCase::File::Spec::Unix->catfile);
 
 done_testing;
