@@ -29,4 +29,6 @@ ok(SPVM::TestCase::File::Spec::Unix->catfile);
 
 ok(SPVM::TestCase::File::Spec::Unix->no_upwards);
 
+ok(SPVM::TestCase::File::Spec::Unix->file_name_is_absolute);
+
 done_testing;

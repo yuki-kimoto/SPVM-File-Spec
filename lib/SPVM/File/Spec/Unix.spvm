@@ -103,9 +103,17 @@ class File::Spec::Unix extends File::Spec {
     
     return $no_upwards;
   }
-
+  
+  method file_name_is_absolute : int ($path : string) {
+    my $re = Regex->new("(?s)^/");
+    my $is_abs = 0;
+    if ($re->match($path)) {
+      $is_abs = 1;
+    }
+    return $is_abs;
+  }
+  
 =pod TODO
-  method file_name_is_absolute : int ($path : string);
   
   method path : string[] ();
   

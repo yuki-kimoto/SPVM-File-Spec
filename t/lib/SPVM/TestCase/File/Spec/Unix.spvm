@@ -88,4 +88,24 @@ class TestCase::File::Spec::Unix {
     
     return 1;
   }
+
+  static method file_name_is_absolute : int () {
+    
+    my $spec = File::Spec::Unix->new;
+    
+    {
+      my $is_abs = $spec->file_name_is_absolute("/foo/bar");
+      unless ($is_abs) {
+        return 0;
+      }
+    }
+    {
+      my $is_abs = $spec->file_name_is_absolute("foo/bar");
+      if ($is_abs) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }
