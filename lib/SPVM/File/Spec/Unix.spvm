@@ -451,8 +451,6 @@ class File::Spec::Unix extends File::Spec {
   
   method tmpdir : string ();
   
-  method path : string[] ();
-  
 =cut
 
 }
