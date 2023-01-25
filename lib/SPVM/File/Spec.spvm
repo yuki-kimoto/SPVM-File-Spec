@@ -90,7 +90,7 @@ class File::Spec {
     return $self->(File::Spec::Interface)->abs2rel($path, $base);
   }
   
-  method rel2abs : string ($path : string, $base : string) {
+  method rel2abs : string ($path : string, $base = undef : string) {
     return $self->(File::Spec::Interface)->rel2abs($path, $base);
   }
 }

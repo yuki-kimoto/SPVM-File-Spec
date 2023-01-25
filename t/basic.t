@@ -37,4 +37,6 @@ ok(SPVM::TestCase::File::Spec::Unix->catpath);
 
 ok(SPVM::TestCase::File::Spec::Unix->splitpath);
 
+ok(SPVM::TestCase::File::Spec::Unix->rel2abs);
+
 done_testing;
