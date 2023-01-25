@@ -48,6 +48,7 @@ WriteMakefile(
   PREREQ_PM         => {
     %spvm_requires,
     'SPVM::Sys' => '0.32',
+    'SPVM::Cwd' => '0.04',
     'SPVM::Regex' => '0.17',
   },
   TEST_REQUIRES => {
