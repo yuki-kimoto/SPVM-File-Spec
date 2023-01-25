@@ -19,8 +19,6 @@ class File::Spec::Interface : interface_t {
   
   method no_upwards : string[] ($directories : string[]);
   
-  method case_tolerant : int ();
-  
   method file_name_is_absolute : int ($path : string);
   
   method path : string[] ();

@@ -58,10 +58,6 @@ class File::Spec {
     return $self->(File::Spec::Interface)->no_upwards($directories);
   }
   
-  method case_tolerant : int () {
-    return $self->(File::Spec::Interface)->case_tolerant;
-  }
-  
   method file_name_is_absolute : int ($path : string) {
     return $self->(File::Spec::Interface)->file_name_is_absolute($path);
   }
@@ -93,4 +89,12 @@ class File::Spec {
   method rel2abs : string ($path : string, $base = undef : string) {
     return $self->(File::Spec::Interface)->rel2abs($path, $base);
   }
+
+=pod NOTE
+  
+  # The following method is not supported because cross compilation is important for SPVM.
+  method case_tolerant : int ();
+
+=cut
+
 }
