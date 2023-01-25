@@ -33,4 +33,6 @@ ok(SPVM::TestCase::File::Spec::Unix->file_name_is_absolute);
 
 ok(SPVM::TestCase::File::Spec::Unix->join);
 
+ok(SPVM::TestCase::File::Spec::Unix->catpath);
+
 done_testing;
