@@ -1,17 +1,14 @@
 class File::Spec::Win32 extends File::Spec::Unix {
   use Regex;
   
-  our $DRIVE_RX : private Regex;
-  our $UNC_RX : private Regex;
-  our $VOL_RX : private Regex;
+  our $DRIVE_RX_STRING : private string;
+  our $UNC_RX_STRING : private string;
+  our $VOL_RX_STRING : private string;
 
   INIT {
-    my $DRIVE_RX_STRING = "[a-zA-Z]:";
-    my $UNC_RX_STRING = "(?:\\\\\\\\|//)[^\\\\/]+[\\\\/][^\\\\/]+";
-    my $VOL_RX_STRING = "(?:$DRIVE_RX_STRING|$UNC_RX_STRING)";
-    $DRIVE_RX = Regex->new($DRIVE_RX_STRING);
-    $UNC_RX = Regex->new($UNC_RX_STRING);
-    $VOL_RX = Regex->new($VOL_RX_STRING);
+    $DRIVE_RX_STRING = "[a-zA-Z]:";
+    $UNC_RX_STRING = "(?:\\\\\\\\|//)[^\\\\/]+[\\\\/][^\\\\/]+";
+    $VOL_RX_STRING = "(?:$DRIVE_RX_STRING|$UNC_RX_STRING)";
   }
 
   static method new : File::Spec::Win32 () {
@@ -46,5 +43,34 @@ class File::Spec::Win32 extends File::Spec::Unix {
 
     my $tmpdir = $self->_tmpdir($dirlist);
     return $tmpdir;
+  }
+  
+  method file_name_is_absolute : int ($path : string) {
+    
+    my $is_abs = 0;
+    my $vol_re = Regex->new("^($VOL_RX_STRING)");
+    if ($vol_re->match($path)) {
+      my $vol = $vol_re->cap1;
+      
+      my $unc_re = Regex->new("^$UNC_RX_STRING");
+      if ($unc_re->match($vol)) {
+        $is_abs = 2;
+      }
+      else {
+        my $drive_re = Regex->new("^$DRIVE_RX_STRING[\\/]");
+        if ($drive_re->match($path)) {
+          $is_abs = 2;
+        }
+      }
+    }
+    else {
+      my $re = Regex->new("^[\\/]");
+      my $is_abs = 0;
+      if ($re->match($path)) {
+        $is_abs = 1;
+      }
+    }
+    
+    return $is_abs;
   }
 }
