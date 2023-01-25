@@ -79,7 +79,6 @@ class File::Spec {
   }
   
   method splitdir : string[] ($path : string) {
-    warn("PPP");
     return $self->(File::Spec::Interface)->splitdir($path);
   }
    
