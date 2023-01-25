@@ -78,8 +78,9 @@ class File::Spec {
     return $self->(File::Spec::Interface)->splitpath($path, $no_file);
   }
   
-  method splitdir : string[] ($directories : string[]) {
-    return $self->(File::Spec::Interface)->splitdir($directories);
+  method splitdir : string[] ($path : string) {
+    warn("PPP");
+    return $self->(File::Spec::Interface)->splitdir($path);
   }
    
   method catpath : string ($volume : string, $directory : string, $file : string) {

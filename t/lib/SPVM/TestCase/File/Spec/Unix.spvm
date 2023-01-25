@@ -217,4 +217,25 @@ class TestCase::File::Spec::Unix {
     return 1;
   }
 
+  static method splitdir : int () {
+    
+    my $spec = File::Spec::Unix->new;
+    
+    {
+      my $dirs = $spec->splitdir("foo/bar/baz");
+      unless (Array->equals_string($dirs, ["foo", "bar", "baz"])) {
+        return 0;
+      }
+    }
+    
+    {
+      my $dirs = $spec->splitdir("/foo/bar//baz/");
+      unless (Array->equals_string($dirs, ["", "foo", "bar", "", "baz", ""])) {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
 }

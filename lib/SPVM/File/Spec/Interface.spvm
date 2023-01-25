@@ -29,7 +29,7 @@ class File::Spec::Interface : interface_t {
   
   method splitpath : string[] ($path : string, $no_file = 0 : int);
   
-  method splitdir : string[] ($directories : string[]);
+  method splitdir : string[] ($path : string);
    
   method catpath : string ($volume : string, $directory : string, $file : string);
   

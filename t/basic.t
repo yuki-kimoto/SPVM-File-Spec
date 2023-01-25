@@ -39,4 +39,6 @@ ok(SPVM::TestCase::File::Spec::Unix->splitpath);
 
 ok(SPVM::TestCase::File::Spec::Unix->rel2abs);
 
+ok(SPVM::TestCase::File::Spec::Unix->splitdir);
+
 done_testing;
