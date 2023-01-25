@@ -1,4 +1,19 @@
 class File::Spec::Win32 extends File::Spec::Unix {
+  use Regex;
+  
+  our $DRIVE_RX : private Regex;
+  our $UNC_RX : private Regex;
+  our $VOL_RX : private Regex;
+
+  INIT {
+    my $DRIVE_RX_STRING = "[a-zA-Z]:";
+    my $UNC_RX_STRING = "(?:\\\\\\\\|//)[^\\\\/]+[\\\\/][^\\\\/]+";
+    my $VOL_RX_STRING = "(?:$DRIVE_RX_STRING|$UNC_RX_STRING)";
+    $DRIVE_RX = Regex->new($DRIVE_RX_STRING);
+    $UNC_RX = Regex->new($UNC_RX_STRING);
+    $VOL_RX = Regex->new($VOL_RX_STRING);
+  }
+
   static method new : File::Spec::Win32 () {
     
     my $self = new File::Spec::Win32;
@@ -14,7 +29,22 @@ class File::Spec::Win32 extends File::Spec::Unix {
     return "\\";
   }
 
-  method case_tolerant : int () {
-    die "Not yet implemented";
+  method tmpdir : string () {
+    my $env_tmpdir = Sys->getenv("TMPDIR");
+    my $env_temp = Sys->getenv("TEMP");
+    my $env_tmp = Sys->getenv("TMP");
+    my $dirlist = [
+      $env_tmpdir,
+      $env_temp,
+      $env_tmp,
+      "SYS:/temp",
+      "C:\system\temp",
+      "C:/temp",
+      "/tmp",
+      "/",
+    ];
+
+    my $tmpdir = $self->_tmpdir($dirlist);
+    return $tmpdir;
   }
 }
