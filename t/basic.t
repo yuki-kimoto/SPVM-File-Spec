@@ -35,4 +35,6 @@ ok(SPVM::TestCase::File::Spec::Unix->join);
 
 ok(SPVM::TestCase::File::Spec::Unix->catpath);
 
+ok(SPVM::TestCase::File::Spec::Unix->splitpath);
+
 done_testing;

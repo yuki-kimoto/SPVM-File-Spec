@@ -149,4 +149,50 @@ class TestCase::File::Spec::Unix {
     return 1;
   }
 
+  static method splitpath : int () {
+    
+    my $spec = File::Spec::Unix->new;
+    
+    {
+      my $no_file = 1;
+      my $splitpath = $spec->splitpath("foo/bar", $no_file);
+      unless ($splitpath->[0] eq "") {
+        return 0;
+      }
+      unless ($splitpath->[1] eq "foo/bar") {
+        return 0;
+      }
+      unless ($splitpath->[2] eq "") {
+        return 0;
+      }
+    }
+    {
+      my $splitpath = $spec->splitpath("foo/bar/a.txt");
+      
+      unless ($splitpath->[0] eq "") {
+        return 0;
+      }
+      unless ($splitpath->[1] eq "foo/bar/") {
+        return 0;
+      }
+      unless ($splitpath->[2] eq "a.txt") {
+        return 0;
+      }
+    }
+    {
+      my $splitpath = $spec->splitpath("/foo/bar/a.txt");
+      unless ($splitpath->[0] eq "") {
+        return 0;
+      }
+      unless ($splitpath->[1] eq "/foo/bar/") {
+        return 0;
+      }
+      unless ($splitpath->[2] eq "a.txt") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
+
 }

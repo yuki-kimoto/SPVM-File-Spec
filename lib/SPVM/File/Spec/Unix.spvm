@@ -140,9 +140,28 @@ class File::Spec::Unix extends File::Spec {
     
     return $directory;
   }
-      
+
+  method splitpath : string[] ($path : string, $no_file = 0 : int) {
+    
+    my $volume = "";
+    my $directory = "";
+    my $file = "";
+    
+    if ( $no_file ) {
+      $directory = $path;
+    }
+    else {
+      my $re = Regex->new("(?s)^((?:.*/(?:\.\.?\z)?)?)([^/]*)");
+      if ($re->match($path)) {
+        $directory = $re->cap1;
+        $file      = $re->cap2;
+      }
+    }
+    
+    return [$volume, $directory, $file];
+  }
+  
 =pod TODO
-  method splitpath : string[] ($path : string, $no_file = 0 : int);
   
   method splitdir : string[] ($directories : string[]);
   method abs2rel : string ($path : string, $base : string);
