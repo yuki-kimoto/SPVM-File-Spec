@@ -3,6 +3,7 @@ class File::Spec::Unix extends File::Spec {
   use StringList;
   use Cwd;
   use Sys;
+  use Sys::FileTest;
   
   static method new : File::Spec::Unix () {
     
@@ -446,11 +447,32 @@ class File::Spec::Unix extends File::Spec {
     
     return $pathes;
   }
-          
-=pod TODO
-  
-  method tmpdir : string ();
-  
-=cut
 
+  method tmpdir : string () {
+    my $env_tmpdir = Sys->getenv("TMPDIR");
+    my $dirlist = [$env_tmpdir, "/tmp"];
+    
+    my $tmpdir = (string)undef;
+    for my $dir (@$dirlist) {
+      if ($dir && Sys::FileTest->d($dir) && Sys::FileTest->w($dir)){
+        $tmpdir = $dir;
+        last;
+      }
+    }
+    
+    unless ($tmpdir) {
+      $tmpdir = $self->curdir;
+    }
+    
+    $tmpdir = $self->canonpath($tmpdir);
+    
+    if (!$self->file_name_is_absolute($tmpdir)) {
+      $tmpdir =  $self->rel2abs($tmpdir);
+      if (!$self->file_name_is_absolute($tmpdir)) {
+        die "A temporary directory must be converted to an absolute path";
+      }
+    }
+    
+    return $tmpdir;
+  }
 }
