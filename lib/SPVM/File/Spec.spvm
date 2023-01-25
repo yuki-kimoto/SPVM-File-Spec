@@ -86,7 +86,7 @@ class File::Spec {
     return $self->(File::Spec::Interface)->catpath($volume, $directory, $file);
   }
   
-  method abs2rel : string ($path : string, $base : string) {
+  method abs2rel : string ($path : string, $base = undef : string) {
     return $self->(File::Spec::Interface)->abs2rel($path, $base);
   }
   

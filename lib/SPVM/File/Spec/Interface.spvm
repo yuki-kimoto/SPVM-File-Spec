@@ -33,7 +33,7 @@ class File::Spec::Interface : interface_t {
    
   method catpath : string ($volume : string, $directory : string, $file : string);
   
-  method abs2rel : string ($path : string, $base : string);
+  method abs2rel : string ($path : string, $base = undef : string);
   
   method rel2abs : string ($path : string, $base = undef : string);
 }
