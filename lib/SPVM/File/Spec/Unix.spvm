@@ -238,6 +238,119 @@ class File::Spec::Unix extends File::Spec {
     my $dirs = Fn->split("/", $path, -1);
     return $dirs;
   }
+
+  method abs2rel : string ($path : string, $base = undef : string) {
+    unless ($base && length $base) {
+      $base = Cwd->getcwd();
+    }
+    
+    $path = $self->canonpath($path);
+    $base = $self->canonpath($base);
+
+    my $path_directories = (string)undef;
+    my $base_directories = (string)undef;
+    
+    my $pash_is_abs = $self->file_name_is_absolute($path);
+    my $base_is_abs =  $self->file_name_is_absolute($base);
+    
+    if ($pash_is_abs || $base_is_abs) {
+      $path = $self->rel2abs($path);
+      $base = $self->rel2abs($base);
+      
+      my $path_volume = $self->splitpath($path, 1)->[0];
+      my $base_volume = $self->splitpath($base, 1)->[0];
+
+      # Can't relativize across volumes
+      unless ($path_volume eq $base_volume) {
+        return $path ;
+      }
+      
+      $path_directories = $self->splitpath($path, 1)->[1];
+      $base_directories = $self->splitpath($base, 1)->[1];
+
+      # For UNC paths, the user might give a volume like //foo/bar that
+      # strictly speaking has no directory portion.  Treat it as if it
+      # had the root directory for that volume.
+      if (!length($base_directories) && $self->file_name_is_absolute($base)) {
+        $base_directories = $self->rootdir;
+      }
+    }
+    else {
+      my $wd= $self->splitpath(Cwd->getcwd(), 1)->[1];
+      $path_directories = $self->catdir([$wd, $path]);
+      $base_directories = $self->catdir([$wd, $base]);
+    }
+
+    # Now, remove all leading components that are the same
+    my $pathchunks = $self->splitdir( $path_directories );
+    my $basechunks = $self->splitdir( $base_directories );
+
+    if ($base_directories eq $self->rootdir) {
+      if ($path_directories eq $self->rootdir) {
+        return $self->curdir;
+      }
+      
+      my $pathchunks_list = StringList->new($pathchunks);
+      $pathchunks_list->shift;
+      $pathchunks = $pathchunks_list->to_array;
+      return $self->canonpath( $self->catpath("", $self->catdir($pathchunks ), "") );
+    }
+
+    my $common_list = StringList->new;
+    my $pathchunks_list = StringList->new($pathchunks);
+    my $basechunks_list = StringList->new($basechunks);
+    while ($pathchunks_list->length > 0 && $basechunks_list->length > 0 && $self->_same($pathchunks_list->get(0), $basechunks_list->get(0))) {
+      $common_list->push($pathchunks_list->shift);
+      $basechunks_list->shift;
+    }
+    
+    warn dump $basechunks_list->to_array;
+    
+    unless ($pathchunks_list->length > 0 || $basechunks_list->length > 0) {
+      return $self->curdir;
+    }
+    
+    # @basechunks now contains the directories the resulting relative path 
+    # must ascend out of before it can descend to $path_directory.  If there
+    # are updir components, we must descend into the corresponding directories
+    # (this only works if they are no symlinks).
+    my $reverse_base_list = StringList->new;
+    while ($basechunks_list->length > 0) {
+      my $dir = $basechunks_list->shift;
+      if( $dir ne $self->updir ) {
+        $reverse_base_list->unshift($self->updir);
+        $common_list->push($dir);
+      }
+      elsif($common_list->length > 0) {
+        if( $reverse_base_list->length > 0 && $reverse_base_list->get(0) eq $self->updir ) {
+          $reverse_base_list->shift;
+          $common_list->pop;
+        }
+        else {
+          $reverse_base_list->unshift($common_list->pop);
+        }
+      }
+    }
+    
+    my $reverse_base = $reverse_base_list->to_array;
+    for my $reserve_base_part (@$reverse_base) {
+      $pathchunks_list->unshift($reserve_base_part);
+    }
+    $pathchunks = $pathchunks_list->to_array;
+    my $result_dirs = $self->catdir($pathchunks);
+    
+    return $self->canonpath( $self->catpath("", $result_dirs, "") );
+    
+    return undef;
+  }
+  
+  method _same : int ($path1 : string, $path2 : string) {
+    my $same = 0;
+    if ($path1 eq $path2) {
+      $same = 1;
+    }
+    return $same;
+  }
       
 =pod TODO
   

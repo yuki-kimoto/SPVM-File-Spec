@@ -238,4 +238,19 @@ class TestCase::File::Spec::Unix {
     return 1;
   }
 
+  static method abs2rel : int () {
+    
+    my $spec = File::Spec::Unix->new;
+    
+    {
+      my $cwd = Cwd->getcwd;
+      my $abs2rel = $spec->abs2rel("$cwd/foo/a.txt");
+      
+      unless ($abs2rel eq "foo/a.txt") {
+        return 0;
+      }
+    }
+    
+    return 1;
+  }
 }

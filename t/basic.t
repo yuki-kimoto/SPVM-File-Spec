@@ -41,4 +41,6 @@ ok(SPVM::TestCase::File::Spec::Unix->rel2abs);
 
 ok(SPVM::TestCase::File::Spec::Unix->splitdir);
 
+ok(SPVM::TestCase::File::Spec::Unix->abs2rel);
+
 done_testing;
