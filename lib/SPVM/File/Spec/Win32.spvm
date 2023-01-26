@@ -1,5 +1,6 @@
 class File::Spec::Win32 extends File::Spec::Unix {
   use Regex;
+  use StringList;
   
   our $DRIVE_RX_STRING : private string;
   our $UNC_RX_STRING : private string;
@@ -80,5 +81,29 @@ class File::Spec::Win32 extends File::Spec::Unix {
       $same = 1;
     }
     return $same;
+  }
+  
+  method path : string[] () {
+    
+    my $env_path = Sys->getenv("PATH");
+    unless ($env_path) {
+      return new string[0];
+    }
+    
+    my $pathes = File::Spec::Unix->compatible_split(";", $env_path);
+    
+    my $re = Regex->new("\"");
+    my $pathes_list = StringList->new;
+    for (my $i = 0; $i < @$pathes; $i++) {
+      my $path = $pathes->[$i];
+      $path = $re->replace_g($path, "");
+      if (length $path) {
+        $pathes_list->push($path);
+      }
+    }
+    $pathes_list->unshift(".");
+    $pathes = $pathes_list->to_array;
+    
+    return $pathes;
   }
 }
