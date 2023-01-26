@@ -34,4 +34,6 @@ class File::Spec::Interface : interface_t {
   method abs2rel : string ($path : string, $base = undef : string);
   
   method rel2abs : string ($path : string, $base = undef : string);
+
+  method _same : int ($path1 : string, $path2 : string);
 }

@@ -297,7 +297,7 @@ class File::Spec::Unix extends File::Spec {
     my $common_list = StringList->new;
     my $pathchunks_list = StringList->new($pathchunks);
     my $basechunks_list = StringList->new($basechunks);
-    while ($pathchunks_list->length > 0 && $basechunks_list->length > 0 && $self->_same($pathchunks_list->get(0), $basechunks_list->get(0))) {
+    while ($pathchunks_list->length > 0 && $basechunks_list->length > 0 && $self->(File::Spec::Interface)->_same($pathchunks_list->get(0), $basechunks_list->get(0))) {
       $common_list->push($pathchunks_list->shift);
       $basechunks_list->shift;
     }

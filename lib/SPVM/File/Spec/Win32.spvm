@@ -73,4 +73,12 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     return $is_abs;
   }
+
+  method _same : int ($path1 : string, $path2 : string) {
+    my $same = 0;
+    if (Fn->lc($path1) eq Fn->lc($path2)) {
+      $same = 1;
+    }
+    return $same;
+  }
 }
