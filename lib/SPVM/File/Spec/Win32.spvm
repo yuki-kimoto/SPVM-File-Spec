@@ -106,4 +106,29 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     return $pathes;
   }
+  
+  method splitpath : string[] ($path : string, $nofile = 0 : int) {
+    
+    my $volume = "";
+    my $directory = "";
+    my $file = "";
+    
+    if ( $nofile ) {
+      my $re = Regex->new("(?s)^($VOL_RX_STRING?)(.*)");
+      if ($re->match($path)) {
+        $volume = $re->cap1;
+        $directory = $re->cap2;
+      }
+    }
+    else {
+      my $re = Regex->new("(?s)^($VOL_RX_STRING?)((?:.*[\\/](?:\.\.?\Z(?!\n))?)?)(.*)");
+      if ($re->match($path)) {
+        $volume    = $re->cap1;
+        $directory = $re->cap2;
+        $file      = $re->cap3;
+      }
+    }
+    
+    return [$volume, $directory, $file];
+  }
 }
