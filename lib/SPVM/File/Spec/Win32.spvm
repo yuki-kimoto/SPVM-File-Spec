@@ -58,14 +58,14 @@ class File::Spec::Win32 extends File::Spec::Unix {
         $is_abs = 2;
       }
       else {
-        my $drive_re = Regex->new("^$DRIVE_RX_STRING[\\/]");
+        my $drive_re = Regex->new("^$DRIVE_RX_STRING[\\\\/]");
         if ($drive_re->match($path)) {
           $is_abs = 2;
         }
       }
     }
     else {
-      my $re = Regex->new("^[\\/]");
+      my $re = Regex->new("^[\\\\/]");
       my $is_abs = 0;
       if ($re->match($path)) {
         $is_abs = 1;
@@ -114,14 +114,14 @@ class File::Spec::Win32 extends File::Spec::Unix {
     my $file = "";
     
     if ( $nofile ) {
-      my $re = Regex->new("(?s)^($VOL_RX_STRING?)(.*)");
+      my $re = Regex->new("^($VOL_RX_STRING?)(.*)", "s");
       if ($re->match($path)) {
         $volume = $re->cap1;
         $directory = $re->cap2;
       }
     }
     else {
-      my $re = Regex->new("(?s)^($VOL_RX_STRING?)((?:.*[\\/](?:\.\.?\Z(?!\n))?)?)(.*)");
+      my $re = Regex->new("^($VOL_RX_STRING?)((?:.*[\\\\/](?:\.\.?\Z(?!\n))?)?)(.*)", "s");
       if ($re->match($path)) {
         $volume    = $re->cap1;
         $directory = $re->cap2;
@@ -130,5 +130,16 @@ class File::Spec::Win32 extends File::Spec::Unix {
     }
     
     return [$volume, $directory, $file];
+  }
+
+  method splitdir : string[] ($path : string) {
+    if (!Regex->new("[\\\\/]\Z(?!\n)")->match($path)) {
+      return Regex->new("[\\\\/]")->split($path);
+    }
+    else {
+      my $dirs = Regex->new("[\\\\/]")->split("${path}dummy");
+      $dirs->[@$dirs - 1] = "";
+      return $dirs;
+    }
   }
 }
