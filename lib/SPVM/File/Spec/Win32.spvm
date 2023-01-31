@@ -235,4 +235,16 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     return $path;
   }
+  
+  method canonpath : string ($path : string) {
+    unless ($path) {
+      die "The \$path must be defined";
+    }
+    
+    unless (length $path) {
+      return $path;
+    }
+    
+    return $self->_canon_cat([$path]);
+  }
 }
