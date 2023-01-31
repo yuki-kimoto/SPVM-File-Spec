@@ -58,8 +58,8 @@ class File::Spec::Unix extends File::Spec {
     return $path;
   }
 
-  method catdir : string ($directories : string[]) {
-    my $path = Fn->join("/", $directories);
+  method catdir : string ($dir_parts : string[]) {
+    my $path = Fn->join("/", $dir_parts);
     $path .= "/";
     
     my $canonpath = $self->canonpath($path);
@@ -67,15 +67,15 @@ class File::Spec::Unix extends File::Spec {
     return $canonpath;
   }
 
-  method catfile : string ($directories : string[], $filename : string) {
+  method catfile : string ($dir_parts : string[], $file_base_name : string) {
     
-    my $file = $self->canonpath($filename);
+    my $file = $self->canonpath($file_base_name);
     
-    unless ($directories) {
+    unless ($dir_parts) {
       return $file;
     }
     
-    my $dir = $self->catdir($directories);
+    my $dir = $self->catdir($dir_parts);
     my $dir_length = length $dir;
     
     unless ($dir_length >= 1 && $dir->[$dir_length - 1] == '/') {
@@ -88,13 +88,13 @@ class File::Spec::Unix extends File::Spec {
   }
 
 
-  method no_upwards : string[] ($directories : string[]) {
+  method no_upwards : string[] ($dir_parts : string[]) {
     my $no_upwards_list = StringList->new;
     
     my $re = Regex->new("^\.{1,2}\z", "s");
-    for my $dir (@$directories) {
-      unless ($re->match($dir)) {
-        $no_upwards_list->push($dir);
+    for my $dir_part (@$dir_parts) {
+      unless ($re->match($dir_part)) {
+        $no_upwards_list->push($dir_part);
       }
     }
     
@@ -112,8 +112,8 @@ class File::Spec::Unix extends File::Spec {
     return $is_abs;
   }
   
-  method join : string ($directories : string[], $filename : string) {
-    return $self->catfile($directories, $filename);
+  method join : string ($dir_parts : string[], $file_base_name : string) {
+    return $self->catfile($dir_parts, $file_base_name);
   }
   
   method catpath : string ($volume : string, $directory : string, $file : string) {
