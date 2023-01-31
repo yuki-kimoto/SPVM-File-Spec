@@ -211,6 +211,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
       $parts_list->push($parts->[$i]);
     }
     $parts = $parts_list->to_array;
+    $path = Fn->join("\\", $parts);
     
     # \xx --> xx
     $path = Regex->new("\A\\\\")->replace_g($path, "");
@@ -219,13 +220,12 @@ class File::Spec::Win32 extends File::Spec::Unix {
     $path = Regex->new("\\\\\z")->replace_g($path, "");
     
     if (Regex->new("\\\\\z")->match($volume)) {
-      
       # <vol>\.. --> <vol>\
       $path = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace($path, "");
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
-      my $re = Regex->new("\A(\\\\.*)\\\z", "s");
-      if (length $path && $re->match($path)) {
+      my $re = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s");
+      if (!length $path && $re->match($volume)) {
         $path = $re->cap1;
         return $path;
       }

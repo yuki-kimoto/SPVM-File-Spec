@@ -34,7 +34,85 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 # canonpath
 {
   {
+    my $path = "";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
     my $path = "foo/";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo/../bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo/../bar/../baz";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo/./bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo/./a/./bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "C:/foo/bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "//192.168.102.155/foo/bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "/foo";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+
+  {
+    my $path = "";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo\\";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo\\..\\bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo\\..\\bar\\..\\baz";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo\\.\\bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "foo\\.\\a\\.\\bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "C:\\foo\\bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "\\\\192.168.102.155\\foo\\bar";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "\\foo";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+
+  {
+    my $path = "\\\\HOST\\SHARE\\";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+  {
+    my $path = "C:\\..\\..";
     is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
   }
 }
