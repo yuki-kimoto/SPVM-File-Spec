@@ -132,16 +132,11 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     return [$volume, $directory, $file];
   }
-
+  
   method splitdir : string[] ($path : string) {
-    if (!Regex->new("[\\\\/]\Z(?!\n)")->match($path)) {
-      return Regex->new("[\\\\/]")->split($path);
-    }
-    else {
-      my $dirs = Regex->new("[\\\\/]")->split("${path}dummy");
-      $dirs->[@$dirs - 1] = "";
-      return $dirs;
-    }
+    my $dirs = Regex->new("[\\\\/]")->split($path, -1);
+    
+    return $dirs;
   }
 
   private method _canon_cat : string ($parts : string[]) {

@@ -226,6 +226,26 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   }
 }
 
+# splitdir
+{
+  {
+    my $path = "foo/bar";
+    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+  }
+  {
+    my $path = "/a/b/c//d/";
+    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+  }
+  {
+    my $path = "foo\\bar";
+    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+  }
+  {
+    my $path = "\\a\\b\\c\\\\d\\";
+    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+  }
+}
+
 ok(SPVM::TestCase::File::Spec::Unix->canonpath);
 
 ok(SPVM::TestCase::File::Spec::Unix->catdir);
