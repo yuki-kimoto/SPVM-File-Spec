@@ -68,7 +68,6 @@ class File::Spec::Win32 extends File::Spec::Unix {
     }
     else {
       my $re = Regex->new("^[\\\\/]");
-      my $is_abs = 0;
       if ($re->match($path)) {
         $is_abs = 1;
       }
