@@ -245,6 +245,27 @@ class File::Spec::Win32 extends File::Spec::Unix {
       return $path;
     }
     
-    return $self->_canon_cat([$path]);
+    my $canonpath = $self->_canon_cat([$path]);
+    
+    return $canonpath;
+  }
+
+  method catdir : string ($dir_parts : string[]) {
+      
+    unless ($dir_parts) {
+      die "The \$dir_parts must be defined";
+    }
+    
+    if (!@$dir_parts || !length $dir_parts->[0]) {
+      $dir_parts = ["/"];
+    }
+    
+    if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
+      $dir_parts->[0] .= "\\";
+    }
+    
+    my $path = $self->_canon_cat($dir_parts);
+    
+    return $path;
   }
 }
