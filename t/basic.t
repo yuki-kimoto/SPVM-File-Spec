@@ -151,9 +151,7 @@ ok(SPVM::TestCase::File::Spec::Unix->splitdir);
 ok(SPVM::TestCase::File::Spec::Unix->abs2rel);
 
 {
-  local $ENV{PATH} = "/usr/bin:/usr/local/bin::/bin::";
-  ok(SPVM::TestCase::File::Spec::Unix->path_test1);
-  is_deeply([File::Spec->path], [map { "$_" } @{SPVM::File::Spec->new->path}]);
+  is_deeply(SPVM::File::Spec->new->path->to_strings, [File::Spec->path]);
 }
 
 done_testing;

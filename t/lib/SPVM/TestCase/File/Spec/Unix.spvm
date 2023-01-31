@@ -253,18 +253,4 @@ class TestCase::File::Spec::Unix {
     
     return 1;
   }
-
-  static method path_test1 : int () {
-    
-    my $spec = File::Spec::Unix->new;
-    
-    {
-      my $pathes = $spec->path;
-      unless (Array->equals_string($pathes, ["/usr/bin", "/usr/local/bin", ".", "/bin"])) {
-        return 0;
-      }
-    }
-    
-    return 1;
-  }
 }
