@@ -114,19 +114,20 @@ class File::Spec::Win32 extends File::Spec::Unix {
     my $directory = "";
     my $file = "";
     
-    if ( $nofile ) {
-      my $re = Regex->new("^($VOL_RX_STRING?)(.*)", "s");
-      if ($re->match($path)) {
-        $volume = $re->cap1;
-        $directory = $re->cap2;
+    my $re_valume = Regex->new("^($VOL_RX_STRING?)(.*)", "s");
+    if ($re_valume->match($path)) {
+      $volume = $re_valume->cap1;
+      my $rest = $re_valume->cap2;
+      
+      if ($nofile) {
+        $directory = $rest;
       }
-    }
-    else {
-      my $re = Regex->new("^($VOL_RX_STRING?)((?:.*[\\\\/](?:\.\.?\Z(?!\n))?)?)(.*)", "s");
-      if ($re->match($path)) {
-        $volume    = $re->cap1;
-        $directory = $re->cap2;
-        $file      = $re->cap3;
+      else {
+        my $re = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s");
+        if ($re->match($rest)) {
+          $directory = $re->cap1;
+          $file      = $re->cap2;
+        }
       }
     }
     

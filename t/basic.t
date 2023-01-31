@@ -246,6 +246,90 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   }
 }
 
+# splitpath
+{
+  {
+    my $path = "foo/bar";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "/foo/bar/";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "c:/foo/bar";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "//1.2.3.4/SHARE/foo/bar";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "foo/bar";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "c:/foo/bar";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "/foo/bar/";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "//1.2.3.4/SHARE/foo/bar";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "foo\\bar";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "\\foo\\bar\\";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "c:\\foo\\bar";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "\\\\1.2.3.4\\SHARE\\foo\\bar";
+    my $no_file = 0;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "foo\\bar";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "c:\\foo\\bar";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "\\foo\\bar\\";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+  {
+    my $path = "\\\\1.2.3.4\\SHARE\\foo\\bar";
+    my $no_file = 1;
+    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+  }
+}
+
 ok(SPVM::TestCase::File::Spec::Unix->canonpath);
 
 ok(SPVM::TestCase::File::Spec::Unix->catdir);
