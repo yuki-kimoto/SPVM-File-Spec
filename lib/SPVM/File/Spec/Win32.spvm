@@ -151,7 +151,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     # drive letter - (C:)
     my $re_drive = Regex->new("\A([A-Za-z]:)([\\\\/]?)");
-    if ($first = $re_drive->replace($first, "")) {
+    $first = $re_drive->replace($first, "");
+    if ($re_drive->replaced_count > 0) {
       $volume = Fn->ucfirst($re_drive->cap1);
       if ($re_drive->cap2) {
         $volume .= "\\";
@@ -159,8 +160,10 @@ class File::Spec::Win32 extends File::Spec::Unix {
     }
     else {
       my $re_unc = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s");
+      $first = $re_unc->replace($first, "");
+      
       # UNC volume (\\192.168.201.101)
-      if ($first = $re_unc->replace($first, "")) {
+      if ($re_unc->replaced_count > 0) {
         $volume = "\\\\" . $re_unc->cap1;
         if ($re_unc->cap2) {
           $volume .= "\\" . $re_unc->cap2;
@@ -169,8 +172,10 @@ class File::Spec::Win32 extends File::Spec::Unix {
       }
       else {
         my $re_root = Regex->new("\A[\\\\/]");
+        $first = $re_root->replace($first, "");
+        
         # root dir (\foo)
-        if ($first = $re_root->replace($first, "")) {
+        if ($re_root->replaced_count > 0) {
           $volume = "\\";
         }
         else {

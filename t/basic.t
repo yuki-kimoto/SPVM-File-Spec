@@ -31,6 +31,14 @@ ok(SPVM::File::Spec->new->updir, File::Spec->updir);
 
 ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 
+# canonpath
+{
+  {
+    my $path = "foo/";
+    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+  }
+}
+
 # file_name_is_absolute
 {
   ok(SPVM::TestCase::File::Spec::Unix->file_name_is_absolute);
