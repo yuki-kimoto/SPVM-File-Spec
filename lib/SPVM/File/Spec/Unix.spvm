@@ -59,6 +59,9 @@ class File::Spec::Unix extends File::Spec {
   }
 
   method catdir : string ($dir_parts : string[]) {
+    unless ($dir_parts) {
+      die "The \$dir_parts must be defined";
+    }
     
     my $dir_parts_list = StringList->new($dir_parts);
     $dir_parts_list->push("");
@@ -70,13 +73,20 @@ class File::Spec::Unix extends File::Spec {
     
     return $canonpath;
   }
-
+  
   method catfile : string ($dir_parts : string[], $file_base_name : string) {
-    
-    my $file = $self->canonpath($file_base_name);
-    
     unless ($dir_parts) {
-      return $file;
+      die "The \$dir_parts must be defined";
+    }
+    
+    unless ($file_base_name) {
+      die "The \$file_base_name must be defined";
+    }
+    
+    $file_base_name = $self->canonpath($file_base_name);
+    
+    unless (@$dir_parts) {
+      return $file_base_name;
     }
     
     my $dir = $self->catdir($dir_parts);
@@ -86,12 +96,11 @@ class File::Spec::Unix extends File::Spec {
       $dir .= "/";
     }
     
-    my $dir_file = $dir . $file;
+    my $file = "$dir$file_base_name";
     
-    return $dir_file;    
+    return $file;
   }
-
-
+  
   method no_upwards : string[] ($dir_parts : string[]) {
     my $no_upwards_list = StringList->new;
     

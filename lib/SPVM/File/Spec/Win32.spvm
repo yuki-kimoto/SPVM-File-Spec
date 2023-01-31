@@ -284,13 +284,23 @@ class File::Spec::Win32 extends File::Spec::Unix {
       die "The \$file_base_name must be defined";
     }
     
-    my $dir_parts_list = StringList->new($dir_parts);
-    $dir_parts_list->push($file_base_name);
-    $dir_parts = $dir_parts_list->to_array;
+    if (@$dir_parts) {
+      unless (length $dir_parts->[0]) {
+        $dir_parts->[0] = "/";
+      }
+      
+      if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
+        $dir_parts->[0] .= "\\";
+      }
+    }
     
-    my $path = $self->_canon_cat($dir_parts);
+    my $parts_list = StringList->new($dir_parts);
+    $parts_list->push($file_base_name);
+    my $parts = $parts_list->to_array;
     
-    return $path;
+    my $file = $self->_canon_cat($parts);
+    
+    return $file;
   }
 
   method rel2abs : string ($path : string, $base = undef : string) {
