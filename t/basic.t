@@ -330,6 +330,52 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   }
 }
 
+# catdir
+{
+  {
+    my $dir_parts = ["foo", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+  {
+    my $dir_parts = [];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+  {
+    my $dir_parts = ["", "foo", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+
+  {
+    my $dir_parts = ["c:", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+  {
+    my $dir_parts = ["//1.2.3.4/SHARE", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+  {
+    my $dir_parts = ["foo", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+  {
+    my $dir_parts = [];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+  {
+    my $dir_parts = ["", "foo", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+
+  {
+    my $dir_parts = ["c:", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+  {
+    my $dir_parts = ["\\\\\\\\1.2.3.4\\\\SHARE", "bar"];
+    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
+}
+
 ok(SPVM::TestCase::File::Spec::Unix->canonpath);
 
 ok(SPVM::TestCase::File::Spec::Unix->catdir);

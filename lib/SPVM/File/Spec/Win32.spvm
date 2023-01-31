@@ -257,9 +257,21 @@ class File::Spec::Win32 extends File::Spec::Unix {
       die "The \$dir_parts must be defined";
     }
     
-    my $path = $self->_canon_cat($dir_parts);
+    unless (@$dir_parts) {
+      return "";
+    }
     
-    return $path;
+    unless (length $dir_parts->[0]) {
+      $dir_parts->[0] = "/";
+    }
+    
+    if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
+      $dir_parts->[0] .= "\\";
+    }
+    
+    my $dir = $self->_canon_cat($dir_parts);
+    
+    return $dir;
   }
 
   method catfile : string ($dir_parts : string[], $file_base_name : string) {
