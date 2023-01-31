@@ -21,6 +21,14 @@ ok(SPVM::File::Spec->new->rootdir, File::Spec->rootdir);
 
 ok(SPVM::File::Spec->new->updir, File::Spec->updir);
 
+# no_upwards
+{
+  {
+    my $dir_parts = ["foo", "", "..", ".", "..."];
+    is_deeply(SPVM::File::Spec->new->no_upwards($dir_parts)->to_strings, [File::Spec->no_upwards(@$dir_parts)]);
+  }
+}
+
 ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 
 # file_name_is_absolute
