@@ -1,6 +1,7 @@
 class File::Spec::Win32 extends File::Spec::Unix {
   use Regex;
   use StringList;
+  use Array;
   
   our $DRIVE_RX_STRING : private string;
   our $UNC_RX_STRING : private string;
@@ -141,5 +142,97 @@ class File::Spec::Win32 extends File::Spec::Unix {
       $dirs->[@$dirs - 1] = "";
       return $dirs;
     }
+  }
+
+  private method _canon_cat : string ($parts : string[]) {
+    my $first = $parts->[0];
+    
+    my $volume = (string)undef;
+    
+    # drive letter - (C:)
+    my $re_drive = Regex->new("\A([A-Za-z]:)([\\\\/]?)");
+    if ($first = $re_drive->replace($first, "")) {
+      $volume = Fn->ucfirst($re_drive->cap1);
+      if ($re_drive->cap2) {
+        $volume .= "\\";
+      }
+    }
+    else {
+      my $re_unc = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s");
+      # UNC volume (\\192.168.201.101)
+      if ($first = $re_unc->replace($first, "")) {
+        $volume = "\\\\" . $re_unc->cap1;
+        if ($re_unc->cap2) {
+          $volume .= "\\" . $re_unc->cap2;
+        }
+        $volume .= "\\";
+      }
+      else {
+        my $re_root = Regex->new("\A[\\\\/]");
+        # root dir (\foo)
+        if ($first = $re_root->replace($first, "")) {
+          $volume = "\\";
+        }
+        else {
+          $volume = "";
+        }
+      }
+    }
+    
+    $parts->[0] = $first;
+    
+    my $path = Fn->join("\\", $parts);
+    
+    # /+ to \
+    $path = Regex->new("/+")->replace_g($path, "\\");
+    
+    # \+ to \
+    $path = Regex->new("\\\\+")->replace_g($path, "\\");
+    
+    # xx\.\.\yy --> xx\yy
+    $path = Regex->new("(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+")->replace_g($path, "\\");
+    
+    # xx\yy\..\zz --> xx\zz
+    my $parts_list = StringList->new;
+    $parts = Fn->split("\\", $path);
+    for (my $i = 0; $i < @$parts; $i++) {
+      if ($i + 1 < @$parts) {
+        my $next_part = $parts->[$i + 1];
+        if ($next_part eq "..") {
+          $i++;
+          next;
+        }
+      }
+      $parts_list->push($parts->[$i]);
+    }
+    $parts = $parts_list->to_array;
+    
+    # \xx --> xx
+    $path = Regex->new("\A\\\\")->replace_g($path, "");
+    
+    # xx\ --> xx
+    $path = Regex->new("\\\\\z")->replace_g($path, "");
+    
+    if (Regex->new("\\\\\z")->match($volume)) {
+      
+      # <vol>\.. --> <vol>\
+      $path = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace($path, "");
+      
+      # \\HOST\SHARE\ --> \\HOST\SHARE
+      my $re = Regex->new("\A(\\\\.*)\\\z", "s");
+      if (length $path && $re->match($path)) {
+        $path = $re->cap1;
+        return $path;
+      }
+    }
+    
+    if (length $path || length $volume) {
+      $path = $volume . $path;
+    }
+    else {
+      $path = ".";
+    }
+    
+    return $path;
   }
 }
