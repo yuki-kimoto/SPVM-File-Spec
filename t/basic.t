@@ -19,6 +19,8 @@ ok(SPVM::File::Spec->new->devnull, File::Spec->devnull);
 
 ok(SPVM::File::Spec->new->rootdir, File::Spec->rootdir);
 
+ok(SPVM::File::Spec->new->updir, File::Spec->updir);
+
 ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 
 # file_name_is_absolute
