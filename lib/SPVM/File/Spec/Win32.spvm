@@ -2,6 +2,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
   use Regex;
   use StringList;
   use Array;
+  use Cwd;
   
   our $DRIVE_RX_STRING : private string;
   our $UNC_RX_STRING : private string;
@@ -276,6 +277,61 @@ class File::Spec::Win32 extends File::Spec::Unix {
     $dir_parts = $dir_parts_list->to_array;
     
     my $path = $self->_canon_cat($dir_parts);
+    
+    return $path;
+  }
+
+  method rel2abs : string ($path : string, $base = undef : string) {
+   
+    my $is_abs = $self->file_name_is_absolute($path);
+    
+    # Check for volume (should probably document the '2' thing...)
+    if ($is_abs == 2) {
+      return $self->canonpath($path) ;
+    }
+    
+    if ($is_abs) {
+      # It's missing a volume, add one
+      my $vol_parts = $self->splitpath(Cwd->getcwd);
+      my $vol = $vol_parts->[0];
+      
+      $path = $self->canonpath($vol . $path);
+      
+      return $path;
+    }
+    
+    if (!$base || $base eq "") {
+      if (Cwd->getdcwd) {
+        my $base_parts = $self->splitpath($path);
+        $base = Cwd->getdcwd($base_parts->[0]);
+      }
+      
+      unless ($base) {
+        $base = Cwd->getcwd;
+      }
+    }
+    elsif (!$self->file_name_is_absolute($base)) {
+      $base = $self->rel2abs($base) ;
+    }
+    else {
+      $base = $self->canonpath($base) ;
+    }
+    
+    my $path_parts = $self->splitpath( $path, 1 );
+    my $path_directories = $path_parts->[1];
+    my $path_file = $path_parts->[2];
+    
+    my $base_parts = $self->splitpath($base, 1);
+    my $base_volume = $base_parts->[0];
+    my $base_directories = $base_parts->[1];
+    
+    $path = $self->catpath( 
+     $base_volume, 
+     $self->catdir([$base_directories, $path_directories]), 
+     $path_file
+    );
+    
+    $path = $self->canonpath($path);
     
     return $path;
   }
