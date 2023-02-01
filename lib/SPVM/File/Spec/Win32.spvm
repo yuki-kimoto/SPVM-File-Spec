@@ -30,6 +30,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method tmpdir : string () {
+    my $interface = (File::Spec::Interface)$self;
+    
     my $env_tmpdir = Sys->getenv("TMPDIR");
     my $env_temp = Sys->getenv("TEMP");
     my $env_tmp = Sys->getenv("TMP");
@@ -44,7 +46,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
       "/",
     ];
 
-    my $tmpdir = $self->_tmpdir($dirlist);
+    my $tmpdir = $interface->_tmpdir($dirlist);
     return $tmpdir;
   }
   
@@ -238,6 +240,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
   
   method canonpath : string ($path : string) {
+    my $interface = (File::Spec::Interface)$self;
+    
     unless ($path) {
       die "The \$path must be defined";
     }
@@ -252,7 +256,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method catdir : string ($dir_parts : string[]) {
-      
+    my $interface = (File::Spec::Interface)$self;
+    
     unless ($dir_parts) {
       die "The \$dir_parts must be defined";
     }
@@ -275,6 +280,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method catfile : string ($dir_parts : string[], $file_base_name : string) {
+    my $interface = (File::Spec::Interface)$self;
     
     unless ($dir_parts) {
       die "The \$dir_parts must be defined";
@@ -304,27 +310,28 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method rel2abs : string ($path : string, $base = undef : string) {
-   
-    my $is_abs = $self->file_name_is_absolute($path);
+    my $interface = (File::Spec::Interface)$self;
+    
+    my $is_abs = $interface->file_name_is_absolute($path);
     
     # Check for volume (should probably document the '2' thing...)
     if ($is_abs == 2) {
-      return $self->canonpath($path) ;
+      return $interface->canonpath($path) ;
     }
     
     if ($is_abs) {
       # It's missing a volume, add one
-      my $vol_parts = $self->splitpath(Cwd->getcwd);
+      my $vol_parts = $interface->splitpath(Cwd->getcwd);
       my $vol = $vol_parts->[0];
       
-      $path = $self->canonpath($vol . $path);
+      $path = $interface->canonpath($vol . $path);
       
       return $path;
     }
     
     if (!$base || $base eq "") {
       if (Cwd->getdcwd) {
-        my $base_parts = $self->splitpath($path);
+        my $base_parts = $interface->splitpath($path);
         $base = Cwd->getdcwd($base_parts->[0]);
       }
       
@@ -332,28 +339,28 @@ class File::Spec::Win32 extends File::Spec::Unix {
         $base = Cwd->getcwd;
       }
     }
-    elsif (!$self->file_name_is_absolute($base)) {
-      $base = $self->rel2abs($base) ;
+    elsif (!$interface->file_name_is_absolute($base)) {
+      $base = $interface->rel2abs($base) ;
     }
     else {
-      $base = $self->canonpath($base) ;
+      $base = $interface->canonpath($base) ;
     }
     
-    my $path_parts = $self->splitpath( $path, 1 );
+    my $path_parts = $interface->splitpath( $path, 1 );
     my $path_directories = $path_parts->[1];
     my $path_file = $path_parts->[2];
     
-    my $base_parts = $self->splitpath($base, 1);
+    my $base_parts = $interface->splitpath($base, 1);
     my $base_volume = $base_parts->[0];
     my $base_directories = $base_parts->[1];
     
-    $path = $self->catpath( 
+    $path = $interface->catpath( 
      $base_volume, 
-     $self->catdir([$base_directories, $path_directories]), 
+     $interface->catdir([$base_directories, $path_directories]), 
      $path_file
     );
     
-    $path = $self->canonpath($path);
+    $path = $interface->canonpath($path);
     
     return $path;
   }
