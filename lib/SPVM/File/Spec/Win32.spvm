@@ -330,14 +330,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
     }
     
     if (!$base || $base eq "") {
-      if (Cwd->getdcwd) {
-        my $base_parts = $interface->splitpath($path);
-        $base = Cwd->getdcwd($base_parts->[0]);
-      }
-      
-      unless ($base) {
-        $base = Cwd->getcwd;
-      }
+      my $base_parts = $interface->splitpath($path);
+      $base = Cwd->getdcwd($base_parts->[0]);
     }
     elsif (!$interface->file_name_is_absolute($base)) {
       $base = $interface->rel2abs($base) ;
