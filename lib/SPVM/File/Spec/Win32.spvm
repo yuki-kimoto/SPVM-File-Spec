@@ -91,7 +91,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
       return new string[0];
     }
     
-    my $pathes = File::Spec::Unix->compatible_split(";", $env_path);
+    my $pathes = Fn->split(";", $env_path);
     
     my $re = Regex->new("\"");
     my $pathes_list = StringList->new;
