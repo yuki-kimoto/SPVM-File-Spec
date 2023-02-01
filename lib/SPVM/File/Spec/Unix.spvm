@@ -126,7 +126,7 @@ class File::Spec::Unix extends File::Spec {
   }
   
   method join : string ($dir_parts : string[], $file_base_name : string) {
-    return $self->catfile($dir_parts, $file_base_name);
+    return $self->(File::Spec::Interface)->catfile($dir_parts, $file_base_name);
   }
   
   method catpath : string ($volume : string, $directory : string, $file : string) {

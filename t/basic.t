@@ -405,6 +405,37 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   }
 }
 
+
+# join
+{
+  {
+    my $dir_parts = ["foo", "bar"];
+    my $file_base_name = "a.txt";
+    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+  }
+  {
+    my $dir_parts = [];
+    my $file_base_name = "a.txt";
+    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+  }
+  {
+    my $dir_parts = ["foo"];
+    my $file_base_name = "a.txt";
+    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+  }
+  {
+    my $dir_parts = ["foo"];
+    my $file_base_name = "p/../a.txt";
+    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+  }
+  {
+    my $dir_parts = ["foo"];
+    my $file_base_name = "p\\..\\a.txt";
+    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+  }
+}
+
+
 # catpath
 {
   {
