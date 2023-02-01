@@ -15,105 +15,105 @@ use SPVM 'TestCase::File::Spec::Unix';
 
 ok(SPVM::TestCase::File::Spec->test);
 
-ok(SPVM::File::Spec->new->devnull, File::Spec->devnull);
+ok(SPVM::File::Spec->new->SPVM::File::Spec::devnull, File::Spec->devnull);
 
-ok(SPVM::File::Spec->new->rootdir, File::Spec->rootdir);
+ok(SPVM::File::Spec->new->SPVM::File::Spec::rootdir, File::Spec->rootdir);
 
-ok(SPVM::File::Spec->new->updir, File::Spec->updir);
+ok(SPVM::File::Spec->new->SPVM::File::Spec::updir, File::Spec->updir);
 
 # no_upwards
 {
   {
     my $dir_parts = ["foo", "", "..", ".", "..."];
-    is_deeply(SPVM::File::Spec->new->no_upwards($dir_parts)->to_strings, [File::Spec->no_upwards(@$dir_parts)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::no_upwards($dir_parts)->to_strings, [File::Spec->no_upwards(@$dir_parts)]);
   }
 }
 
-ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
+ok(SPVM::File::Spec->new->SPVM::File::Spec::curdir, File::Spec->curdir);
 
 # canonpath
 {
   {
     my $path = "";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo/";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo/../bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo/../bar/../baz";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo/./bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo/./a/./bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "C:/foo/bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "//192.168.102.155/foo/bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "/foo";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
 
   {
     my $path = "";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo\\";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo\\..\\bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo\\..\\bar\\..\\baz";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo\\.\\bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "foo\\.\\a\\.\\bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "C:\\foo\\bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "\\\\192.168.102.155\\foo\\bar";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "\\foo";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
 
   {
     my $path = "\\\\HOST\\SHARE\\";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
     my $path = "C:\\..\\..";
-    is_deeply(SPVM::File::Spec->new->canonpath($path), File::Spec->canonpath($path));
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
 }
 
@@ -125,11 +125,11 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   {
     {
       my $path = '/foo';
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = 'foo';
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
   }
   
@@ -137,91 +137,91 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   {
     {
       my $path = "\\foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "C:";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "C:\\";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "C:\\foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "a:\\foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "z:\\foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "A:\\foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "Z:\\foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "\\\\192.168.201.205";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "\\\\192.168.201.205\\";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "\\\\192.168.201.205\\foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "/foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "C:";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "C:/";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "C:/foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "a:/foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "z:/foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "A:/foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "Z:/foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "//192.168.201.205";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "//192.168.201.205/";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
     {
       my $path = "//192.168.201.205/foo";
-      is(!!SPVM::File::Spec->new->file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
+      is(!!SPVM::File::Spec->new->SPVM::File::Spec::file_name_is_absolute($path), !!File::Spec->file_name_is_absolute($path));
     }
   }
 }
@@ -230,19 +230,19 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 {
   {
     my $path = "foo/bar";
-    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
   }
   {
     my $path = "/a/b/c//d/";
-    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
   }
   {
     my $path = "foo\\bar";
-    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
   }
   {
     my $path = "\\a\\b\\c\\\\d\\";
-    is_deeply(SPVM::File::Spec->new->splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitdir($path)->to_strings, [File::Spec->splitdir($path)]);
   }
 }
 
@@ -251,82 +251,82 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   {
     my $path = "foo/bar";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "/foo/bar/";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "c:/foo/bar";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "//1.2.3.4/SHARE/foo/bar";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "foo/bar";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "c:/foo/bar";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "/foo/bar/";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "//1.2.3.4/SHARE/foo/bar";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "foo\\bar";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "\\foo\\bar\\";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "c:\\foo\\bar";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "\\\\1.2.3.4\\SHARE\\foo\\bar";
     my $no_file = 0;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "foo\\bar";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "c:\\foo\\bar";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "\\foo\\bar\\";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
   {
     my $path = "\\\\1.2.3.4\\SHARE\\foo\\bar";
     my $no_file = 1;
-    is_deeply(SPVM::File::Spec->new->splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::splitpath($path, $no_file)->to_strings, [File::Spec->splitpath($path, $no_file)]);
   }
 }
 
@@ -334,45 +334,45 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
 {
   {
     my $dir_parts = ["foo", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
   {
     my $dir_parts = [];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
   {
     my $dir_parts = ["", "foo", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
 
   {
     my $dir_parts = ["c:", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
   {
     my $dir_parts = ["//1.2.3.4/SHARE", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
   {
     my $dir_parts = ["foo", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
   {
     my $dir_parts = [];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
   {
     my $dir_parts = ["", "foo", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
 
   {
     my $dir_parts = ["c:", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
   {
     my $dir_parts = ["\\\\\\\\1.2.3.4\\\\SHARE", "bar"];
-    is(SPVM::File::Spec->new->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
 }
 
@@ -381,27 +381,27 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   {
     my $dir_parts = ["foo", "bar"];
     my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->new->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = [];
     my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->new->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = ["foo"];
     my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->new->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = ["foo"];
     my $file_base_name = "p/../a.txt";
-    is(SPVM::File::Spec->new->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = ["foo"];
     my $file_base_name = "p\\..\\a.txt";
-    is(SPVM::File::Spec->new->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
   }
 }
 
@@ -411,27 +411,27 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   {
     my $dir_parts = ["foo", "bar"];
     my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = [];
     my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = ["foo"];
     my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = ["foo"];
     my $file_base_name = "p/../a.txt";
-    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
   }
   {
     my $dir_parts = ["foo"];
     my $file_base_name = "p\\..\\a.txt";
-    is(SPVM::File::Spec->new->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
   }
 }
 
@@ -443,84 +443,84 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "a:";
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "A:";
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "Z:";
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "A:/";
     my $dir = "foo/";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "//1.2.3.4/SHARE";
     my $dir = "foo/";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "A:";
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "a:";
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "A:";
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "Z:";
     my $dir = "foo";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "A:\\";
     my $dir = "foo\\";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
   {
     my $volume = "\\\\1.2.3.4\\SHARE";
     my $dir = "foo\\";
     my $file_base_name = "a.txt";
     
-    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
   }
 }
 
@@ -545,7 +545,7 @@ ok(SPVM::TestCase::File::Spec::Unix->splitdir);
 ok(SPVM::TestCase::File::Spec::Unix->abs2rel);
 
 {
-  is_deeply(SPVM::File::Spec->new->path->to_strings, [File::Spec->path]);
+  is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::path->to_strings, [File::Spec->path]);
 }
 
 done_testing;

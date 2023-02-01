@@ -23,7 +23,7 @@ class File::Spec {
   method has_interfaces : int () { return 1; }
   
   method canonpath : string ($path : string) {
-    return $self->(File::Spec::Interface)->devnull;
+    return $self->(File::Spec::Interface)->canonpath($path);
   }
   
   method catdir : string ($directories : string[]) {
