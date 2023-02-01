@@ -357,4 +357,53 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     return $path;
   }
+  
+  method catpath : string ($volume : string, $directory : string, $file : string) {
+    unless ($volume) {
+      $volume = "";
+    }
+    unless ($directory) {
+      $directory = "";
+    }
+    unless ($file) {
+      $file = "";
+    }
+    
+    my $path = $volume;
+    
+    # If it's UNC, make sure the glue separator is there, reusing
+    # whatever separator is first in the $volume
+    my $v = (string)undef;
+    my $unc_re = Regex->new("^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s");
+    if ($unc_re->match($path)) {
+      my $v = $unc_re->cap1;
+      if (Regex->new("^[^\\\\/]")->match($directory)) {
+        $path .= $v;
+      }
+    }
+    
+    $path .= $directory;
+    
+    
+    
+    # If the volume is not just A:, make sure the glue separator is 
+    # there, reusing whatever separator is first in the $volume if possible.
+    if (!Regex->new("^[a-zA-Z]:\z", "s")->match($path) && Regex->new("[^\\\\/]\z")->match($path)
+        && Regex->new("[^\\\\/]")->match($file))
+    {
+      my $re = Regex->new("([\\\\/])");
+      my $sep = (string)undef;
+      if ($re->match($path)) {
+        $sep = $re->cap1;
+      }
+      else {
+        $sep = "\\";
+      }
+      $path .= $sep;
+    }
+    
+    $path .= $file;
+    
+    return $path;
+  }
 }

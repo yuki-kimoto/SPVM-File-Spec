@@ -405,6 +405,94 @@ ok(SPVM::File::Spec->new->curdir, File::Spec->curdir);
   }
 }
 
+# catpath
+{
+  {
+    my $volume = "A:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "a:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "A:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "Z:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "A:/";
+    my $dir = "foo/";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "//1.2.3.4/SHARE";
+    my $dir = "foo/";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "A:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "a:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "A:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "Z:";
+    my $dir = "foo";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "A:\\";
+    my $dir = "foo\\";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+  {
+    my $volume = "\\\\1.2.3.4\\SHARE";
+    my $dir = "foo\\";
+    my $file_base_name = "a.txt";
+    
+    is(SPVM::File::Spec->new->catpath($volume, $dir, $file_base_name), File::Spec->catpath($volume, $dir, $file_base_name));
+  }
+}
+
 ok(SPVM::TestCase::File::Spec::Unix->canonpath);
 
 ok(SPVM::TestCase::File::Spec::Unix->catdir);
