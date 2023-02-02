@@ -75,6 +75,10 @@ ok(SPVM::File::Spec->new->SPVM::File::Spec::curdir, File::Spec->curdir);
     is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }
   {
+    my $path = "c:";
+    is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
+  }
+  {
     my $path = "foo\\";
     is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::canonpath($path), File::Spec->canonpath($path));
   }

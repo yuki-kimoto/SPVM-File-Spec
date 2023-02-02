@@ -152,7 +152,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
     $first = $re_drive->replace($first, "");
     if ($re_drive->replaced_count > 0) {
       $volume = Fn->ucfirst($re_drive->cap1);
-      if ($re_drive->cap2) {
+      if (length $re_drive->cap2) {
         $volume .= "\\";
       }
     }
