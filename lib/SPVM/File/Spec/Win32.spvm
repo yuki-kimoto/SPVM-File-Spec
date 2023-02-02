@@ -336,13 +336,13 @@ class File::Spec::Win32 extends File::Spec::Unix {
         if (length $drive) {
           eval { $base = Cwd->getdcwd($drive); };
           if ($@) {
-            if (error == class_id Error::System) {
-              $base = Cwd->getdcwd;
-            }
-            else {
+            unless (error == class_id Error::System) {
               die $@;
             }
           }
+        }
+        unless ($base) {
+          $base = Cwd->getdcwd;
         }
       }
       elsif (!$interface->file_name_is_absolute($base)) {
