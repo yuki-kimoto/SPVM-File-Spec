@@ -314,49 +314,48 @@ class File::Spec::Win32 extends File::Spec::Unix {
     
     my $is_abs = $interface->file_name_is_absolute($path);
     
+    my $abs_path = (string)undef;
+    
     # Check for volume (should probably document the '2' thing...)
     if ($is_abs == 2) {
-      return $interface->canonpath($path) ;
+      $abs_path = $interface->canonpath($path) ;
     }
-    
-    if ($is_abs) {
+    elsif ($is_abs) {
       # It's missing a volume, add one
       my $vol_parts = $interface->splitpath(Cwd->getcwd);
       my $vol = $vol_parts->[0];
       
-      $path = $interface->canonpath($vol . $path);
-      
-      return $path;
-    }
-    
-    if (!$base || $base eq "") {
-      my $base_parts = $interface->splitpath($path);
-      $base = Cwd->getdcwd($base_parts->[0]);
-    }
-    elsif (!$interface->file_name_is_absolute($base)) {
-      $base = $interface->rel2abs($base) ;
+      $abs_path = $interface->canonpath($vol . $path);
     }
     else {
-      $base = $interface->canonpath($base) ;
+      if (!$base || $base eq "") {
+        $base = Cwd->getdcwd;
+      }
+      elsif (!$interface->file_name_is_absolute($base)) {
+        $base = $interface->rel2abs($base) ;
+      }
+      else {
+        $base = $interface->canonpath($base) ;
+      }
+      
+      my $path_parts = $interface->splitpath($path, 1);
+      my $path_dir = $path_parts->[1];
+      my $path_base_file = $path_parts->[2];
+      
+      my $base_parts = $interface->splitpath($base, 1);
+      my $base_volume = $base_parts->[0];
+      my $base_dir = $base_parts->[1];
+      
+      $path = $interface->catpath( 
+       $base_volume, 
+       $interface->catdir([$base_dir, $path_dir]), 
+       $path_base_file
+      );
+      
+      $abs_path = $interface->canonpath($path);
     }
     
-    my $path_parts = $interface->splitpath( $path, 1 );
-    my $path_directories = $path_parts->[1];
-    my $path_file = $path_parts->[2];
-    
-    my $base_parts = $interface->splitpath($base, 1);
-    my $base_volume = $base_parts->[0];
-    my $base_directories = $base_parts->[1];
-    
-    $path = $interface->catpath( 
-     $base_volume, 
-     $interface->catdir([$base_directories, $path_directories]), 
-     $path_file
-    );
-    
-    $path = $interface->canonpath($path);
-    
-    return $path;
+    return $abs_path;
   }
   
   method catpath : string ($volume : string, $directory : string, $file : string) {
