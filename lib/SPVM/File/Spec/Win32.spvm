@@ -342,7 +342,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
           }
         }
         unless ($base) {
-          $base = Cwd->getdcwd;
+          $base = Cwd->getcwd;
         }
       }
       elsif (!$interface->file_name_is_absolute($base)) {
