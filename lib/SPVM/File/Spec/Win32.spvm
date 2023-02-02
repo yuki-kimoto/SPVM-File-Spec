@@ -199,14 +199,17 @@ class File::Spec::Win32 extends File::Spec::Unix {
     my $parts_list = StringList->new;
     $parts = Fn->split("\\", $path);
     for (my $i = 0; $i < @$parts; $i++) {
-      if ($i + 1 < @$parts) {
-        my $next_part = $parts->[$i + 1];
-        if ($next_part eq "..") {
-          $i++;
-          next;
+      my $part = $parts->[$i];
+      if ($part eq "..") {
+        if ($parts_list->length > 0) {
+          my $before_part = $parts_list->get($parts_list->length - 1);
+          unless ($before_part eq "..") {
+            $parts_list->pop;
+            next;
+          }
         }
       }
-      $parts_list->push($parts->[$i]);
+      $parts_list->push($part);
     }
     $parts = $parts_list->to_array;
     $path = Fn->join("\\", $parts);
