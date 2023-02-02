@@ -52,7 +52,6 @@ WriteMakefile(
     'SPVM::Regex' => '0.18',
   },
   TEST_REQUIRES => {
-    'File::Spec' => '3.75',
   },
 );
 
