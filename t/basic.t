@@ -9,6 +9,7 @@ BEGIN { $ENV{SPVM_BUILD_DIR} = "$FindBin::Bin/.spvm_build"; }
 use File::Spec;
 
 use SPVM 'File::Spec';
+use SPVM 'Cwd';
 
 use SPVM 'TestCase::File::Spec';
 use SPVM 'TestCase::File::Spec::Unix';
@@ -559,11 +560,6 @@ ok(SPVM::File::Spec->new->SPVM::File::Spec::curdir, File::Spec->curdir);
     is(SPVM::File::Spec->new->SPVM::File::Spec::rel2abs($rel_file), File::Spec->rel2abs($rel_file));
   }
   {
-    my $rel_file = "foo";
-    my $base = "/base/a/../b";
-    is(SPVM::File::Spec->new->SPVM::File::Spec::rel2abs($rel_file, $base), File::Spec->rel2abs($rel_file, $base));
-  }
-  {
     my $rel_file = "foo/../bar/../a.txt";
     my $base = "c:/foo/../bar";
     is(SPVM::File::Spec->new->SPVM::File::Spec::rel2abs($rel_file, $base), File::Spec->rel2abs($rel_file, $base));
@@ -666,6 +662,28 @@ ok(SPVM::File::Spec->new->SPVM::File::Spec::curdir, File::Spec->curdir);
     my $abs_file = "c:/foo/../bar/a.txt";
     my $base = "foo";
     is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  for my $drive ('a' .. 'z') {
+    my $abs_file = "$drive:/bar";
+    my $base = "$drive:";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file, $base), File::Spec->abs2rel($abs_file, $base));
+  }
+  for my $drive ('a' .. 'z') {
+    my $abs_file = "$drive:/bar";
+    my $base = "$drive";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file, $base), File::Spec->abs2rel($abs_file, $base));
+  }
+  {
+    my $cur_dir = SPVM::Cwd->getcwd;
+    my $abs_file = "$cur_dir/bar";
+    my $base = "$cur_dir";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file, $base), File::Spec->abs2rel($abs_file, $base));
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file, $base), "bar");
+  }
+  {
+    my $rel_file = "foo";
+    my $base = "/base/a/../b";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::rel2abs($rel_file, $base), File::Spec->rel2abs($rel_file, $base));
   }
   {
     my $abs_file = "a:\\foo\\..\\bar\\a.txt";
