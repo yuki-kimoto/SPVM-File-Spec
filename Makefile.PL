@@ -52,7 +52,7 @@ WriteMakefile(
     'SPVM::Regex' => '0.18',
   },
   TEST_REQUIRES => {
-    'PathTools' => '3.75',
+    'File::Spec' => '3.75',
   },
 );
 
