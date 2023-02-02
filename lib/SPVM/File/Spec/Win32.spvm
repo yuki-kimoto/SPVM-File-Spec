@@ -335,7 +335,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
         my $drive = $interface->splitpath($path)->[0];
         if (length $drive) {
           eval { $base = Cwd->getdcwd($drive); };
-          unless (error == class_id SPVM::Error::System) [
+          unless (error == class_id Error::System) {
             die $@;
           }
         }
