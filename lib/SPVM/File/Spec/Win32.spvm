@@ -332,6 +332,10 @@ class File::Spec::Win32 extends File::Spec::Unix {
     }
     else {
       if (!$base || $base eq "") {
+        my $drive = $interface->splitpath($path)->[0];
+        if (length $drive) {
+          eval { $base = Cwd->getdcwd($drive); };
+        }
         $base = Cwd->getdcwd;
       }
       elsif (!$interface->file_name_is_absolute($base)) {
