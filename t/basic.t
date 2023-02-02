@@ -374,6 +374,10 @@ ok(SPVM::File::Spec->new->SPVM::File::Spec::curdir, File::Spec->curdir);
     my $dir_parts = ["\\\\\\\\1.2.3.4\\\\SHARE", "bar"];
     is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
   }
+  {
+    my $dir_parts = ["..", "..", "foo", "bar"];
+    is(SPVM::File::Spec->new->SPVM::File::Spec::catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+  }
 }
 
 # catfile
