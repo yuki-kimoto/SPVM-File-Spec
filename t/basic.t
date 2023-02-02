@@ -622,6 +622,96 @@ ok(SPVM::File::Spec->new->SPVM::File::Spec::curdir, File::Spec->curdir);
   }
 }
 
+# abs2rel
+{
+  {
+    my $abs_file = "a:/foo/../bar/a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:/foo/../bar/a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "//1.2.3.4/SHARE/foo/../bar/a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "/foo/../bar/a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "/";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:/foo/../bar/a.txt";
+    my $base = "c:/foo";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:/foo/../bar/a.txt";
+    my $base = "c:/foo/../bar";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:/foo/../bar/a.txt";
+    my $base = "foo";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "a:\\foo\\..\\bar\\a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:\\foo\\..\\bar\\a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "\\\\1.2.3.4\\SHARE\\foo\\..\\bar\\a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "\\foo\\..\\bar\\a.txt";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "\\";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:\\foo\\..\\bar\\a.txt";
+    my $base = "c:\\foo";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:\\foo\\..\\bar\\a.txt";
+    my $base = "c:\\foo\\..\\bar";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+  {
+    my $abs_file = "c:\\foo\\..\\bar\\a.txt";
+    my $base = "foo";
+    is(SPVM::File::Spec->new->SPVM::File::Spec::abs2rel($abs_file), File::Spec->abs2rel($abs_file));
+  }
+}
+
 ok(SPVM::TestCase::File::Spec::Unix->canonpath);
 
 ok(SPVM::TestCase::File::Spec::Unix->catdir);
