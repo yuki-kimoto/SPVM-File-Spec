@@ -754,4 +754,11 @@ ok(SPVM::TestCase::File::Spec::Unix->abs2rel);
   is_deeply(SPVM::File::Spec->new->SPVM::File::Spec::path->to_strings, [File::Spec->path]);
 }
 
+# tmpdir
+{
+  {
+    is(SPVM::File::Spec->new->SPVM::File::Spec::tmpdir, File::Spec->tmpdir);
+  }
+}
+
 done_testing;
