@@ -6,17 +6,17 @@ package SPVM::File::Spec::Unix;
 
 =head1 Name
 
-SPVM::File::Spec::Unix - foo
+SPVM::File::Spec::Unix - An implementation class of File::Spec for Linux/Unix/Mac.
 
 =head1 Description
 
 C<SPVM::File::Spec::Unix> is the L<SPVM>'s C<File::Spec::Unix> class.
 
+An implementation class of the L<File::Spec|SPVM::SPVM::File::Spec> for Linux/Unix/Mac.
+
 =head1 Usage
 
   use File::Spec::Unix;
-  
-  use File::Spec;
 
   my $spec = File::Spec::Unix->new;
   my $file = $spec->catfile(["foo", "bar"], "a.txt"]);

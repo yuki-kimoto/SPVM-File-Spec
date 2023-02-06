@@ -13,7 +13,8 @@ class File::Spec::Win32 extends File::Spec::Unix {
     $UNC_RX_STRING = "(?:\\\\\\\\|//)[^\\\\/]+[\\\\/][^\\\\/]+";
     $VOL_RX_STRING = "(?:$DRIVE_RX_STRING|$UNC_RX_STRING)";
   }
-
+  
+  # Class Methods
   static method new : File::Spec::Win32 () {
     
     my $self = new File::Spec::Win32;
@@ -21,6 +22,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
     return $self;
   }
   
+  # Instance Methods
   method devnull : string () {
     return "nul";
   }
