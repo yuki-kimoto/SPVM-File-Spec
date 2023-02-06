@@ -6,6 +6,7 @@ class File::Spec {
   use File::Spec::Unix;
   use File::Spec::Win32;
   
+  # Class Methods
   static method new : File::Spec () {
     
     my $self : File::Spec;
@@ -20,6 +21,7 @@ class File::Spec {
     return $self;
   }
   
+  # Instance Methods
   method has_interfaces : int () { return 1; }
   
   method canonpath : string ($path : string) {
