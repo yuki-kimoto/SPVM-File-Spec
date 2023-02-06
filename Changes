@@ -1,4 +1,7 @@
-0.01 2022-12-26
+0.02 2023-02-06
+  [Changes]
+    * Added the File::Spec::Cwd class. This is the same as the Cwd module.
+      In the future, the Cwd class is implemented using File::Spec::Cwd.
+0.01 2023-02-03
   [Changes]
     * First release.
-  

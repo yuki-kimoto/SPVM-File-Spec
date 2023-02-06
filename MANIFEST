@@ -8,6 +8,8 @@
 Changes
 lib/SPVM/File/Spec.pm
 lib/SPVM/File/Spec.spvm
+lib/SPVM/File/Spec/Cwd.pm
+lib/SPVM/File/Spec/Cwd.spvm
 lib/SPVM/File/Spec/Interface.pm
 lib/SPVM/File/Spec/Interface.spvm
 lib/SPVM/File/Spec/Unix.pm
@@ -19,5 +21,7 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 README.md
 t/basic.t
+t/cwd.t
 t/lib/SPVM/TestCase/File/Spec.spvm
+t/lib/SPVM/TestCase/File/Spec/Cwd.spvm
 t/lib/SPVM/TestCase/File/Spec/Unix.spvm
