@@ -25,7 +25,7 @@ This module is designed to support operations commonly performed on file specifi
 
 =over 2
 
-=item File::Spec::Interface
+=item * L<File::Spec::Interface|SPVM::File::Spec::Interface>
 
 =back
 
@@ -111,9 +111,9 @@ This module is designed to support operations commonly performed on file specifi
 
 =over 2
 
-=item L<File::Spec::Unix|SPVM::File::Spec::Unix>
+=item * L<File::Spec::Unix|SPVM::File::Spec::Unix>
 
-=item L<File::Spec::Win32|SPVM::File::Spec::Win32>
+=item * L<File::Spec::Win32|SPVM::File::Spec::Win32>
 
 =back
 

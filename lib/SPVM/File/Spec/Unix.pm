@@ -25,14 +25,14 @@ An implementation class of the L<File::Spec|SPVM::SPVM::File::Spec> for Linux/Un
 
 =over 2
 
-=item File::Spec
+=item * L<File::Spec|SPVM::File::Spec>
 
 =back
 
 =head1 Class Methods
 
   static method new : File::Spec::Unix ();
-  
+
 =head1 Instance Methods
 
 =head2 devnull
@@ -102,7 +102,7 @@ An implementation class of the L<File::Spec|SPVM::SPVM::File::Spec> for Linux/Un
 =head2 tmpdir
 
   method tmpdir : string ();
-  
+
 =head1 Author
 
 Yuki Kimoto C<kimoto.yuki@gmail.com>

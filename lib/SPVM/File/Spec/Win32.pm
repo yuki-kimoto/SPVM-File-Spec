@@ -23,7 +23,7 @@ An implementation class of the L<File::Spec|SPVM::SPVM::File::Spec> for Windows.
 
 =over 2
 
-=item File::Spec::Unix
+=item * L<File::Spec::Unix|SPVM::File::Spec::Unix>
 
 =back
 
