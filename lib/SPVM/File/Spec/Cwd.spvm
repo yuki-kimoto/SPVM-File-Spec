@@ -16,11 +16,6 @@ class File::Spec::Cwd {
   
   static method realpath : string ($file : string) {
     if (Sys->defined("_WIN32")) {
-      my $file_length = length $file;
-      if ($file_length &&  $file->[$file_length - 1] == '/') {
-        die "The last character of the $file can't be \"/\"";
-      }
-      
       my $realpath = Sys::IO->_fullpath(undef, $file, 0);
       
       $realpath = (mutable string)File::Spec->new->canonpath($realpath);
