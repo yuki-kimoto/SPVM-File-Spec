@@ -1,7 +1,7 @@
-class TestCase::File::Spec::Cwd {
-  use File::Spec::Cwd;
+class TestCase::Cwd {
+  use Cwd;
   static method getcwd : string ($cur_dir_expected : string) {
-    my $cur_dir = File::Spec::Cwd->getcwd;
+    my $cur_dir = Cwd->getcwd;
     
     unless ($cur_dir eq $cur_dir_expected) {
       return 0;
@@ -11,7 +11,7 @@ class TestCase::File::Spec::Cwd {
   }
 
   static method getdcwd : string ($cur_dir_expected : string) {
-    my $cur_dir = File::Spec::Cwd->getdcwd;
+    my $cur_dir = Cwd->getdcwd;
     
     unless ($cur_dir eq $cur_dir_expected) {
       return 0;

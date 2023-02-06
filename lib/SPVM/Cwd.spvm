@@ -1,4 +1,4 @@
-class File::Spec::Cwd {
+class Cwd {
   use Fn;
   use Sys::IO;
   use Sys;

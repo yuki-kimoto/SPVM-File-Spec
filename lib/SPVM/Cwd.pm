@@ -1,24 +1,24 @@
-package SPVM::File::Spec::Cwd;
+package SPVM::Cwd;
 
 1;
 
 =head1 Name
 
-SPVM::File::Spec::Cwd - Getting Pathname of Current Working Directory
+SPVM::Cwd - Getting Pathname of Current Working Directory
 
 =head1 Usage
 
-  use File::Spec::Cwd;
+  use Cwd;
   
-  my $dir = File::Spec::Cwd->getcwd;
+  my $dir = Cwd->getcwd;
   
-  my $abs_path = File::Spec::Cwd->abs_path($file);
+  my $abs_path = Cwd->abs_path($file);
 
 =head1 Description
 
-C<SPVM::File::Spec::Cwd> provides methods for determining the pathname of the current working directory.
+C<SPVM::Cwd> provides methods for determining the pathname of the current working directory.
 
-This module is the Perl's L<File::Spec::Cwd> porting to L<SPVM>.
+This module is the Perl's L<Cwd> porting to L<SPVM>.
 
 =head1 Class Methods
 
@@ -68,17 +68,17 @@ The second character of the $drive must be ":".
 
 =head1 Repository
 
-L<https://github.com/yuki-kimoto/SPVM-File::Spec::Cwd>
+L<https://github.com/yuki-kimoto/SPVM-Cwd>
 
 =head1 See Also
 
 =head2 SPVM::Sys
 
-L<SPVM::Sys> provides system calls for changing working directory. C<SPVM::File::Spec::Cwd> calls the methods in the L<SPVM::Sys> class.
+L<SPVM::Sys> provides system calls for changing working directory. C<SPVM::Cwd> calls the methods in the L<SPVM::Sys> class.
 
-=head2 File::Spec::Cwd
+=head2 Cwd
 
-C<SPVM::File::Spec::Cwd> is the Perl's L<File::Spec::Cwd> porting to L<SPVM>.
+C<SPVM::Cwd> is the Perl's L<Cwd> porting to L<SPVM>.
 
 =head1 Author
 
