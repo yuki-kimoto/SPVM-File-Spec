@@ -2,6 +2,7 @@ class File::Spec::Cwd {
   use Fn;
   use Sys::IO;
   use Sys;
+  use File::Spec;
 
   static method getcwd : string () {
     my $cwd = Sys::IO->getcwd(undef, 0);
@@ -21,6 +22,8 @@ class File::Spec::Cwd {
       }
       
       my $realpath = Sys::IO->_fullpath(undef, $file, 0);
+      
+      $realpath = (mutable string)File::Spec->new->canonpath($realpath);
       
       Fn->replace_chars($realpath, '\\', '/');
       
