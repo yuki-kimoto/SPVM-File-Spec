@@ -72,6 +72,16 @@ class TestCase::File::Spec {
       $spec->curdir;
     }
     
+    # file_name_is_absolute
+    {
+      my $spec = File::Spec->new;
+      my $path = "t/basic.t";
+      my $is_abs = $spec->file_name_is_absolute($path);
+      if ($is_abs) {
+        return 0;
+      }
+    }
+    
     return 1;
   }
 }
