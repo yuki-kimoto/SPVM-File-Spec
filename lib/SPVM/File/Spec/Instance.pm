@@ -1,7 +1,5 @@
 package SPVM::File::Spec::Instance;
 
-our $VERSION = '0.02';
-
 1;
 
 =head1 Name
