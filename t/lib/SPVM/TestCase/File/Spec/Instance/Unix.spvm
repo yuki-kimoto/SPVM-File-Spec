@@ -1,12 +1,12 @@
-class TestCase::File::Spec::Unix {
-  use File::Spec::Unix;
+class TestCase::File::Spec::Instance::Unix {
+  use File::Spec::Instance::Unix;
   use Sys;
   use Array;
   use Cwd;
   
   static method canonpath : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $canonpath = $spec->canonpath("xx////xx");
@@ -50,7 +50,7 @@ class TestCase::File::Spec::Unix {
 
   static method catdir : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $catdir = $spec->catdir(["foo", "bar", "baz"]);
@@ -64,7 +64,7 @@ class TestCase::File::Spec::Unix {
 
   static method catfile : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $catfile = $spec->catfile(["foo", "bar", "baz"], "a.txt");
@@ -78,7 +78,7 @@ class TestCase::File::Spec::Unix {
 
   static method no_upwards : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $no_upwards = $spec->no_upwards([".", "..", "./foo", "../bar", "bar/baz"]);
@@ -92,7 +92,7 @@ class TestCase::File::Spec::Unix {
 
   static method file_name_is_absolute : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $is_abs = $spec->file_name_is_absolute("/foo/bar");
@@ -112,7 +112,7 @@ class TestCase::File::Spec::Unix {
   
   static method join : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $join = $spec->join(["foo", "bar", "baz"], "a.txt");
@@ -126,7 +126,7 @@ class TestCase::File::Spec::Unix {
 
   static method catpath : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $catpath = $spec->catpath("c:", "foo/bar/", "a.txt");
@@ -152,7 +152,7 @@ class TestCase::File::Spec::Unix {
 
   static method splitpath : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $no_file = 1;
@@ -198,7 +198,7 @@ class TestCase::File::Spec::Unix {
 
   static method rel2abs : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $rel2abs = $spec->rel2abs("foo/a.txt");
@@ -219,7 +219,7 @@ class TestCase::File::Spec::Unix {
 
   static method splitdir : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $dirs = $spec->splitdir("foo/bar/baz");
@@ -240,7 +240,7 @@ class TestCase::File::Spec::Unix {
 
   static method abs2rel : int () {
     
-    my $spec = File::Spec::Unix->new;
+    my $spec = File::Spec::Instance::Unix->new;
     
     {
       my $cwd = Cwd->getcwd;

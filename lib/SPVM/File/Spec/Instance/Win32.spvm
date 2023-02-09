@@ -1,4 +1,4 @@
-class File::Spec::Win32 extends File::Spec::Unix {
+class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   use Regex;
   use StringList;
   use Array;
@@ -15,9 +15,9 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
   
   # Class Methods
-  static method new : File::Spec::Win32 () {
+  static method new : File::Spec::Instance::Win32 () {
     
-    my $self = new File::Spec::Win32;
+    my $self = new File::Spec::Instance::Win32;
     
     return $self;
   }
@@ -32,7 +32,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method tmpdir : string () {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     my $env_tmpdir = Sys->getenv("TMPDIR");
     my $env_temp = Sys->getenv("TEMP");
@@ -245,7 +245,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
   
   method canonpath : string ($path : string) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     unless ($path) {
       die "The \$path must be defined";
@@ -261,7 +261,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method catdir : string ($dir_parts : string[]) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     unless ($dir_parts) {
       die "The \$dir_parts must be defined";
@@ -285,7 +285,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method catfile : string ($dir_parts : string[], $file_base_name : string) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     unless ($dir_parts) {
       die "The \$dir_parts must be defined";
@@ -315,7 +315,7 @@ class File::Spec::Win32 extends File::Spec::Unix {
   }
 
   method rel2abs : string ($path : string, $base = undef : string) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     my $is_abs = $interface->file_name_is_absolute($path);
     

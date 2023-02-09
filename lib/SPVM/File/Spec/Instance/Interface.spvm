@@ -1,4 +1,4 @@
-class File::Spec::Interface : interface_t {
+class File::Spec::Instance::Interface : interface_t {
   required method has_interfaces : int ();
 
   method canonpath : string ($path : string);

@@ -1,28 +1,43 @@
-package SPVM::File::Spec::Interface;
+package SPVM::File::Spec::Instance;
 
-
+our $VERSION = '0.02';
 
 1;
 
 =head1 Name
 
-SPVM::File::Spec::Interface - File::Spec Interface
+SPVM::File::Spec::Instance - Portably Perform Operations on File Names
 
 =head1 Description
 
-C<SPVM::File::Spec::Interface> is the L<SPVM>'s C<File::Spec::Interface> class.
+C<SPVM::File::Spec::Instance> is the L<SPVM>'s C<File::Spec::Instance> class.
 
-This class is the L<File::Spec|SPVM::File::Spec> interface.
+This module is designed to support operations commonly performed on file specifications
 
 =head1 Usage
 
-  use File::Spec::Interface;
+  use File::Spec::Instance;
 
-=head1 Interface Methods
+  my $spec = File::Spec::Instance->new;
+  my $file = $spec->catfile(["foo", "bar"], "a.txt"]);
+
+=head1 Interfaces
+
+=over 2
+
+=item * L<File::Spec::Instance::Interface|SPVM::File::Spec::Instance::Interface>
+
+=back
+
+=head1 Class Methods
+
+  static method new : File::Spec::Instance ();
+
+=head1 Instance Methods
 
 =head2 has_interfaces
 
-  required method has_interfaces : int ();
+  method has_interfaces : int ();
 
 =head2 canonpath
 
@@ -30,11 +45,11 @@ This class is the L<File::Spec|SPVM::File::Spec> interface.
 
 =head2 catdir
 
-  method catdir : string ($dir_parts : string[]);
+  method catdir : string ($directories : string[]);
 
 =head2 catfile
 
-  method catfile : string ($dir_parts : string[], $file_base_name : string);
+  method catfile : string ($directories : string[], $filename : string);
 
 =head2 curdir
 
@@ -58,7 +73,7 @@ This class is the L<File::Spec|SPVM::File::Spec> interface.
 
 =head2 no_upwards
 
-  method no_upwards : string[] ($dir_parts : string[]);
+  method no_upwards : string[] ($directories : string[]);
 
 =head2 file_name_is_absolute
 
@@ -70,7 +85,7 @@ This class is the L<File::Spec|SPVM::File::Spec> interface.
 
 =head2 join
 
-  method join : string ($dir_parts : string[], $file_base_name : string);
+  method join : string ($directories : string[], $filename : string);
 
 =head2 splitpath
 
@@ -91,6 +106,20 @@ This class is the L<File::Spec|SPVM::File::Spec> interface.
 =head2 rel2abs
 
   method rel2abs : string ($path : string, $base = undef : string);
+
+=head1 Well Known Child Classes
+
+=over 2
+
+=item * L<File::Spec::Instance::Unix|SPVM::File::Spec::Instance::Unix>
+
+=item * L<File::Spec::Instance::Win32|SPVM::File::Spec::Instance::Win32>
+
+=back
+
+=head1 Repository
+
+L<SPVM::File::Spec::Instance - Github|https://github.com/yuki-kimoto/SPVM-File-Spec>
 
 =head1 Author
 

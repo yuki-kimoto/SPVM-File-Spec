@@ -1,4 +1,4 @@
-package SPVM::File::Spec::Win32;
+package SPVM::File::Spec::Instance::Win32;
 
 
 
@@ -6,24 +6,24 @@ package SPVM::File::Spec::Win32;
 
 =head1 Name
 
-SPVM::File::Spec::Win32 - An implementation class of File::Spec for Windows.
+SPVM::File::Spec::Instance::Win32 - An implementation class of File::Spec::Instance for Windows.
 
 =head1 Description
 
-C<SPVM::File::Spec::Win32> is the L<SPVM>'s C<File::Spec::Win32> class.
+C<SPVM::File::Spec::Instance::Win32> is the L<SPVM>'s C<File::Spec::Instance::Win32> class.
 
-An implementation class of the L<File::Spec|SPVM::SPVM::File::Spec> for Windows.
+An implementation class of the L<File::Spec::Instance|SPVM::SPVM::File::Spec::Instance> for Windows.
 
 =head1 Usage
 
-  my $spec = File::Spec::Win32->new;
+  my $spec = File::Spec::Instance::Win32->new;
   my $file = $spec->catfile(["foo", "bar"], "a.txt"]);
 
 =head1 Inheritance
 
 =over 2
 
-=item * L<File::Spec::Unix|SPVM::File::Spec::Unix>
+=item * L<File::Spec::Instance::Unix|SPVM::File::Spec::Instance::Unix>
 
 =back
 
@@ -31,7 +31,7 @@ An implementation class of the L<File::Spec|SPVM::SPVM::File::Spec> for Windows.
 
 =head2 new
 
-  static method new : File::Spec::Win32 ();
+  static method new : File::Spec::Instance::Win32 ();
 
 =head1 Instance Methods
 

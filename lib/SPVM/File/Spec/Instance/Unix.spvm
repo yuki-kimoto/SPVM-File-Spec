@@ -1,4 +1,4 @@
-class File::Spec::Unix extends File::Spec {
+class File::Spec::Instance::Unix extends File::Spec::Instance {
   use Regex;
   use StringList;
   use Cwd;
@@ -6,9 +6,9 @@ class File::Spec::Unix extends File::Spec {
   use Sys::FileTest;
   
   # Class Methods
-  static method new : File::Spec::Unix () {
+  static method new : File::Spec::Instance::Unix () {
     
-    my $self = new File::Spec::Unix;
+    my $self = new File::Spec::Instance::Unix;
     
     return $self;
   }
@@ -61,7 +61,7 @@ class File::Spec::Unix extends File::Spec {
   }
 
   method catdir : string ($dir_parts : string[]) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     unless ($dir_parts) {
       die "The \$dir_parts must be defined";
@@ -79,7 +79,7 @@ class File::Spec::Unix extends File::Spec {
   }
   
   method catfile : string ($dir_parts : string[], $file_base_name : string) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     unless ($dir_parts) {
       die "The \$dir_parts must be defined";
@@ -132,7 +132,7 @@ class File::Spec::Unix extends File::Spec {
   }
   
   method join : string ($dir_parts : string[], $file_base_name : string) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     return $interface->catfile($dir_parts, $file_base_name);
   }
@@ -182,7 +182,7 @@ class File::Spec::Unix extends File::Spec {
   }
 
   method rel2abs : string ($path : string, $base = undef : string) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     # Clean up $path
     if (!$interface->file_name_is_absolute($path)) {
@@ -260,7 +260,7 @@ class File::Spec::Unix extends File::Spec {
   }
 
   method abs2rel : string ($path : string, $base = undef : string) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     unless ($base && length $base) {
       $base = Cwd->getcwd();
@@ -469,7 +469,7 @@ class File::Spec::Unix extends File::Spec {
   }
 
   method tmpdir : string () {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     my $env_tmpdir = Sys->getenv("TMPDIR");
     my $dirlist = [$env_tmpdir, "/tmp"];
@@ -478,7 +478,7 @@ class File::Spec::Unix extends File::Spec {
   }
 
   method _tmpdir : string ($dirlist : string[]) {
-    my $interface = (File::Spec::Interface)$self;
+    my $interface = (File::Spec::Instance::Interface)$self;
     
     my $tmpdir = (string)undef;
     for my $dir (@$dirlist) {

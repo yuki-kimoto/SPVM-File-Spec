@@ -1,4 +1,4 @@
-package SPVM::File::Spec::Unix;
+package SPVM::File::Spec::Instance::Unix;
 
 
 
@@ -6,32 +6,32 @@ package SPVM::File::Spec::Unix;
 
 =head1 Name
 
-SPVM::File::Spec::Unix - An implementation class of File::Spec for Linux/Unix/Mac.
+SPVM::File::Spec::Instance::Unix - An implementation class of File::Spec::Instance for Linux/Unix/Mac.
 
 =head1 Description
 
-C<SPVM::File::Spec::Unix> is the L<SPVM>'s C<File::Spec::Unix> class.
+C<SPVM::File::Spec::Instance::Unix> is the L<SPVM>'s C<File::Spec::Instance::Unix> class.
 
-An implementation class of the L<File::Spec|SPVM::SPVM::File::Spec> for Linux/Unix/Mac.
+An implementation class of the L<File::Spec::Instance|SPVM::SPVM::File::Spec::Instance> for Linux/Unix/Mac.
 
 =head1 Usage
 
-  use File::Spec::Unix;
+  use File::Spec::Instance::Unix;
 
-  my $spec = File::Spec::Unix->new;
+  my $spec = File::Spec::Instance::Unix->new;
   my $file = $spec->catfile(["foo", "bar"], "a.txt"]);
 
 =head1 Inheritance
 
 =over 2
 
-=item * L<File::Spec|SPVM::File::Spec>
+=item * L<File::Spec::Instance|SPVM::File::Spec::Instance>
 
 =back
 
 =head1 Class Methods
 
-  static method new : File::Spec::Unix ();
+  static method new : File::Spec::Instance::Unix ();
 
 =head1 Instance Methods
 
