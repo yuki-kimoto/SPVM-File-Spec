@@ -35,7 +35,5 @@ class File::Spec::Instance::Interface : interface_t {
   
   method rel2abs : string ($path : string, $base = undef : string);
 
-  method _same : int ($path1 : string, $path2 : string);
-
   method _tmpdir : string ($dirlist : string[]);
 }

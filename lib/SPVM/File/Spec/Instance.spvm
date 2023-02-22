@@ -91,12 +91,4 @@ class File::Spec::Instance {
   method rel2abs : string ($path : string, $base = undef : string) {
     return $self->(File::Spec::Instance::Interface)->rel2abs($path, $base);
   }
-
-=pod NOTE
-  
-  # The following method is not supported because cross compilation is important for SPVM.
-  method case_tolerant : int ();
-
-=cut
-
 }

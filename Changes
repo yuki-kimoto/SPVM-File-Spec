@@ -1,3 +1,11 @@
+0.04 2023-02-22
+  [Incompatible Changes]
+    * Removed a Windows special logic to compare file name because file case sensitivity is different on each environment.
+      [Before]
+      lc($file1) eq lc($file2)
+      [After]
+      $file1 eq $file2
+      
 0.03 2023-02-10
   [Incompatible Changes]
     * Current File::Spec is copied to File::Spec::Instance.
