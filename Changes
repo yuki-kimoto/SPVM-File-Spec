@@ -1,3 +1,8 @@
+0.05 2023-02-22
+  [Compatible Internal Changes]
+    * Removed wrongly added module files.
+      lib/SPVM/File/Spec/Instance/Instance.pm
+      lib/SPVM/File/Spec/Instance/Instance.spvm
 0.04 2023-02-22
   [Incompatible Changes]
     * Removed a Windows special logic to compare file name because file case sensitivity is different on each environment.
