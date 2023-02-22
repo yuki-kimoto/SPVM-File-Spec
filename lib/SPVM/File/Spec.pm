@@ -62,6 +62,10 @@ This module is designed to support operations commonly performed on file specifi
 
   static method file_name_is_absolute : int ($path : string);
 
+=head2 file_name_is_root
+
+  static method file_name_is_root : int ($path : string);
+
 =head2 path
 
   static method path : string[] ();

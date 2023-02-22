@@ -131,6 +131,15 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     return $is_abs;
   }
   
+  method file_name_is_root : int ($path : string) {
+    my $re = Regex->new("^/\z", "s");
+    my $is_root = 0;
+    if ($re->match($path)) {
+      $is_root = 1;
+    }
+    return $is_root;
+  }
+  
   method join : string ($dir_parts : string[], $file_base_name : string) {
     my $interface = (File::Spec::Instance::Interface)$self;
     

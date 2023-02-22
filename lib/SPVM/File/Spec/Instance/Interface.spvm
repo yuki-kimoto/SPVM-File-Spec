@@ -21,6 +21,8 @@ class File::Spec::Instance::Interface : interface_t {
   
   method file_name_is_absolute : int ($path : string);
   
+  method file_name_is_root : int ($path : string);
+  
   method path : string[] ();
   
   method join : string ($dir_parts : string[], $file_base_name : string);

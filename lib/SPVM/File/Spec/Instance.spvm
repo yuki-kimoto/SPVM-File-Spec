@@ -64,6 +64,10 @@ class File::Spec::Instance {
     return $self->(File::Spec::Instance::Interface)->file_name_is_absolute($path);
   }
   
+  method file_name_is_root : int ($path : string) {
+    return $self->(File::Spec::Instance::Interface)->file_name_is_root($path);
+  }
+  
   method path : string[] () {
     return $self->(File::Spec::Instance::Interface)->path;
   }
