@@ -1,6 +1,8 @@
-0.07 2023-05-10
+0.080 2023-05-10
   [Prerequirement Changes]
     SPVM is 0.976+ is required.
+  [License Change]
+    * The license is changed to MIT License.
 0.07 2023-03-15
   [Prerequirement Changes]
     * SPVM::Sys 0.43+ is needed.

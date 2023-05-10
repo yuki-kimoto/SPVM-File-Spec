@@ -22,7 +22,7 @@ my %spvm_requires = ('SPVM' => '0.976');
 WriteMakefile(
   NAME              => 'SPVM::File::Spec',
   VERSION_FROM      => 'lib/SPVM/File/Spec.pm',
-  LICENSE           => 'perl_5',
+  LICENSE           => 'mit',
   ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
     (ABSTRACT_FROM  => 'lib/SPVM/File/Spec.pm',
      AUTHOR         => 'Yuki Kimoto<kimoto.yuki@gmail.com>') : ()),
