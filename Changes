@@ -5,6 +5,8 @@
     SPVM::Regex 0.241002+ is required.
   [License Change]
     * The license is changed to MIT License.
+  [New Features]
+    * The version string can be got.
 0.07 2023-03-15
   [Prerequirement Changes]
     * SPVM::Sys 0.43+ is needed.
