@@ -479,8 +479,8 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     # whatever separator is first in the $volume
     my $v = (string)undef;
     my $unc_re = $RE_catpath1;
-    if ($unc_re->match($path)) {
-      my $v = $unc_re->cap1;
+    if (my $match = $unc_re->match($path)) {
+      my $v = $match->cap1;
       if ($RE_catpath2->match($directory)) {
         $path .= $v;
       }
