@@ -15,19 +15,14 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_file_name_is_absolute2 : Regex;
   our $RE_file_name_is_absolute3 : Regex;
   our $RE_file_name_is_absolute4 : Regex;
-  
   our $RE_file_name_is_root1 : Regex;
   our $RE_file_name_is_root2 : Regex;
   our $RE_file_name_is_root3 : Regex;
   our $RE_file_name_is_root4 : Regex;
-
   our $RE_path1 : Regex;
-
   our $RE_splitpath1 : Regex;
   our $RE_splitpath2 : Regex;
-  
   our $RE_splitdir1 : Regex;
-
   our $RE_canon_cat1 : Regex;
   our $RE_canon_cat2 : Regex;
   our $RE_canon_cat3 : Regex;
@@ -39,8 +34,18 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_canon_cat9 : Regex;
   our $RE_canon_cat10 : Regex;
   our $RE_canon_cat11 : Regex;
+  our $RE_catdir1 : Regex;
+  our $RE_catfile1 : Regex;
+  our $RE_catpath1 : Regex;
+  our $RE_catpath2 : Regex;
+  our $RE_catpath3 : Regex;
+  our $RE_catpath4 : Regex;
+  our $RE_catpath5 : Regex;
+  our $RE_catpath6 : Regex;
   
   INIT {
+    Regex->INIT;
+    
     $DRIVE_RX_STRING = "[a-zA-Z]:";
     $UNC_RX_STRING = "(?:\\\\\\\\|//)[^\\\\/]+[\\\\/][^\\\\/]+";
     $VOL_RX_STRING = "(?:$DRIVE_RX_STRING|$UNC_RX_STRING)";
@@ -49,19 +54,14 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_file_name_is_absolute2 = Regex->new("^$UNC_RX_STRING");
     $RE_file_name_is_absolute3 = Regex->new("^$DRIVE_RX_STRING[\\\\/]");
     $RE_file_name_is_absolute4 = Regex->new("^[\\\\/]");
-    
     $RE_file_name_is_root1 = Regex->new("^($VOL_RX_STRING)");
     $RE_file_name_is_root2 = Regex->new("^$UNC_RX_STRING([\\\\/])?\z");
     $RE_file_name_is_root3 = Regex->new("^$DRIVE_RX_STRING[\\\\/]\z");
     $RE_file_name_is_root4 = Regex->new("^[\\\\/]\z");
-    
     $RE_path1 = Regex->new("\"");
-    
     $RE_splitpath1 = Regex->new("^($VOL_RX_STRING?)(.*)", "s");
     $RE_splitpath2 = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s");
-    
     $RE_splitdir1 = Regex->new("[\\\\/]");
-
     $RE_canon_cat1 = Regex->new("\A([A-Za-z]:)([\\\\/]?)");
     $RE_canon_cat2 = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s");
     $RE_canon_cat3 = Regex->new("\A[\\\\/]");
@@ -73,6 +73,14 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_canon_cat9 = Regex->new("\\\\\z");
     $RE_canon_cat10 = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)");
     $RE_canon_cat11 = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s");
+    $RE_catdir1 = Regex->new("^$DRIVE_RX_STRING\z");
+    $RE_catfile1 = Regex->new("^$DRIVE_RX_STRING\z");
+    $RE_catpath1 = Regex->new("^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s");
+    $RE_catpath2 = Regex->new("^[^\\\\/]");
+    $RE_catpath3 = Regex->new("^[a-zA-Z]:\z", "s");
+    $RE_catpath4 = Regex->new("[^\\\\/]\z");
+    $RE_catpath5 = Regex->new("[^\\\\/]");
+    $RE_catpath6 = Regex->new("([\\\\/])");
   }
   
   # Class Methods
@@ -357,7 +365,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       $dir_parts->[0] = "/";
     }
     
-    if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
+    if ($RE_catdir1->match($dir_parts->[0])) {
       $dir_parts->[0] .= "\\";
     }
     
@@ -381,7 +389,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $dir_parts->[0] = "/";
       }
       
-      if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
+      if ($RE_catfile1->match($dir_parts->[0])) {
         $dir_parts->[0] .= "\\";
       }
     }
@@ -470,10 +478,10 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     # If it's UNC, make sure the glue separator is there, reusing
     # whatever separator is first in the $volume
     my $v = (string)undef;
-    my $unc_re = Regex->new("^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s");
+    my $unc_re = $RE_catpath1;
     if ($unc_re->match($path)) {
       my $v = $unc_re->cap1;
-      if (Regex->new("^[^\\\\/]")->match($directory)) {
+      if ($RE_catpath2->match($directory)) {
         $path .= $v;
       }
     }
@@ -482,10 +490,10 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     # If the volume is not just A:, make sure the glue separator is 
     # there, reusing whatever separator is first in the $volume if possible.
-    if (!Regex->new("^[a-zA-Z]:\z", "s")->match($path) && Regex->new("[^\\\\/]\z")->match($path)
-        && Regex->new("[^\\\\/]")->match($file))
+    if (!$RE_catpath3->match($path) && $RE_catpath4->match($path)
+        && $RE_catpath5->match($file))
     {
-      my $re = Regex->new("([\\\\/])");
+      my $re = $RE_catpath6;
       my $sep = "\\";
       my $match = $re->match($path);
       if ($match) {
