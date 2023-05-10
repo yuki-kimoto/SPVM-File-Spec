@@ -4,13 +4,11 @@ package SPVM::File::Spec::Instance;
 
 =head1 Name
 
-SPVM::File::Spec::Instance - Portably Perform Operations on File Names
+SPVM::File::Spec::Instance - Object-Oriented File::Spec
 
 =head1 Description
 
-C<SPVM::File::Spec::Instance> is the L<SPVM>'s C<File::Spec::Instance> class.
-
-This module is designed to support operations commonly performed on file specifications
+The File::Spec::Instance class of L<SPVM> is an Object-Oriented L<File::Spec|SPVM::File::Spec> class.
 
 =head1 Usage
 

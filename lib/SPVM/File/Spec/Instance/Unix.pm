@@ -6,13 +6,11 @@ package SPVM::File::Spec::Instance::Unix;
 
 =head1 Name
 
-SPVM::File::Spec::Instance::Unix - An implementation class of File::Spec::Instance for Linux/Unix/Mac.
+SPVM::File::Spec::Instance::Unix - Implementation of File::Spec::Instance for Linux/Unix/Mac
 
 =head1 Description
 
-C<SPVM::File::Spec::Instance::Unix> is the L<SPVM>'s C<File::Spec::Instance::Unix> class.
-
-An implementation class of the L<File::Spec::Instance|SPVM::SPVM::File::Spec::Instance> for Linux/Unix/Mac.
+The File::Spec::Instance::Unix class of L<SPVM> is an implementation of L<File::Spec::Instance|SPVM::File::Spec::Instance> for Linux/Unix/Mac.
 
 =head1 Usage
 
