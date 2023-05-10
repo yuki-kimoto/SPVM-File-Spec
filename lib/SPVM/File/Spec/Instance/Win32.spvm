@@ -69,8 +69,8 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     my $is_abs = 0;
     my $vol_re = $RE_file_name_is_absolute1;
-    if ($RE_file_name_is_absolute1->match($path)) {
-      my $vol = $vol_re->cap1;
+    if (my $match = $RE_file_name_is_absolute1->match($path)) {
+      my $vol = $match->cap1;
       
       my $unc_re = $RE_file_name_is_absolute2;
       if ($unc_re->match($vol)) {
@@ -97,8 +97,8 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     my $is_root = 0;
     my $vol_re = Regex->new("^($VOL_RX_STRING)");
-    if ($vol_re->match($path)) {
-      my $vol = $vol_re->cap1;
+    if (my $match = $vol_re->match($path)) {
+      my $vol = $match->cap1;
       
       my $unc_re = Regex->new("^$UNC_RX_STRING([\\\\/])?\z");
       if ($unc_re->match($vol)) {
@@ -152,18 +152,18 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $file = "";
     
     my $re_valume = Regex->new("^($VOL_RX_STRING?)(.*)", "s");
-    if ($re_valume->match($path)) {
-      $volume = $re_valume->cap1;
-      my $rest = $re_valume->cap2;
+    if (my $match = $re_valume->match($path)) {
+      $volume = $match->cap1;
+      my $rest = $match->cap2;
       
       if ($nofile) {
         $directory = $rest;
       }
       else {
         my $re = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s");
-        if ($re->match($rest)) {
-          $directory = $re->cap1;
-          $file      = $re->cap2;
+        if (my $match = $re->match($rest)) {
+          $directory = $match->cap1;
+          $file      = $match->cap2;
         }
       }
     }
@@ -184,31 +184,34 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     # drive letter - (C:)
     my $re_drive = Regex->new("\A([A-Za-z]:)([\\\\/]?)");
+    my $match = $re_drive->match($first);
     $first = $re_drive->replace($first, "");
-    if ($re_drive->replaced_count > 0) {
-      $volume = Fn->ucfirst($re_drive->cap1);
-      if (length $re_drive->cap2) {
+    if ($match) {
+      $volume = Fn->ucfirst($match->cap1);
+      if (length $match->cap2) {
         $volume .= "\\";
       }
     }
     else {
       my $re_unc = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s");
+      my $match = $re_unc->match($first);
       $first = $re_unc->replace($first, "");
       
       # UNC volume (\\192.168.201.101)
-      if ($re_unc->replaced_count > 0) {
-        $volume = "\\\\" . $re_unc->cap1;
-        if ($re_unc->cap2) {
-          $volume .= "\\" . $re_unc->cap2;
+      if ($match) {
+        $volume = "\\\\" . $match->cap1;
+        if ($match->cap2) {
+          $volume .= "\\" . $match->cap2;
         }
         $volume .= "\\";
       }
       else {
         my $re_root = Regex->new("\A[\\\\/]");
+        my $match = $re_root->match($first);
         $first = $re_root->replace($first, "");
         
         # root dir (\foo)
-        if ($re_root->replaced_count > 0) {
+        if ($match) {
           $volume = "\\";
         }
         else {
@@ -261,8 +264,9 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
       my $re = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s");
-      if (!length $path && $re->match($volume)) {
-        $path = $re->cap1;
+      my $match = $re->match($volume);
+      if (!length $path && $match) {
+        $path = $match->cap1;
         return $path;
       }
     }
@@ -435,13 +439,12 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         && Regex->new("[^\\\\/]")->match($file))
     {
       my $re = Regex->new("([\\\\/])");
-      my $sep = (string)undef;
-      if ($re->match($path)) {
-        $sep = $re->cap1;
+      my $sep = "\\";
+      my $match = $re->match($path);
+      if ($match) {
+        $sep = $match->cap1;
       }
-      else {
-        $sep = "\\";
-      }
+      
       $path .= $sep;
     }
     
