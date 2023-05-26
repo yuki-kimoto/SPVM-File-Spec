@@ -44,8 +44,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_catpath6 : Regex;
   
   INIT {
-    Regex->INIT;
-    
     $DRIVE_RX_STRING = "[a-zA-Z]:";
     $UNC_RX_STRING = "(?:\\\\\\\\|//)[^\\\\/]+[\\\\/][^\\\\/]+";
     $VOL_RX_STRING = "(?:$DRIVE_RX_STRING|$UNC_RX_STRING)";

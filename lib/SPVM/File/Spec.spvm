@@ -9,7 +9,6 @@ class File::Spec {
   our $SINGLETON : File::Spec::Instance;
   
   INIT {
-    File::Spec::Instance->INIT;
     $SINGLETON = File::Spec::Instance->new;
   }
   

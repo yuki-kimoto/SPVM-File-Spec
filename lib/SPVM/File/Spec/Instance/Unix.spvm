@@ -20,7 +20,6 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   our $RE_splitpath1 : Regex;
   
   INIT {
-    Regex->INIT;
     $RE_canonpath1 = Regex->new("/{2,}");
     $RE_canonpath2 = Regex->new("(?:/\.)+(?:/|\z)");
     $RE_canonpath3 = Regex->new("^(?:\./)+", "s");
