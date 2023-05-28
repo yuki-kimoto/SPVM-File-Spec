@@ -1,6 +1,6 @@
 package SPVM::File::Spec;
 
-our $VERSION = "0.080001";
+our $VERSION = "0.081";
 
 1;
 
