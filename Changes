@@ -1,3 +1,6 @@
+0.083 2025-01-25
+  [Test Fix]
+    * Restore wrongly removed tests.
 0.082 2025-01-25
   [Requirement Changes]
     * Require SPVM 0.990042.
