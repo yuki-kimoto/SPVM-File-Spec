@@ -2,6 +2,8 @@
 # MIT License
 
 class File::Spec::Instance::Unix extends File::Spec::Instance {
+  version_from File::Spec;
+  
   use Regex;
   use StringList;
   use Cwd;

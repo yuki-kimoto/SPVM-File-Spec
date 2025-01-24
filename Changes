@@ -1,3 +1,10 @@
+0.082 2025-01-25
+  [Requirement Changes]
+    * Require SPVM 0.990042.
+    * Require SPVM::Regex 0.246.
+  [Test Improvement]
+    * Call Fn#destroy_runtime_permanent_vars method in the end of tests.
+    
 0.081003 2023-06-08
   [Requirement Changes]
     * Require SPVM::Sys 0.508.

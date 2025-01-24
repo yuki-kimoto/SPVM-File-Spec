@@ -18,7 +18,7 @@ unless ($meta) {
   # Do something such as environment check.
 }
 
-my %spvm_requires = ('SPVM' => '0.989002');
+my %spvm_requires = ('SPVM' => '0.990042');
 WriteMakefile(
   NAME              => 'SPVM::File::Spec',
   VERSION_FROM      => 'lib/SPVM/File/Spec.pm',
@@ -33,8 +33,8 @@ WriteMakefile(
     resources => {
       repository => {
         type => 'git',
-        url  => '',
-        web  => '',
+        url  => 'https://github.com/yuki-kimoto/SPVM-File-Spec.git',
+        web  => 'https://github.com/yuki-kimoto/SPVM-File-Spec',
       },
     },
     no_index => {
@@ -48,7 +48,7 @@ WriteMakefile(
   PREREQ_PM         => {
     %spvm_requires,
     'SPVM::Sys' => '0.508',
-    'SPVM::Regex' => '0.241002',
+    'SPVM::Regex' => '0.246',
   },
   TEST_REQUIRES => {
   },

@@ -2,6 +2,8 @@
 # MIT License
 
 class Cwd {
+  version_from File::Spec;
+  
   use Fn;
   use Sys::IO;
   use Sys;

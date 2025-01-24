@@ -10,7 +10,7 @@ SPVM::File::Spec - Performing Operations on File Names Portably
 
 =head1 Description
 
-The File::Spec class of L<SPVM> has methods to perform operations on file names portably.
+File::Spec class in L<SPVM> has methods to perform operations on file names portably.
 
 =head1 Usage
 

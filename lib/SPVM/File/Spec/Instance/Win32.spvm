@@ -2,6 +2,8 @@
 # MIT License
 
 class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
+  version_from File::Spec;
+  
   use Regex;
   use StringList;
   use Array;
