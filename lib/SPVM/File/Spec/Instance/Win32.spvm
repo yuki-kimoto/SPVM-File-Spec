@@ -5,7 +5,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   version_from File::Spec;
   
   use Re;
-  use Regex;
   use StringList;
   use Array;
   use Cwd;
@@ -155,7 +154,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   }
   
   method splitdir : string[] ($path : string) {
-    my $dirs = Regex->new("[\\\\/]")->split($path, -1);
+    my $dirs = Re->split("[\\\\/]", $path, -1);
     
     return $dirs;
   }
