@@ -402,9 +402,9 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     # If it's UNC, make sure the glue separator is there, reusing
     # whatever separator is first in the $volume
     my $v = (string)undef;
-    if (my $match = Regex->new("^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s")->match($path)) {
+    if (my $match = Re->m($path, ["^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s"])) {
       my $v = $match->cap1;
-      if (Regex->new("^[^\\\\/]")->match($directory)) {
+      if (Re->m($directory, "^[^\\\\/]")) {
         $path .= $v;
       }
     }
