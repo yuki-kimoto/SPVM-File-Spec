@@ -60,21 +60,20 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   method file_name_is_absolute : int ($path : string) {
     
     my $is_abs = 0;
-    my $vol_re = Regex->new("^($VOL_RX_STRING)");
-    if (my $match = Regex->new("^($VOL_RX_STRING)")->match($path)) {
+    if (my $match = Re->m($path, "^($VOL_RX_STRING)")) {
       my $vol = $match->cap1;
       
-      if (Regex->new("^$UNC_RX_STRING")->match($vol)) {
+      if (Re->m($vol, "^$UNC_RX_STRING")) {
         $is_abs = 2;
       }
       else {
-        if (Regex->new("^$DRIVE_RX_STRING[\\\\/]")->match($path)) {
+        if (Re->m($path, "^$DRIVE_RX_STRING[\\\\/]")) {
           $is_abs = 2;
         }
       }
     }
     else {
-      if (Regex->new("^[\\\\/]")->match($path)) {
+      if (Re->m($path, "^[\\\\/]")) {
         $is_abs = 1;
       }
     }
