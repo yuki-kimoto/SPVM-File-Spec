@@ -166,7 +166,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $volume = (string)undef;
     
     # drive letter - (C:)
-    my $match = Regex->new("\A([A-Za-z]:)([\\\\/]?)")->match($first);
+    my $match = Re->m($first, "\A([A-Za-z]:)([\\\\/]?)");
     $first = Regex->new("\A([A-Za-z]:)([\\\\/]?)")->replace($first, "");
     if ($match) {
       $volume = Fn->ucfirst($match->cap1);
@@ -175,7 +175,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       }
     }
     else {
-      my $match = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s")->match($first);
+      my $match = Re->m($first, ["\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s"]);
       $first = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s")->replace($first, "");
       
       # UNC volume (\\192.168.201.101)
@@ -187,7 +187,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $volume .= "\\";
       }
       else {
-        my $match = Regex->new("\A[\\\\/]")->match($first);
+        my $match = Re->m($first, "\A[\\\\/]");
         $first = Regex->new("\A[\\\\/]")->replace($first, "");
         
         # root dir (\foo)
@@ -238,12 +238,12 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     # xx\ --> xx
     $path = Regex->new("\\\\\z")->replace_g($path, "");
     
-    if (Regex->new("\\\\\z")->match($volume)) {
+    if (Re->m($volume, "\\\\\z")) {
       # <vol>\.. --> <vol>\
       $path = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace($path, "");
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
-      my $match = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s")->match($volume);
+      my $match = Re->m($volume, ["\A(\\\\\\\\.*)\\\\\z", "s"]);
       if (!length $path && $match) {
         $path = $match->cap1;
         return $path;
@@ -289,7 +289,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       $dir_parts->[0] = "/";
     }
     
-    if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
+    if (Re->m($dir_parts->[0], "^$DRIVE_RX_STRING\z")) {
       $dir_parts->[0] .= "\\";
     }
     
@@ -313,7 +313,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $dir_parts->[0] = "/";
       }
       
-      if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
+      if (Re->m($dir_parts->[0], "^$DRIVE_RX_STRING\z")) {
         $dir_parts->[0] .= "\\";
       }
     }
