@@ -242,14 +242,21 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $path = Fn->join("\\", $parts);
     
     # \xx --> xx
-    $path = Regex->new("\A\\\\")->replace_g($path, "");
+    
+    $path_ref->[0] = $path;
+    
+    Regex->new("\A\\\\")->replace_v2_g($path_ref, "");
     
     # xx\ --> xx
-    $path = Regex->new("\\\\\z")->replace_g($path, "");
+    Regex->new("\\\\\z")->replace_v2_g($path_ref, "");
+    
+    $path = $path_ref->[0];
     
     if (Re->m($volume, "\\\\\z")) {
       # <vol>\.. --> <vol>\
-      $path = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace($path, "");
+      $path_ref->[0] = $path;
+      Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace_v2($path_ref, "");
+      $path = $path_ref->[0];
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
       my $match = Re->m($volume, ["\A(\\\\\\\\.*)\\\\\z", "s"]);
