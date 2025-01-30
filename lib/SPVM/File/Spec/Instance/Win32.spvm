@@ -167,7 +167,9 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     # drive letter - (C:)
     my $match = Re->m($first, "\A([A-Za-z]:)([\\\\/]?)");
-    $first = Regex->new("\A([A-Za-z]:)([\\\\/]?)")->replace($first, "");
+    my $first_ref = [$first];
+    Regex->new("\A([A-Za-z]:)([\\\\/]?)")->replace_v2($first_ref, "");
+    $first = $first_ref->[0];
     if ($match) {
       $volume = Fn->ucfirst($match->cap1);
       if (length $match->cap2) {
