@@ -136,7 +136,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $directory = "";
     my $file = "";
     
-    if (my $match = Regex->new("^($VOL_RX_STRING?)(.*)", "s")->match($path)) {
+    if (my $match = Re->m($path, ["^($VOL_RX_STRING?)(.*)", "s"])) {
       $volume = $match->cap1;
       my $rest = $match->cap2;
       
@@ -144,7 +144,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $directory = $rest;
       }
       else {
-        if (my $match = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s")->match($rest)) {
+        if (my $match = Re->m($rest, ["^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s"])) {
           $directory = $match->cap1;
           $file      = $match->cap2;
         }
