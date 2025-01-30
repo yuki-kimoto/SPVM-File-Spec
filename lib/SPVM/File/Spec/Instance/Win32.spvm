@@ -30,10 +30,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_canon_cat3 : Regex;
   our $RE_canon_cat4 : Regex;
   our $RE_canon_cat5 : Regex;
-  our $RE_canon_cat6 : Regex;
-  our $RE_canon_cat7 : Regex;
-  our $RE_canon_cat8 : Regex;
-  our $RE_canon_cat9 : Regex;
   
   INIT {
     $DRIVE_RX_STRING = "[a-zA-Z]:";
@@ -57,10 +53,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_canon_cat3 = Regex->new("\A[\\\\/]");
     $RE_canon_cat4 = Regex->new("/+");
     $RE_canon_cat5 = Regex->new("\\\\+");
-    $RE_canon_cat6 = Regex->new("(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+");
-    $RE_canon_cat7 = Regex->new("\A\\\\");
-    $RE_canon_cat8 = Regex->new("\\\\\z");
-    $RE_canon_cat9 = Regex->new("\\\\\z");
   }
   
   # Class Methods
@@ -266,7 +258,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $path = $RE_canon_cat5->replace_g($path, "\\");
     
     # xx\.\.\yy --> xx\yy
-    $path = $RE_canon_cat6->replace_g($path, "\\");
+    $path = Regex->new("(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+")->replace_g($path, "\\");
     
     # xx\yy\..\zz --> xx\zz
     my $parts_list = StringList->new;
@@ -288,12 +280,12 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $path = Fn->join("\\", $parts);
     
     # \xx --> xx
-    $path = $RE_canon_cat7->replace_g($path, "");
+    $path = Regex->new("\A\\\\")->replace_g($path, "");
     
     # xx\ --> xx
-    $path = $RE_canon_cat8->replace_g($path, "");
+    $path = Regex->new("\\\\\z")->replace_g($path, "");
     
-    if ($RE_canon_cat9->match($volume)) {
+    if (Regex->new("\\\\\z")->match($volume)) {
       # <vol>\.. --> <vol>\
       $path = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace($path, "");
       
