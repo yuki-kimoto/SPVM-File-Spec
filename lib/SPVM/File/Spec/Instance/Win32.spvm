@@ -209,14 +209,18 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     my $path = Fn->join("\\", $parts);
     
+    my $path_ref = [$path];
+    
     # /+ to \
-    $path = Regex->new("/+")->replace_g($path, "\\");
+    Regex->new("/+")->replace_v2_g($path_ref, "\\");
     
     # \+ to \
-    $path = Regex->new("\\\\+")->replace_g($path, "\\");
+    Regex->new("\\\\+")->replace_v2_g($path_ref, "\\");
     
     # xx\.\.\yy --> xx\yy
-    $path = Regex->new("(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+")->replace_g($path, "\\");
+    Regex->new("(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+")->replace_v2_g($path_ref, "\\");
+    
+    $path = $path_ref->[0];
     
     # xx\yy\..\zz --> xx\zz
     my $parts_list = StringList->new;
