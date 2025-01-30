@@ -218,7 +218,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     Re->s($path_ref, ["\\\\+", "g"], "\\");
     
     # xx\.\.\yy --> xx\yy
-    Regex->new("(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+")->replace_v2_g($path_ref, "\\");
+    Re->s($path_ref, ["(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+", "g"], "\\");
     
     $path = $path_ref->[0];
     
