@@ -192,7 +192,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       }
       else {
         my $first_ref = [$first];
-        my $replace_info = Re->s($first, "\A[\\\\/]", "");
+        my $replace_info = Re->s($first_ref, "\A[\\\\/]", "");
         $first = $first_ref->[0];
         
         # root dir (\foo)
