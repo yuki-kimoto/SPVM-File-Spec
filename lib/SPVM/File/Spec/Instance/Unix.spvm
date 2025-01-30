@@ -5,6 +5,7 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   version_from File::Spec;
   
   use Regex;
+  use Re;
   use StringList;
   use Cwd;
   use Sys;
@@ -15,10 +16,6 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   our $RE_canonpath4 : Regex;
   our $RE_canonpath5 : Regex;
   our $RE_canonpath6 : Regex;
-  our $RE_no_upwards : Regex;
-  our $RE_file_name_is_absolute1 : Regex;
-  our $RE_file_name_is_root1 : Regex;
-  our $RE_splitpath1 : Regex;
   
   INIT {
     $RE_canonpath1 = Regex->new("/{2,}");
@@ -27,10 +24,6 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     $RE_canonpath4 = Regex->new("^/(?:\.\./)+");
     $RE_canonpath5 = Regex->new("^/\.\.$");
     $RE_canonpath6 = Regex->new("/\z");
-    $RE_no_upwards = Regex->new("^\.{1,2}\z", "s");
-    $RE_file_name_is_absolute1 = Regex->new("^/", "s");
-    $RE_file_name_is_root1 = Regex->new("^/\z", "s");
-    $RE_splitpath1 = Regex->new("^((?:.*/(?:\.\.?\z)?)?)([^/]*)", "s");
   }
   
   # Class Methods
@@ -137,7 +130,7 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     my $no_upwards_list = StringList->new;
     
     for my $dir_part (@$dir_parts) {
-      unless ($RE_no_upwards->match($dir_part)) {
+      unless (Re->m($dir_part, ["^\.{1,2}\z", "s"])) {
         $no_upwards_list->push($dir_part);
       }
     }
@@ -149,7 +142,7 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   
   method file_name_is_absolute : int ($path : string) {
     my $is_abs = 0;
-    if ($RE_file_name_is_absolute1->match($path)) {
+    if (Re->m($path, ["^/", "s"])) {
       $is_abs = 1;
     }
     return $is_abs;
@@ -157,7 +150,7 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   
   method file_name_is_root : int ($path : string) {
     my $is_root = 0;
-    if ($RE_file_name_is_root1->match($path)) {
+    if (Re->m($path, ["^/\z", "s"])) {
       $is_root = 1;
     }
     return $is_root;
@@ -203,7 +196,7 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
       $directory = $path;
     }
     else {
-      if (my $match = $RE_splitpath1->match($path)) {
+      if (my $match = Re->m($path, ["^((?:.*/(?:\.\.?\z)?)?)([^/]*)", "s"])) {
         $directory = $match->cap1;
         $file      = $match->cap2;
       }
