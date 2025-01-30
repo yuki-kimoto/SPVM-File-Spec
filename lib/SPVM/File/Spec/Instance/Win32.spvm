@@ -191,11 +191,12 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $volume .= "\\";
       }
       else {
-        my $match = Re->m($first, "\A[\\\\/]");
-        $first = Regex->new("\A[\\\\/]")->replace($first, "");
+        my $first_ref = [$first];
+        my $replace_info = Regex->new("\A[\\\\/]")->replace_v2($first, "");
+        $first = $first_ref->[0];
         
         # root dir (\foo)
-        if ($match) {
+        if ($replace_info) {
           $volume = "\\";
         }
         else {
