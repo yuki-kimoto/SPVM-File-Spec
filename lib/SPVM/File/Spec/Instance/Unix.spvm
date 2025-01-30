@@ -56,27 +56,31 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
       die "The \$path must be defined";
     }
     
+    my $path_ref = [$path];
+    
     # xx////xx  -> xx/xx
-    $path = $RE_canonpath1->replace_g($path, "/");
+    $RE_canonpath1->replace_v2_g($path_ref, "/");
     
     # xx/././xx -> xx/xx
-    $path = $RE_canonpath2->replace_g($path, "/");
+    $RE_canonpath2->replace_v2_g($path_ref, "/");
     
     # ./xx      -> xx
-    unless ($path eq "./") {
-      $path = $RE_canonpath3->replace_g($path, "");
+    unless ($path_ref->[0] eq "./") {
+      $RE_canonpath3->replace_v2_g($path_ref, "");
     }
     
     # /../../xx -> xx
-    $path = $RE_canonpath4->replace($path, "/");
+    $RE_canonpath4->replace_v2($path_ref, "/");
     
     # /..       -> /
-    $path = $RE_canonpath5->replace($path, "/");
+    $RE_canonpath5->replace_v2($path_ref, "/");
     
     # xx/       -> xx
-    unless ($path eq "/") {
-      $path = $RE_canonpath6->replace($path, "");
+    unless ($path_ref->[0] eq "/") {
+      $RE_canonpath6->replace_v2($path_ref, "");
     }
+    
+    $path = $path_ref->[0];
     
     return $path;
   }
