@@ -10,22 +10,6 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   use Cwd;
   use Sys;
   
-  our $RE_canonpath1 : Regex;
-  our $RE_canonpath2 : Regex;
-  our $RE_canonpath3 : Regex;
-  our $RE_canonpath4 : Regex;
-  our $RE_canonpath5 : Regex;
-  our $RE_canonpath6 : Regex;
-  
-  INIT {
-    $RE_canonpath1 = Regex->new("/{2,}");
-    $RE_canonpath2 = Regex->new("(?:/\.)+(?:/|\z)");
-    $RE_canonpath3 = Regex->new("^(?:\./)+", "s");
-    $RE_canonpath4 = Regex->new("^/(?:\.\./)+");
-    $RE_canonpath5 = Regex->new("^/\.\.$");
-    $RE_canonpath6 = Regex->new("/\z");
-  }
-  
   # Class Methods
   static method new : File::Spec::Instance::Unix () {
     
@@ -59,25 +43,25 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     my $path_ref = [$path];
     
     # xx////xx  -> xx/xx
-    $RE_canonpath1->replace_v2_g($path_ref, "/");
+    Regex->new("/{2,}")->replace_v2_g($path_ref, "/");
     
     # xx/././xx -> xx/xx
-    $RE_canonpath2->replace_v2_g($path_ref, "/");
+    Regex->new("(?:/\.)+(?:/|\z)")->replace_v2_g($path_ref, "/");
     
     # ./xx      -> xx
     unless ($path_ref->[0] eq "./") {
-      $RE_canonpath3->replace_v2_g($path_ref, "");
+      Regex->new("^(?:\./)+", "s")->replace_v2_g($path_ref, "");
     }
     
     # /../../xx -> xx
-    $RE_canonpath4->replace_v2($path_ref, "/");
+    Regex->new("^/(?:\.\./)+")->replace_v2($path_ref, "/");
     
     # /..       -> /
-    $RE_canonpath5->replace_v2($path_ref, "/");
+    Regex->new("^/\.\.$")->replace_v2($path_ref, "/");
     
     # xx/       -> xx
     unless ($path_ref->[0] eq "/") {
-      $RE_canonpath6->replace_v2($path_ref, "");
+      Regex->new("/\z")->replace_v2($path_ref, "");
     }
     
     $path = $path_ref->[0];
