@@ -118,7 +118,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     for (my $i = 0; $i < @$pathes; $i++) {
       my $path = $pathes->[$i];
       my $path_ref = [$path];
-      Regex->new("\"")->replace_v2_g($path_ref, "");
+      Re->s($path_ref, "\"", "");
       $path = $path_ref->[0];
       if (length $path) {
         $pathes_list->push($path);
