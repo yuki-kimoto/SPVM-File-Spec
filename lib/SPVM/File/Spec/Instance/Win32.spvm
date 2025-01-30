@@ -37,10 +37,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_canon_cat10 : Regex;
   our $RE_canon_cat11 : Regex;
   our $RE_catdir1 : Regex;
-  our $RE_catfile1 : Regex;
-  our $RE_catpath1 : Regex;
-  our $RE_catpath2 : Regex;
-  our $RE_catpath3 : Regex;
   
   INIT {
     $DRIVE_RX_STRING = "[a-zA-Z]:";
@@ -71,10 +67,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_canon_cat10 = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)");
     $RE_canon_cat11 = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s");
     $RE_catdir1 = Regex->new("^$DRIVE_RX_STRING\z");
-    $RE_catfile1 = Regex->new("^$DRIVE_RX_STRING\z");
-    $RE_catpath1 = Regex->new("^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s");
-    $RE_catpath2 = Regex->new("^[^\\\\/]");
-    $RE_catpath3 = Regex->new("^[a-zA-Z]:\z", "s");
   }
   
   # Class Methods
@@ -383,7 +375,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $dir_parts->[0] = "/";
       }
       
-      if ($RE_catfile1->match($dir_parts->[0])) {
+      if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
         $dir_parts->[0] .= "\\";
       }
     }
@@ -472,10 +464,10 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     # If it's UNC, make sure the glue separator is there, reusing
     # whatever separator is first in the $volume
     my $v = (string)undef;
-    my $unc_re = $RE_catpath1;
+    my $unc_re = Regex->new("^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s");
     if (my $match = $unc_re->match($path)) {
       my $v = $match->cap1;
-      if ($RE_catpath2->match($directory)) {
+      if (Regex->new("^[^\\\\/]")->match($directory)) {
         $path .= $v;
       }
     }
@@ -484,7 +476,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     # If the volume is not just A:, make sure the glue separator is 
     # there, reusing whatever separator is first in the $volume if possible.
-    if (!$RE_catpath3->match($path) && Regex->new("[^\\\\/]\z")->match($path)
+    if (!Regex->new("^[a-zA-Z]:\z", "s")->match($path) && Regex->new("[^\\\\/]\z")->match($path)
         && Regex->new("[^\\\\/]")->match($file))
     {
       my $re = Regex->new("([\\\\/])");
