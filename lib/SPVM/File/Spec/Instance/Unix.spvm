@@ -4,7 +4,6 @@
 class File::Spec::Instance::Unix extends File::Spec::Instance {
   version_from File::Spec;
   
-  use Regex;
   use Re;
   use StringList;
   use Cwd;
@@ -30,7 +29,7 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   method curdir : string () {
     return ".";
   }
-
+  
   method updir : string () {
     return "..";
   }
@@ -43,25 +42,25 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     my $path_ref = [$path];
     
     # xx////xx  -> xx/xx
-    Regex->new("/{2,}")->replace_v2_g($path_ref, "/");
+    Re->s($path_ref, ["/{2,}", "g"], "/");
     
     # xx/././xx -> xx/xx
-    Regex->new("(?:/\.)+(?:/|\z)")->replace_v2_g($path_ref, "/");
+    Re->s($path_ref, ["(?:/\.)+(?:/|\z)", "g"], "/");
     
     # ./xx      -> xx
     unless ($path_ref->[0] eq "./") {
-      Regex->new("^(?:\./)+", "s")->replace_v2_g($path_ref, "");
+      Re->s($path_ref, ["^(?:\./)+", "sg"], "");
     }
     
     # /../../xx -> xx
-    Regex->new("^/(?:\.\./)+")->replace_v2($path_ref, "/");
+    Re->s($path_ref, "^/(?:\.\./)+", "/");
     
     # /..       -> /
-    Regex->new("^/\.\.$")->replace_v2($path_ref, "/");
+    Re->s($path_ref, "^/\.\.$", "/");
     
     # xx/       -> xx
     unless ($path_ref->[0] eq "/") {
-      Regex->new("/\z")->replace_v2($path_ref, "");
+      Re->s($path_ref, "/\z", "");
     }
     
     $path = $path_ref->[0];
