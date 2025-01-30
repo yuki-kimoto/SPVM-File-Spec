@@ -245,17 +245,17 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     $path_ref->[0] = $path;
     
-    Regex->new("\A\\\\")->replace_v2_g($path_ref, "");
+    Re->s($path_ref, ["\A\\\\", "g"], "");
     
     # xx\ --> xx
-    Regex->new("\\\\\z")->replace_v2_g($path_ref, "");
+    Re->s($path_ref, ["\\\\\z", "g"], "");
     
     $path = $path_ref->[0];
     
     if (Re->m($volume, "\\\\\z")) {
       # <vol>\.. --> <vol>\
       $path_ref->[0] = $path;
-      Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace_v2($path_ref, "");
+      Re->s($path_ref, "\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)", "");
       $path = $path_ref->[0];
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
