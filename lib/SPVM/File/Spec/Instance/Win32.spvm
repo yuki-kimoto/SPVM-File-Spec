@@ -177,11 +177,13 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       }
     }
     else {
-      my $match = Re->m($first, ["\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s"]);
-      $first = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s")->replace($first, "");
+      my $first_ref = [$first];
+      my $replace_info = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s")->replace_v2($first_ref, "");
+      $first = $first_ref->[0];
       
       # UNC volume (\\192.168.201.101)
-      if ($match) {
+      if ($replace_info) {
+        my $match = $replace_info->match;
         $volume = "\\\\" . $match->cap1;
         if ($match->cap2) {
           $volume .= "\\" . $match->cap2;
