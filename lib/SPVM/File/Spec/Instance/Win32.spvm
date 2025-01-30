@@ -212,7 +212,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $path_ref = [$path];
     
     # /+ to \
-    Regex->new("/+")->replace_v2_g($path_ref, "\\");
+    Re->s($path_ref, ["/+", "g"], "\\");
     
     # \+ to \
     Regex->new("\\\\+")->replace_v2_g($path_ref, "\\");
