@@ -4,6 +4,7 @@
 class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   version_from File::Spec;
   
+  use Re;
   use Regex;
   use StringList;
   use Array;
@@ -416,7 +417,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         && Regex->new("[^\\\\/]")->match($file))
     {
       my $sep = "\\";
-      my $match = Regex->new("([\\\\/])")->match($path);
+      my $match = Re->m($path, "([\\\\/])");
       if ($match) {
         $sep = $match->cap1;
       }
