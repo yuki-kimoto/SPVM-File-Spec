@@ -13,30 +13,10 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $UNC_RX_STRING : string;
   our $VOL_RX_STRING : string;
   
-  our $RE_file_name_is_absolute1 : Regex;
-  our $RE_file_name_is_absolute2 : Regex;
-  our $RE_file_name_is_absolute3 : Regex;
-  our $RE_file_name_is_absolute4 : Regex;
-  our $RE_file_name_is_root1 : Regex;
-  our $RE_file_name_is_root2 : Regex;
-  our $RE_file_name_is_root3 : Regex;
-  our $RE_file_name_is_root4 : Regex;
-  our $RE_path1 : Regex;
-  
   INIT {
     $DRIVE_RX_STRING = "[a-zA-Z]:";
     $UNC_RX_STRING = "(?:\\\\\\\\|//)[^\\\\/]+[\\\\/][^\\\\/]+";
     $VOL_RX_STRING = "(?:$DRIVE_RX_STRING|$UNC_RX_STRING)";
-    
-    $RE_file_name_is_absolute1 = Regex->new("^($VOL_RX_STRING)");
-    $RE_file_name_is_absolute2 = Regex->new("^$UNC_RX_STRING");
-    $RE_file_name_is_absolute3 = Regex->new("^$DRIVE_RX_STRING[\\\\/]");
-    $RE_file_name_is_absolute4 = Regex->new("^[\\\\/]");
-    $RE_file_name_is_root1 = Regex->new("^($VOL_RX_STRING)");
-    $RE_file_name_is_root2 = Regex->new("^$UNC_RX_STRING([\\\\/])?\z");
-    $RE_file_name_is_root3 = Regex->new("^$DRIVE_RX_STRING[\\\\/]\z");
-    $RE_file_name_is_root4 = Regex->new("^[\\\\/]\z");
-    $RE_path1 = Regex->new("\"");
   }
   
   # Class Methods
@@ -79,23 +59,23 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   method file_name_is_absolute : int ($path : string) {
     
     my $is_abs = 0;
-    my $vol_re = $RE_file_name_is_absolute1;
-    if (my $match = $RE_file_name_is_absolute1->match($path)) {
+    my $vol_re = Regex->new("^($VOL_RX_STRING)");
+    if (my $match = Regex->new("^($VOL_RX_STRING)")->match($path)) {
       my $vol = $match->cap1;
       
-      my $unc_re = $RE_file_name_is_absolute2;
+      my $unc_re = Regex->new("^$UNC_RX_STRING");
       if ($unc_re->match($vol)) {
         $is_abs = 2;
       }
       else {
-        my $drive_re = $RE_file_name_is_absolute3;
+        my $drive_re = Regex->new("^$DRIVE_RX_STRING[\\\\/]");
         if ($drive_re->match($path)) {
           $is_abs = 2;
         }
       }
     }
     else {
-      my $re = $RE_file_name_is_absolute4;
+      my $re = Regex->new("^[\\\\/]");
       if ($re->match($path)) {
         $is_abs = 1;
       }
@@ -107,23 +87,23 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   method file_name_is_root : int ($path : string) {
     
     my $is_root = 0;
-    my $vol_re = $RE_file_name_is_root1;
+    my $vol_re = Regex->new("^($VOL_RX_STRING)");
     if (my $match = $vol_re->match($path)) {
       my $vol = $match->cap1;
       
-      my $unc_re = $RE_file_name_is_root2;
+      my $unc_re = Regex->new("^$UNC_RX_STRING([\\\\/])?\z");
       if ($unc_re->match($vol)) {
         $is_root = 2;
       }
       else {
-        my $drive_re = $RE_file_name_is_root3;
+        my $drive_re = Regex->new("^$DRIVE_RX_STRING[\\\\/]\z");
         if ($drive_re->match($path)) {
           $is_root = 2;
         }
       }
     }
     else {
-      my $re = $RE_file_name_is_root4;
+      my $re = Regex->new("^[\\\\/]\z");
       if ($re->match($path)) {
         $is_root = 1;
       }
@@ -141,7 +121,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     my $pathes = Fn->split(";", $env_path);
     
-    my $re = $RE_path1;
+    my $re = Regex->new("\"");
     my $pathes_list = StringList->new;
     for (my $i = 0; $i < @$pathes; $i++) {
       my $path = $pathes->[$i];
