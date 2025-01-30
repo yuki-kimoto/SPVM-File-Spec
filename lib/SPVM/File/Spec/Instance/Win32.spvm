@@ -43,7 +43,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_catpath3 : Regex;
   our $RE_catpath4 : Regex;
   our $RE_catpath5 : Regex;
-  our $RE_catpath6 : Regex;
   
   INIT {
     $DRIVE_RX_STRING = "[a-zA-Z]:";
@@ -80,7 +79,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_catpath3 = Regex->new("^[a-zA-Z]:\z", "s");
     $RE_catpath4 = Regex->new("[^\\\\/]\z");
     $RE_catpath5 = Regex->new("[^\\\\/]");
-    $RE_catpath6 = Regex->new("([\\\\/])");
   }
   
   # Class Methods
@@ -493,7 +491,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     if (!$RE_catpath3->match($path) && $RE_catpath4->match($path)
         && $RE_catpath5->match($file))
     {
-      my $re = $RE_catpath6;
+      my $re = Regex->new("([\\\\/])");
       my $sep = "\\";
       my $match = $re->match($path);
       if ($match) {
