@@ -413,7 +413,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     # If the volume is not just A:, make sure the glue separator is 
     # there, reusing whatever separator is first in the $volume if possible.
-    if (!Regex->new("^[a-zA-Z]:\z", "s")->match($path) && Regex->new("[^\\\\/]\z")->match($path)
+    if (!Re->m($path, ["^[a-zA-Z]:\z", "s"]) && Re->m($path, "[^\\\\/]\z")
         && Re->m($file, "[^\\\\/]"))
     {
       my $sep = "\\";
