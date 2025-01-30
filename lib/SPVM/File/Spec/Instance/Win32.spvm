@@ -34,9 +34,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_canon_cat7 : Regex;
   our $RE_canon_cat8 : Regex;
   our $RE_canon_cat9 : Regex;
-  our $RE_canon_cat10 : Regex;
-  our $RE_canon_cat11 : Regex;
-  our $RE_catdir1 : Regex;
   
   INIT {
     $DRIVE_RX_STRING = "[a-zA-Z]:";
@@ -64,9 +61,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_canon_cat7 = Regex->new("\A\\\\");
     $RE_canon_cat8 = Regex->new("\\\\\z");
     $RE_canon_cat9 = Regex->new("\\\\\z");
-    $RE_canon_cat10 = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)");
-    $RE_canon_cat11 = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s");
-    $RE_catdir1 = Regex->new("^$DRIVE_RX_STRING\z");
   }
   
   # Class Methods
@@ -301,10 +295,10 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     if ($RE_canon_cat9->match($volume)) {
       # <vol>\.. --> <vol>\
-      $path = $RE_canon_cat10->replace($path, "");
+      $path = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace($path, "");
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
-      my $re = $RE_canon_cat11;
+      my $re = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s");
       my $match = $re->match($volume);
       if (!length $path && $match) {
         $path = $match->cap1;
@@ -351,7 +345,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       $dir_parts->[0] = "/";
     }
     
-    if ($RE_catdir1->match($dir_parts->[0])) {
+    if (Regex->new("^$DRIVE_RX_STRING\z")->match($dir_parts->[0])) {
       $dir_parts->[0] .= "\\";
     }
     
