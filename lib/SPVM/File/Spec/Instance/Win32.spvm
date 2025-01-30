@@ -22,14 +22,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_file_name_is_root3 : Regex;
   our $RE_file_name_is_root4 : Regex;
   our $RE_path1 : Regex;
-  our $RE_splitpath1 : Regex;
-  our $RE_splitpath2 : Regex;
-  our $RE_splitdir1 : Regex;
-  our $RE_canon_cat1 : Regex;
-  our $RE_canon_cat2 : Regex;
-  our $RE_canon_cat3 : Regex;
-  our $RE_canon_cat4 : Regex;
-  our $RE_canon_cat5 : Regex;
   
   INIT {
     $DRIVE_RX_STRING = "[a-zA-Z]:";
@@ -45,14 +37,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_file_name_is_root3 = Regex->new("^$DRIVE_RX_STRING[\\\\/]\z");
     $RE_file_name_is_root4 = Regex->new("^[\\\\/]\z");
     $RE_path1 = Regex->new("\"");
-    $RE_splitpath1 = Regex->new("^($VOL_RX_STRING?)(.*)", "s");
-    $RE_splitpath2 = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s");
-    $RE_splitdir1 = Regex->new("[\\\\/]");
-    $RE_canon_cat1 = Regex->new("\A([A-Za-z]:)([\\\\/]?)");
-    $RE_canon_cat2 = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s");
-    $RE_canon_cat3 = Regex->new("\A[\\\\/]");
-    $RE_canon_cat4 = Regex->new("/+");
-    $RE_canon_cat5 = Regex->new("\\\\+");
   }
   
   # Class Methods
@@ -178,7 +162,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $directory = "";
     my $file = "";
     
-    my $re_valume = $RE_splitpath1;
+    my $re_valume = Regex->new("^($VOL_RX_STRING?)(.*)", "s");
     if (my $match = $re_valume->match($path)) {
       $volume = $match->cap1;
       my $rest = $match->cap2;
@@ -187,7 +171,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $directory = $rest;
       }
       else {
-        my $re = $RE_splitpath2;
+        my $re = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s");
         if (my $match = $re->match($rest)) {
           $directory = $match->cap1;
           $file      = $match->cap2;
@@ -199,7 +183,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   }
   
   method splitdir : string[] ($path : string) {
-    my $dirs = $RE_splitdir1->split($path, -1);
+    my $dirs = Regex->new("[\\\\/]")->split($path, -1);
     
     return $dirs;
   }
@@ -210,7 +194,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $volume = (string)undef;
     
     # drive letter - (C:)
-    my $re_drive = $RE_canon_cat1;
+    my $re_drive = Regex->new("\A([A-Za-z]:)([\\\\/]?)");
     my $match = $re_drive->match($first);
     $first = $re_drive->replace($first, "");
     if ($match) {
@@ -220,7 +204,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       }
     }
     else {
-      my $re_unc = $RE_canon_cat2;
+      my $re_unc = Regex->new("\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s");
       my $match = $re_unc->match($first);
       $first = $re_unc->replace($first, "");
       
@@ -233,7 +217,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $volume .= "\\";
       }
       else {
-        my $re_root = $RE_canon_cat3;
+        my $re_root = Regex->new("\A[\\\\/]");
         my $match = $re_root->match($first);
         $first = $re_root->replace($first, "");
         
@@ -252,10 +236,10 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $path = Fn->join("\\", $parts);
     
     # /+ to \
-    $path = $RE_canon_cat4->replace_g($path, "\\");
+    $path = Regex->new("/+")->replace_g($path, "\\");
     
     # \+ to \
-    $path = $RE_canon_cat5->replace_g($path, "\\");
+    $path = Regex->new("\\\\+")->replace_g($path, "\\");
     
     # xx\.\.\yy --> xx\yy
     $path = Regex->new("(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+")->replace_g($path, "\\");
