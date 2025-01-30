@@ -75,8 +75,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       }
     }
     else {
-      my $re = Regex->new("^[\\\\/]");
-      if ($re->match($path)) {
+      if (Regex->new("^[\\\\/]")->match($path)) {
         $is_abs = 1;
       }
     }
@@ -103,8 +102,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       }
     }
     else {
-      my $re = Regex->new("^[\\\\/]\z");
-      if ($re->match($path)) {
+      if (Regex->new("^[\\\\/]\z")->match($path)) {
         $is_root = 1;
       }
     }
