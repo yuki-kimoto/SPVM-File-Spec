@@ -121,11 +121,10 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     my $pathes = Fn->split(";", $env_path);
     
-    my $re = Regex->new("\"");
     my $pathes_list = StringList->new;
     for (my $i = 0; $i < @$pathes; $i++) {
       my $path = $pathes->[$i];
-      $path = $re->replace_g($path, "");
+      $path =  Regex->new("\"")->replace_g($path, "");
       if (length $path) {
         $pathes_list->push($path);
       }
@@ -151,8 +150,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $directory = $rest;
       }
       else {
-        my $re = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s");
-        if (my $match = $re->match($rest)) {
+        if (my $match = Regex->new("^((?:.*[\\\\/](?:\.\.?\z)?)?)([^\\\\/]*)", "s")->match($rest)) {
           $directory = $match->cap1;
           $file      = $match->cap2;
         }
@@ -254,8 +252,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       $path = Regex->new("\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)")->replace($path, "");
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
-      my $re = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s");
-      my $match = $re->match($volume);
+      my $match = Regex->new("\A(\\\\\\\\.*)\\\\\z", "s")->match($volume);
       if (!length $path && $match) {
         $path = $match->cap1;
         return $path;
@@ -429,9 +426,8 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     if (!Regex->new("^[a-zA-Z]:\z", "s")->match($path) && Regex->new("[^\\\\/]\z")->match($path)
         && Regex->new("[^\\\\/]")->match($file))
     {
-      my $re = Regex->new("([\\\\/])");
       my $sep = "\\";
-      my $match = $re->match($path);
+      my $match = Regex->new("([\\\\/])")->match($path);
       if ($match) {
         $sep = $match->cap1;
       }
