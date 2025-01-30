@@ -42,7 +42,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   our $RE_catpath2 : Regex;
   our $RE_catpath3 : Regex;
   our $RE_catpath4 : Regex;
-  our $RE_catpath5 : Regex;
   
   INIT {
     $DRIVE_RX_STRING = "[a-zA-Z]:";
@@ -78,7 +77,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     $RE_catpath2 = Regex->new("^[^\\\\/]");
     $RE_catpath3 = Regex->new("^[a-zA-Z]:\z", "s");
     $RE_catpath4 = Regex->new("[^\\\\/]\z");
-    $RE_catpath5 = Regex->new("[^\\\\/]");
   }
   
   # Class Methods
@@ -489,7 +487,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     # If the volume is not just A:, make sure the glue separator is 
     # there, reusing whatever separator is first in the $volume if possible.
     if (!$RE_catpath3->match($path) && $RE_catpath4->match($path)
-        && $RE_catpath5->match($file))
+        && Regex->new("[^\\\\/]")->match($file))
     {
       my $re = Regex->new("([\\\\/])");
       my $sep = "\\";
