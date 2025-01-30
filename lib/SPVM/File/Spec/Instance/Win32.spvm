@@ -85,21 +85,20 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   method file_name_is_root : int ($path : string) {
     
     my $is_root = 0;
-    if (my $match = Regex->new("^($VOL_RX_STRING)")->match($path)) {
+    if (my $match = Re->m($path, "^($VOL_RX_STRING)")) {
       my $vol = $match->cap1;
       
-      my $unc_re = Regex->new("^$UNC_RX_STRING([\\\\/])?\z");
-      if ($unc_re->match($vol)) {
+      if (Re->m($vol, "^$UNC_RX_STRING([\\\\/])?\z")) {
         $is_root = 2;
       }
       else {
-        if (Regex->new("^$DRIVE_RX_STRING[\\\\/]\z")->match($path)) {
+        if (Re->m($path, "^$DRIVE_RX_STRING[\\\\/]\z")) {
           $is_root = 2;
         }
       }
     }
     else {
-      if (Regex->new("^[\\\\/]\z")->match($path)) {
+      if (Re->m($path, "^[\\\\/]\z")) {
         $is_root = 1;
       }
     }
