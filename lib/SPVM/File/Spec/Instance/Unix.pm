@@ -6,11 +6,11 @@ package SPVM::File::Spec::Instance::Unix;
 
 =head1 Name
 
-SPVM::File::Spec::Instance::Unix - Implementation of File::Spec::Instance for Unix-like systems
+SPVM::File::Spec::Instance::Unix - Implementation of File::Spec::Instance for Unix-like OSs
 
 =head1 Description
 
-File::Spec::Instance::Unix class of L<SPVM> is an implementation of L<File::Spec::Instance|SPVM::File::Spec::Instance> for Unix-like systems such as Unix, Linux and Mac.
+File::Spec::Instance::Unix class in L<SPVM> is an implementation of L<File::Spec::Instance|SPVM::File::Spec::Instance> for Unix-like OSs such as Unix, Linux and Mac.
 
 =head1 Usage
 
@@ -19,91 +19,87 @@ File::Spec::Instance::Unix class of L<SPVM> is an implementation of L<File::Spec
   my $spec = File::Spec::Instance::Unix->new;
   my $file = $spec->catfile(["foo", "bar", "a.txt"]);
 
-=head1 Inheritance
+=head1 Super Class
 
-=over 2
-
-=item * L<File::Spec::Instance|SPVM::File::Spec::Instance>
-
-=back
+L<File::Spec::Instance|SPVM::File::Spec::Instance>
 
 =head1 Class Methods
 
-  static method new : File::Spec::Instance::Unix ();
+C<static method new : File::Spec::Instance::Unix ();>>
 
 =head1 Instance Methods
 
 =head2 devnull
 
-  method devnull : string ();
+C<method devnull : string ();>
 
 =head2 rootdir
 
-  method rootdir : string ();
+C<method rootdir : string ();>
 
 =head2 curdir
 
-  method curdir : string ();
+C<method curdir : string ();>
 
 =head2 updir
 
-  method updir : string ();
+C<method updir : string ();>
 
 =head2 canonpath
 
-  method canonpath : string ($path : string);
+C<method canonpath : string ($path : string);>
 
 =head2 catdir
 
-  method catdir : string ($parts : string[]);
+C<method catdir : string ($parts : string[]);>
 
 =head2 catfile
 
-  method catfile : string ($parts : string[]);
+C<method catfile : string ($parts : string[]);>
 
 =head2 no_upwards
 
-  method no_upwards : string[] ($parts : string[]);
+C<method no_upwards : string[] ($parts : string[]);>
 
 =head2 file_name_is_absolute
 
-  method file_name_is_absolute : int ($path : string);
+C<method file_name_is_absolute : int ($path : string);>
 
 =head2 file_name_is_root
 
-  method file_name_is_root : int ($path : string);
+C<method file_name_is_root : int ($path : string);>
 
 =head2 join
 
-  method join : string ($parts : string[]);
+C<method join : string ($parts : string[]);>
 
 =head2 catpath
 
-  method catpath : string ($volume : string, $dir : string, $file : string);
+C<method catpath : string ($volume : string, $dir : string, $file : string);>
 
 =head2 splitpath
 
-  method splitpath : string[] ($path : string, $no_file : int = 0);
+C<method splitpath : string[] ($path : string, $no_file : int = 0);>
 
 =head2 rel2abs
 
-  method rel2abs : string ($path : string, $base : string = undef);
+C<method rel2abs : string ($path : string, $base : string = undef);>
 
 =head2 splitdir
 
-  method splitdir : string[] ($path : string);
+C<method splitdir : string[] ($path : string);>
 
 =head2 abs2rel
 
-  method abs2rel : string ($path : string, $base : string = undef);
+C<method abs2rel : string ($path : string, $base : string = undef);>
 
 =head2 path
 
-  method path : string[] ();
+C<method path : string[] ();>
 
 =head2 tmpdir
 
-  method tmpdir : string ();
+C<method tmpdir : string ();>
 
 =head1 Author
 
