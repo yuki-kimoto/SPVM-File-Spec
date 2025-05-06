@@ -62,4 +62,5 @@ class File::Spec::Instance {
   method abs2rel : string ($path : string, $base : string = undef) { die "Not implemented"; }
   
   method rel2abs : string ($path : string, $base : string = undef) { die "Not implemented"; }
+  
 }
