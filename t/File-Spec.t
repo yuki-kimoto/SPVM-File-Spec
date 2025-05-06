@@ -33,8 +33,8 @@ ok(SPVM::File::Spec->updir, File::Spec->updir);
 # no_upwards
 {
   {
-    my $dir_parts = ["foo", "", "..", ".", "..."];
-    is_deeply(SPVM::File::Spec->no_upwards($dir_parts)->to_strings, [File::Spec->no_upwards(@$dir_parts)]);
+    my $parts = ["foo", "", "..", ".", "..."];
+    is_deeply(SPVM::File::Spec->no_upwards($parts)->to_strings, [File::Spec->no_upwards(@$parts)]);
   }
 }
 
@@ -470,79 +470,74 @@ ok(SPVM::File::Spec->curdir, File::Spec->curdir);
 # catdir
 {
   {
-    my $dir_parts = ["foo", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    my $parts = ["foo", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
   }
   {
-    my $dir_parts = [];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    my $parts = [];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
   }
   {
-    my $dir_parts = ["", "foo", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
-  }
-
-  {
-    my $dir_parts = ["c:", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
-  }
-  {
-    my $dir_parts = ["//1.2.3.4/SHARE", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
-  }
-  {
-    my $dir_parts = ["foo", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
-  }
-  {
-    my $dir_parts = [];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
-  }
-  {
-    my $dir_parts = ["", "foo", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    my $parts = ["", "foo", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
   }
 
   {
-    my $dir_parts = ["c:", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    my $parts = ["c:", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
   }
   {
-    my $dir_parts = ["\\\\\\\\1.2.3.4\\\\SHARE", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    my $parts = ["//1.2.3.4/SHARE", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
   }
   {
-    my $dir_parts = ["..", "..", "foo", "bar"];
-    is(SPVM::File::Spec->catdir($dir_parts), File::Spec->catdir(@$dir_parts));
+    my $parts = ["foo", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
+  }
+  {
+    my $parts = [];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
+  }
+  {
+    my $parts = ["", "foo", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
+  }
+
+  {
+    my $parts = ["c:", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
+  }
+  {
+    my $parts = ["\\\\\\\\1.2.3.4\\\\SHARE", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
+  }
+  {
+    my $parts = ["..", "..", "foo", "bar"];
+    is(SPVM::File::Spec->catdir($parts), File::Spec->catdir(@$parts));
   }
 }
 
 # catfile
 {
   {
-    my $dir_parts = ["foo", "bar"];
-    my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "bar", "a.txt"];
+    is(SPVM::File::Spec->catfile($parts), File::Spec->catfile(@$parts));
   }
   {
-    my $dir_parts = [];
-    my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    my $parts = ["a.txt"];
+    is(SPVM::File::Spec->catfile($parts), File::Spec->catfile(@$parts));
   }
   {
-    my $dir_parts = ["foo"];
-    my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "a.txt"];
+    is(SPVM::File::Spec->catfile($parts), File::Spec->catfile(@$parts));
   }
   {
-    my $dir_parts = ["foo"];
-    my $file_base_name = "p/../a.txt";
-    is(SPVM::File::Spec->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "p/../a.txt"];
+    is(SPVM::File::Spec->catfile($parts), File::Spec->catfile(@$parts));
   }
   {
-    my $dir_parts = ["foo"];
-    my $file_base_name = "p\\..\\a.txt";
-    is(SPVM::File::Spec->catfile($dir_parts, $file_base_name), File::Spec->catfile(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "p\\..\\a.txt"];
+    is(SPVM::File::Spec->catfile($parts), File::Spec->catfile(@$parts));
   }
 }
 
@@ -550,29 +545,24 @@ ok(SPVM::File::Spec->curdir, File::Spec->curdir);
 # join
 {
   {
-    my $dir_parts = ["foo", "bar"];
-    my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "bar", "a.txt"];
+    is(SPVM::File::Spec->join($parts), File::Spec->join(@$parts));
   }
   {
-    my $dir_parts = [];
-    my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    my $parts = ["a.txt"];
+    is(SPVM::File::Spec->join($parts), File::Spec->join(@$parts));
   }
   {
-    my $dir_parts = ["foo"];
-    my $file_base_name = "a.txt";
-    is(SPVM::File::Spec->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "a.txt"];
+    is(SPVM::File::Spec->join($parts), File::Spec->join(@$parts));
   }
   {
-    my $dir_parts = ["foo"];
-    my $file_base_name = "p/../a.txt";
-    is(SPVM::File::Spec->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "p/../a.txt"];
+    is(SPVM::File::Spec->join($parts), File::Spec->join(@$parts));
   }
   {
-    my $dir_parts = ["foo"];
-    my $file_base_name = "p\\..\\a.txt";
-    is(SPVM::File::Spec->join($dir_parts, $file_base_name), File::Spec->join(@$dir_parts, $file_base_name));
+    my $parts = ["foo", "p\\..\\a.txt"];
+    is(SPVM::File::Spec->join($parts), File::Spec->join(@$parts));
   }
 }
 

@@ -26,11 +26,11 @@ File::Spec class in L<SPVM> has methods to perform operations on file names port
 
 =head2 catdir
 
-  static method catdir : string ($dirs : string[]);
+  static method catdir : string ($parts : string[]);
 
 =head2 catfile
 
-  static method catfile : string ($dirs : string[], $filename : string);
+  static method catfile : string ($parts : string[]);
 
 =head2 curdir
 
@@ -54,7 +54,7 @@ File::Spec class in L<SPVM> has methods to perform operations on file names port
 
 =head2 no_upwards
 
-  static method no_upwards : string[] ($dirs : string[]);
+  static method no_upwards : string[] ($parts : string[]);
 
 =head2 file_name_is_absolute
 
@@ -70,7 +70,7 @@ File::Spec class in L<SPVM> has methods to perform operations on file names port
 
 =head2 join
 
-  static method join : string ($dirs : string[], $filename : string);
+  static method join : string ($parts : string[]);
 
 =head2 splitpath
 
@@ -82,7 +82,7 @@ File::Spec class in L<SPVM> has methods to perform operations on file names port
 
 =head2 catpath
 
-  static method catpath : string ($volume : string, $directory : string, $file : string);
+  static method catpath : string ($volume : string, $dir : string, $file : string);
 
 =head2 abs2rel
 

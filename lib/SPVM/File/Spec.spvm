@@ -17,12 +17,12 @@ class File::Spec {
     return $SINGLETON->canonpath($path);
   }
   
-  static method catdir : string ($directories : string[]) {
-    return $SINGLETON->catdir($directories);
+  static method catdir : string ($parts : string[]) {
+    return $SINGLETON->catdir($parts);
   }
   
-  static method catfile : string ($directories : string[], $filename : string) {
-    return $SINGLETON->catfile($directories, $filename);
+  static method catfile : string ($parts : string[]) {
+    return $SINGLETON->catfile($parts);
   }
   
   static method curdir : string () {
@@ -45,8 +45,8 @@ class File::Spec {
     return $SINGLETON->updir;
   }
   
-  static method no_upwards : string[] ($directories : string[]) {
-    return $SINGLETON->no_upwards($directories);
+  static method no_upwards : string[] ($parts : string[]) {
+    return $SINGLETON->no_upwards($parts);
   }
   
   static method file_name_is_absolute : int ($path : string) {
@@ -61,8 +61,8 @@ class File::Spec {
     return $SINGLETON->path;
   }
   
-  static method join : string ($directories : string[], $filename : string) {
-    return $SINGLETON->join($directories, $filename);
+  static method join : string ($parts : string[]) {
+    return $SINGLETON->join($parts);
   }
   
   static method splitpath : string[] ($path : string, $no_file : int = 0) {
@@ -73,8 +73,8 @@ class File::Spec {
     return $SINGLETON->splitdir($path);
   }
    
-  static method catpath : string ($volume : string, $directory : string, $file : string) {
-    return $SINGLETON->catpath($volume, $directory, $file);
+  static method catpath : string ($volume : string, $dir : string, $file : string) {
+    return $SINGLETON->catpath($volume, $dir, $file);
   }
   
   static method abs2rel : string ($path : string, $base : string = undef) {

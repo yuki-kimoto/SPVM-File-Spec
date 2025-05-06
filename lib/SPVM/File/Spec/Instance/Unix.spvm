@@ -68,34 +68,40 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     return $path;
   }
   
-  method catdir : string ($dir_parts : string[]) {
+  method catdir : string ($parts : string[]) {
     
-    unless ($dir_parts) {
-      die "The \$dir_parts must be defined";
+    unless ($parts) {
+      die "The \$parts must be defined";
     }
     
-    my $dir_parts_list = StringList->new($dir_parts);
-    $dir_parts_list->push("");
-    $dir_parts = $dir_parts_list->to_array;
+    my $parts_list = StringList->new($parts);
+    $parts_list->push("");
+    $parts = $parts_list->to_array;
     
-    my $path = Fn->join("/", $dir_parts);
+    my $path = Fn->join("/", $parts);
     
     my $canonpath = $self->canonpath($path);
     
     return $canonpath;
   }
   
-  method catfile : string ($dir_parts : string[], $file_base_name : string) {
+  method catfile : string ($parts : string[]) {
     
-    unless ($dir_parts) {
-      die "The \$dir_parts must be defined";
+    unless ($parts) {
+      die "The \$parts must be defined";
     }
     
-    unless ($file_base_name) {
-      die "The \$file_base_name must be defined";
+    my $parts_length = @$parts;
+    
+    unless ($parts_length > 0) {
+      die "The parts \$parts must have elements.";
     }
+    
+    my $file_base_name = $parts->[$parts_length - 1];
     
     $file_base_name = $self->canonpath($file_base_name);
+    
+    my $dir_parts = Array->copy_string_address($parts, 0, $parts_length - 1);
     
     unless (@$dir_parts) {
       return $file_base_name;
@@ -113,12 +119,12 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     return $file;
   }
   
-  method no_upwards : string[] ($dir_parts : string[]) {
+  method no_upwards : string[] ($parts : string[]) {
     my $no_upwards_list = StringList->new;
     
-    for my $dir_part (@$dir_parts) {
-      unless (Re->m($dir_part, ["^\.{1,2}\z", "s"])) {
-        $no_upwards_list->push($dir_part);
+    for my $part (@$parts) {
+      unless (Re->m($part, ["^\.{1,2}\z", "s"])) {
+        $no_upwards_list->push($part);
       }
     }
     
@@ -143,53 +149,52 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     return $is_root;
   }
   
-  method join : string ($dir_parts : string[], $file_base_name : string) {
+  method join : string ($parts : string[]) {
     
-    
-    return $self->catfile($dir_parts, $file_base_name);
+    return $self->catfile($parts);
   }
   
-  method catpath : string ($volume : string, $directory : string, $file : string) {
-    unless ($directory) {
-      $directory = "";
+  method catpath : string ($volume : string, $dir : string, $file : string) {
+    unless ($dir) {
+      $dir = "";
     }
     unless ($file) {
       $file = "";
     }
     
-    my $directory_length = length $directory;
+    my $dir_length = length $dir;
     my $file_length = length $file;
-    if ( $directory ne ""                && 
+    if ( $dir ne ""                && 
          $file ne ""                     && 
-         $directory->[$directory_length - 1] != '/' && 
+         $dir->[$dir_length - 1] != '/' && 
          $file->[0] != '/')
     {
-      $directory .= "/$file" ;
+      $dir .= "/$file" ;
     }
     else {
-      $directory .= $file ;
+      $dir .= $file ;
     }
     
-    return $directory;
+    return $dir;
   }
 
   method splitpath : string[] ($path : string, $no_file : int = 0) {
     
     my $volume = "";
-    my $directory = "";
+    my $dir = "";
     my $file = "";
     
     if ( $no_file ) {
-      $directory = $path;
+      $dir = $path;
     }
     else {
       if (my $match = Re->m($path, ["^((?:.*/(?:\.\.?\z)?)?)([^/]*)", "s"])) {
-        $directory = $match->cap1;
+        $dir = $match->cap1;
         $file      = $match->cap2;
       }
     }
     
-    return [$volume, $directory, $file];
+    return [$volume, $dir, $file];
   }
 
   method rel2abs : string ($path : string, $base : string = undef) {
@@ -216,8 +221,9 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
   }
   
   method splitdir : string[] ($path : string) {
-    my $dirs = Fn->split("/", $path, -1);
-    return $dirs;
+    
+    my $parts = Fn->split("/", $path, -1);
+    return $parts;
   }
   
   method abs2rel : string ($path : string, $base : string = undef) {
@@ -317,9 +323,9 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
       $pathchunks_list->unshift($reserve_base_part);
     }
     $pathchunks = $pathchunks_list->to_array;
-    my $result_dirs = $self->catdir($pathchunks);
+    my $result_parts = $self->catdir($pathchunks);
     
-    return $self->canonpath( $self->catpath("", $result_dirs, "") );
+    return $self->canonpath( $self->catpath("", $result_parts, "") );
     
     return undef;
   }

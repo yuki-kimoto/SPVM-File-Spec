@@ -17,7 +17,7 @@ The File::Spec::Instance::Unix class of L<SPVM> is an implementation of L<File::
   use File::Spec::Instance::Unix;
 
   my $spec = File::Spec::Instance::Unix->new;
-  my $file = $spec->catfile(["foo", "bar"], "a.txt"]);
+  my $file = $spec->catfile(["foo", "bar", "a.txt"]);
 
 =head1 Inheritance
 
@@ -55,15 +55,15 @@ The File::Spec::Instance::Unix class of L<SPVM> is an implementation of L<File::
 
 =head2 catdir
 
-  method catdir : string ($dir_parts : string[]);
+  method catdir : string ($parts : string[]);
 
 =head2 catfile
 
-  method catfile : string ($dir_parts : string[], $file_base_name : string);
+  method catfile : string ($parts : string[]);
 
 =head2 no_upwards
 
-  method no_upwards : string[] ($dir_parts : string[]);
+  method no_upwards : string[] ($parts : string[]);
 
 =head2 file_name_is_absolute
 
@@ -75,11 +75,11 @@ The File::Spec::Instance::Unix class of L<SPVM> is an implementation of L<File::
 
 =head2 join
 
-  method join : string ($dir_parts : string[], $file_base_name : string);
+  method join : string ($parts : string[]);
 
 =head2 catpath
 
-  method catpath : string ($volume : string, $directory : string, $file : string);
+  method catpath : string ($volume : string, $dir : string, $file : string);
 
 =head2 splitpath
 

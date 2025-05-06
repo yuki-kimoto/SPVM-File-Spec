@@ -67,7 +67,7 @@ class TestCase::File::Spec::Instance::Unix {
     my $spec = File::Spec::Instance::Unix->new;
     
     {
-      my $catfile = $spec->catfile(["foo", "bar", "baz"], "a.txt");
+      my $catfile = $spec->catfile(["foo", "bar", "baz", "a.txt"]);
       unless ($catfile eq "foo/bar/baz/a.txt") {
         return 0;
       }
@@ -115,7 +115,7 @@ class TestCase::File::Spec::Instance::Unix {
     my $spec = File::Spec::Instance::Unix->new;
     
     {
-      my $join = $spec->join(["foo", "bar", "baz"], "a.txt");
+      my $join = $spec->join(["foo", "bar", "baz", "a.txt"]);
       unless ($join eq "foo/bar/baz/a.txt") {
         return 0;
       }
@@ -222,15 +222,15 @@ class TestCase::File::Spec::Instance::Unix {
     my $spec = File::Spec::Instance::Unix->new;
     
     {
-      my $dirs = $spec->splitdir("foo/bar/baz");
-      unless (Array->equals_string($dirs, ["foo", "bar", "baz"])) {
+      my $parts = $spec->splitdir("foo/bar/baz");
+      unless (Array->equals_string($parts, ["foo", "bar", "baz"])) {
         return 0;
       }
     }
     
     {
-      my $dirs = $spec->splitdir("/foo/bar//baz/");
-      unless (Array->equals_string($dirs, ["", "foo", "bar", "", "baz", ""])) {
+      my $parts = $spec->splitdir("/foo/bar//baz/");
+      unless (Array->equals_string($parts, ["", "foo", "bar", "", "baz", ""])) {
         return 0;
       }
     }

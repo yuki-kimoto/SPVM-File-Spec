@@ -2,13 +2,21 @@
   [Prerequirement Changes]
     * Require SPVM 0.990058.
   [Incompatible Changes]
-    * The arguments of File::Spec#catfile method are changed.
+    * The arguments of File::Spec#catfile method are changed. This was design mistake. This method should have the same argument as catdir method.
     
       [Before]
-      
+      static method catfile : string ($dirs : string[], $filename : string);
       
       [After]
+      static method catfile : string ($parts : string[]);
       
+    * The arguments of File::Spec#join method are changed. This was design mistake. This method should have the same argument as catdir method.
+    
+      [Before]
+      static method join : string ($dirs : string[], $filename : string);
+      
+      [After]
+      static method join : string ($parts : string[]);
       
 0.085 2025-01-30
   [Internal Changes]

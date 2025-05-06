@@ -33,11 +33,11 @@ The File::Spec::Instance class of L<SPVM> is an Object-Oriented L<File::Spec|SPV
 
 =head2 catdir
 
-  method catdir : string ($directories : string[]);
+  method catdir : string ($parts : string[]);
 
 =head2 catfile
 
-  method catfile : string ($directories : string[], $filename : string);
+  method catfile : string ($parts : string[]);
 
 =head2 curdir
 
@@ -61,7 +61,7 @@ The File::Spec::Instance class of L<SPVM> is an Object-Oriented L<File::Spec|SPV
 
 =head2 no_upwards
 
-  method no_upwards : string[] ($directories : string[]);
+  method no_upwards : string[] ($parts : string[]);
 
 =head2 file_name_is_absolute
 
@@ -77,7 +77,7 @@ The File::Spec::Instance class of L<SPVM> is an Object-Oriented L<File::Spec|SPV
 
 =head2 join
 
-  method join : string ($directories : string[], $filename : string);
+  method join : string ($parts : string[]);
 
 =head2 splitpath
 
@@ -89,7 +89,7 @@ The File::Spec::Instance class of L<SPVM> is an Object-Oriented L<File::Spec|SPV
 
 =head2 catpath
 
-  method catpath : string ($volume : string, $directory : string, $file : string);
+  method catpath : string ($volume : string, $dir : string, $file : string);
 
 =head2 abs2rel
 

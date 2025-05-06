@@ -15,7 +15,7 @@ The File::Spec::Instance::Win32 class of L<SPVM> is an implementation of L<File:
 =head1 Usage
 
   my $spec = File::Spec::Instance::Win32->new;
-  my $file = $spec->catfile(["foo", "bar"], "a.txt"]);
+  my $file = $spec->catfile(["foo", "bar", "a.txt"]);
 
 =head1 Inheritance
 
@@ -75,7 +75,7 @@ The File::Spec::Instance::Win32 class of L<SPVM> is an implementation of L<File:
 
 =head2 catfile
 
-  method catfile : string ($dir_parts : string[], $file_base_name : string);
+  method catfile : string ($parts : string[]);
 
 =head2 rel2abs
 
@@ -83,7 +83,7 @@ The File::Spec::Instance::Win32 class of L<SPVM> is an implementation of L<File:
 
 =head2 catpath
 
-  method catpath : string ($volume : string, $directory : string, $file : string);
+  method catpath : string ($volume : string, $dir : string, $file : string);
 
 =head1 Author
 
