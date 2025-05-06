@@ -1,3 +1,6 @@
+0.086 2025-05-06
+  [Prerequirement Changes]
+    * Require SPVM 0.990058.
 0.085 2025-01-30
   [Internal Changes]
     * Remove a private method.
