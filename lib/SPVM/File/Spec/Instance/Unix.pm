@@ -25,7 +25,11 @@ L<File::Spec::Instance|SPVM::File::Spec::Instance>
 
 =head1 Class Methods
 
+=head2 new
+
 C<static method new : File::Spec::Instance::Unix ();>>
+
+Creates a new L<File::Spec::Instance::Unix|SPVM::File::Spec::Instance::Unix> object, and returns it.
 
 =head1 Instance Methods
 
@@ -87,7 +91,7 @@ Returns a string representation of the parent directory. ".." on UNIX.
 
 C<method no_upwards : string[] ($parts : string[]);>
 
-Given a list of file names $parts, strip out those that refer to a parent directory, and returns it. (Does not strip symlinks, only '.', '..', and equivalents.)
+Given a list of file names $parts, strip out those that refer to a parent directory, and returns them as an array. (Does not strip symlinks, only '.', '..', and equivalents.)
 
 =head2 file_name_is_absolute
 
@@ -101,7 +105,7 @@ See L<File::Spec::Unix/"file_name_is_absolute"> for details.
 
 C<method path : string[] ();>
 
-Returns the environment variable C<PATH> as an array.
+Returns the environment variable C<PATH> as a array.
 
 =head2 join
 
@@ -113,7 +117,7 @@ The same as L</"catfile"> method.
 
 C<method splitpath : string[] ($path : string, $no_file : int = 0);>
 
-Splits a path into volume, directory, and filename portions, and returns them as a new array.
+Splits a path $path into volume, directory, and filename portions, and returns them as an array.
 
 See L<File::Spec::Unix/"splitpath"> for details.
 
@@ -121,7 +125,7 @@ See L<File::Spec::Unix/"splitpath"> for details.
 
 C<method splitdir : string[] ($path : string);>
 
-Splits the path $path to directory portions, and return them as a new array.
+Splits the path $path to directory portions, and return them as an array.
 
 See L<File::Spec::Unix/"splitdir"> for details.
 
@@ -145,13 +149,9 @@ See L<File::Spec::Unix/"abs2rel"> for details.
 
 C<method rel2abs : string ($path : string, $base : string = undef);>
 
-Converts a relative path to an absolute path, and returns it.
+Converts a relative path to an absolute path $path and an optional base path $base, and returns it.
 
 See L<File::Spec::Unix/"rel2abs"> for details.
-
-=head1 Author
-
-Yuki Kimoto C<kimoto.yuki@gmail.com>
 
 =head1 Copyright & License
 
