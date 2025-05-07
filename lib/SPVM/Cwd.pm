@@ -8,7 +8,7 @@ SPVM::Cwd - Getting Pathname of Current Working Directory
 
 =head1 Description
 
-The Cwd class of L<SPVM> has methods to get the pathname of the current working directory.
+Cwd class in L<SPVM> has methods to get the pathname of the current working directory.
 
 =head1 Usage
 
@@ -22,7 +22,7 @@ The Cwd class of L<SPVM> has methods to get the pathname of the current working 
 
 =head2 getcwd
 
-  static method getcwd : string ();
+C<static method getcwd : string ();>
 
 Calls the L<getcwd|SPVM::Sys::IO/"getcwd"> method in the L<Sys::IO|SPVM::Sys::IO> class and returns the return value.
 
@@ -30,13 +30,13 @@ On Windows, the path separaters C<\> of the return value are replaced with C</>.
 
 =head2 abs_path
 
-  static method abs_path : string ($file :string)
+C<static method abs_path : string ($file :string);>
 
 The alias for the L</"realpath"> method.
 
 =head2 realpath
 
-  static method realpath : string ($file : string)
+C<static method realpath : string ($file : string);>
 
 Calls the L<realpath|SPVM::Sys::IO/"realpath"> method in the L<Sys::IO|SPVM::Sys::IO> class except for Windows and returns the return value.
 
@@ -46,7 +46,7 @@ On Windows, the path separaters C<\> of the return value are replaced with C</>.
 
 =head2 getdcwd
 
-  static method getdcwd : string ($drive : string = undef) {
+C<static method getdcwd : string ($drive : string = undef);>
 
 The C<$drive> is a drive letter such as C<C:>, C<D:>. It is converted to the drive id.
 
@@ -64,23 +64,19 @@ The first character of the $drive must be [a-zA-Z].
 
 The second character of the $drive must be ":".
 
-=head1 Repository
-
-L<https://github.com/yuki-kimoto/SPVM-Cwd>
-
 =head1 See Also
 
-=head2 SPVM::Sys
+=over 2
 
-L<SPVM::Sys> provides system calls for changing working directory. C<SPVM::Cwd> calls the methods in the L<SPVM::Sys> class.
+=item * L<SPVM::File::Spec>
 
-=head2 Cwd
+=item * L<SPVM::Sys>
 
-C<SPVM::Cwd> is the Perl's L<Cwd> porting to L<SPVM>.
+=back
 
-=head1 Author
+=head2 Porting
 
-Yuki Kimoto C<kimoto.yuki@gmail.com>
+C<SPVM::Cwd> is a Perl's L<Cwd> porting to L<SPVM>.
 
 =head1 Copyright & License
 
