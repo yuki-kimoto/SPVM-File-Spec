@@ -141,14 +141,6 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     return $is_abs;
   }
   
-  method file_name_is_root : int ($path : string) {
-    my $is_root = 0;
-    if (Re->m($path, ["^/\z", "s"])) {
-      $is_root = 1;
-    }
-    return $is_root;
-  }
-  
   method join : string ($parts : string[]) {
     
     return $self->catfile($parts);

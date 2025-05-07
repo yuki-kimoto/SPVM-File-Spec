@@ -86,12 +86,6 @@ C<static method file_name_is_absolute : int ($path : string);>
 
 Calls L<File::Spec::Instance#file_name_is_absolute|SPVM::File::Spec::Instance/"file_name_is_absolute"> method given the singleton object and the arguments, and returns its return value.
 
-=head2 file_name_is_root
-
-C<static method file_name_is_root : int ($path : string);>
-
-Calls L<File::Spec::Instance#file_name_is_root|SPVM::File::Spec::Instance/"file_name_is_root"> method given the singleton object and the arguments, and returns its return value.
-
 =head2 path
 
 C<static method path : string[] ();>

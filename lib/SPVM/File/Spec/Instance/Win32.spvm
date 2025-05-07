@@ -79,31 +79,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     return $is_abs;
   }
-
-  method file_name_is_root : int ($path : string) {
-    
-    my $is_root = 0;
-    if (my $match = Re->m($path, "^($VOL_RX_STRING)")) {
-      my $vol = $match->cap1;
-      
-      if (Re->m($vol, "^$UNC_RX_STRING([\\\\/])?\z")) {
-        $is_root = 2;
-      }
-      else {
-        if (Re->m($path, "^$DRIVE_RX_STRING[\\\\/]\z")) {
-          $is_root = 2;
-        }
-      }
-    }
-    else {
-      if (Re->m($path, "^[\\\\/]\z")) {
-        $is_root = 1;
-      }
-    }
-    
-    return $is_root;
-  }
-
+  
   method path : string[] () {
     
     my $env_path = Sys->env("PATH");

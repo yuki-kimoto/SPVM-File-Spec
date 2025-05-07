@@ -89,10 +89,6 @@ Takes as argument a path $path and returns 1 if it is an absolute path. Otherwis
 
 See L<File::Spec::Unix/"file_name_is_absolute"> for details.
 
-=head2 file_name_is_root
-
-C<method file_name_is_root : int ($path : string);>
-
 =head2 join
 
 C<method join : string ($parts : string[]);>

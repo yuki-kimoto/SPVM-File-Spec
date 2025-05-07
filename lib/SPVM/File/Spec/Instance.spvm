@@ -47,8 +47,6 @@ class File::Spec::Instance {
   
   method file_name_is_absolute : int ($path : string) { die "Not implemented"; }
   
-  method file_name_is_root : int ($path : string) { die "Not implemented"; }
-  
   method path : string[] () { die "Not implemented"; }
   
   method join : string ($parts : string[]) { die "Not implemented"; }

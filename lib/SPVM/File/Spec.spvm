@@ -53,10 +53,6 @@ class File::Spec {
     return $SINGLETON->file_name_is_absolute($path);
   }
   
-  static method file_name_is_root : int ($path : string) {
-    return $SINGLETON->file_name_is_root($path);
-  }
-  
   static method path : string[] () {
     return $SINGLETON->path;
   }

@@ -114,14 +114,6 @@ For case Unix-like OSs, see L<File::Spec::Instance::Unix#file_name_is_absolute|S
 
 For case Windows, see L<File::Spec::Instance::Win32#file_name_is_absolute|SPVM::File::Spec::Instance::Win32/"file_name_is_absolute"> method.
 
-=head2 file_name_is_root
-
-C<static method file_name_is_root : int ($path : string);>
-
-For case Unix-like OSs, see L<File::Spec::Instance::Unix#file_name_is_root|SPVM::File::Spec::Instance::Unix/"file_name_is_root"> method.
-
-For case Windows, see L<File::Spec::Instance::Win32#file_name_is_root|SPVM::File::Spec::Instance::Win32/"file_name_is_root"> method.
-
 =head2 path
 
 C<static method path : string[] ();>
