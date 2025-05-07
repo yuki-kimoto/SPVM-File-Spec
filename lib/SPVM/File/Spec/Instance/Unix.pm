@@ -29,38 +29,6 @@ C<static method new : File::Spec::Instance::Unix ();>>
 
 =head1 Instance Methods
 
-=head2 devnull
-
-C<method devnull : string ();>
-
-Returns a string representation of the null device. "/dev/null" on UNIX.
-
-=head2 rootdir
-
-C<method rootdir : string ();>
-
-Returns a string representation of the root directory. "/" on UNIX.
-
-=head2 curdir
-
-C<method curdir : string ();>
-
-Returns a string representation of the current directory. "." on UNIX.
-
-=head2 tmpdir
-
-C<method tmpdir : string ();>
-
-Returns a string representation of the first writable directory from the following list or the current directory if none from the list are writable
-
-See L<File::Spec::Unix/"tmpdir"> for details.
-
-=head2 updir
-
-C<method updir : string ();>
-
-Returns a string representation of the parent directory. ".." on UNIX.
-
 =head2 canonpath
 
 C<method canonpath : string ($path : string);>
@@ -82,6 +50,38 @@ See L<File::Spec::Unix/"catdir"> for details.
 C<method catfile : string ($parts : string[]);>
 
 Concatenate one or more directory names and a filename $parts to form a complete path ending with a filename, and returns it.
+
+=head2 curdir
+
+C<method curdir : string ();>
+
+Returns a string representation of the current directory. "." on UNIX.
+
+=head2 devnull
+
+C<method devnull : string ();>
+
+Returns a string representation of the null device. "/dev/null" on UNIX.
+
+=head2 rootdir
+
+C<method rootdir : string ();>
+
+Returns a string representation of the root directory. "/" on UNIX.
+
+=head2 tmpdir
+
+C<method tmpdir : string ();>
+
+Returns a string representation of the first writable directory from the following list or the current directory if none from the list are writable
+
+See L<File::Spec::Unix/"tmpdir"> for details.
+
+=head2 updir
+
+C<method updir : string ();>
+
+Returns a string representation of the parent directory. ".." on UNIX.
 
 =head2 no_upwards
 
@@ -109,14 +109,6 @@ C<method join : string ($parts : string[]);>
 
 The same as L</"catfile"> method.
 
-=head2 catpath
-
-C<method catpath : string ($volume : string, $dir : string, $file : string);>
-
-Takes volume $volume, directory $dir and file $file portions and returns an entire path.
-
-See L<File::Spec::Unix/"catpath"> for details.
-
 =head2 splitpath
 
 C<method splitpath : string[] ($path : string, $no_file : int = 0);>
@@ -124,14 +116,6 @@ C<method splitpath : string[] ($path : string, $no_file : int = 0);>
 Splits a path into volume, directory, and filename portions, and returns them as a new array.
 
 See L<File::Spec::Unix/"splitpath"> for details.
-
-=head2 rel2abs
-
-C<method rel2abs : string ($path : string, $base : string = undef);>
-
-Converts a relative path to an absolute path, and returns it.
-
-See L<File::Spec::Unix/"rel2abs"> for details.
 
 =head2 splitdir
 
@@ -141,6 +125,14 @@ Splits the path $path to directory portions, and return them as a new array.
 
 See L<File::Spec::Unix/"splitdir"> for details.
 
+=head2 catpath
+
+C<method catpath : string ($volume : string, $dir : string, $file : string);>
+
+Takes volume $volume, directory $dir and file $file portions and returns an entire path.
+
+See L<File::Spec::Unix/"catpath"> for details.
+
 =head2 abs2rel
 
 C<method abs2rel : string ($path : string, $base : string = undef);>
@@ -148,6 +140,14 @@ C<method abs2rel : string ($path : string, $base : string = undef);>
 Takes a destination path $path and an optional base path $base returns a relative path from the base path to the destination path.
 
 See L<File::Spec::Unix/"abs2rel"> for details.
+
+=head2 rel2abs
+
+C<method rel2abs : string ($path : string, $base : string = undef);>
+
+Converts a relative path to an absolute path, and returns it.
+
+See L<File::Spec::Unix/"rel2abs"> for details.
 
 =head1 Author
 
