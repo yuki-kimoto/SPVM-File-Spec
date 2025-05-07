@@ -27,55 +27,103 @@ L<File::Spec::Instance::Unix|SPVM::File::Spec::Instance::Unix>
 
 C<static method new : File::Spec::Instance::Win32 ();>>
 
+Creates a new L<File::Spec::Instance::Win32|SPVM::File::Spec::Instance::Win32> object, and returns it.
+
 =head1 Instance Methods
 
 =head2 devnull
 
 C<method devnull : string ();>
 
-=head2 rootdir
+Returns a string representation of the null device.
 
-C<method rootdir : string ();>
+See L<File::Spec::Win32/"devnull"> for details.
 
 =head2 tmpdir
 
 C<method tmpdir : string ();>
 
+Returns a string representation of the first existing directory.
+
+See L<File::Spec::Win32/"tmpdir"> for details.
+
 =head2 file_name_is_absolute
 
 C<method file_name_is_absolute : int ($path : string);>
 
-=head2 path
+As of right now, this returns 2 if the path $path is absolute with a volume, 1 if it's absolute with no volume, 0 otherwise.
 
-C<method path : string[] ();>
-
-=head2 splitpath
-
-C<method splitpath : string[] ($path : string, $nofile : int = 0);>
-
-=head2 splitdir
-
-C<method splitdir : string[] ($path : string);>
-
-=head2 canonpath
-
-C<method canonpath : string ($path : string);>
-
-=head2 catdir
-
-C<method catdir : string ($dir_parts : string[]);>
+See L<File::Spec::Win32/"file_name_is_absolute"> for details.
 
 =head2 catfile
 
 C<method catfile : string ($parts : string[]);>
 
-=head2 rel2abs
+Concatenate one or more directory names and a filename $parts to form a complete path ending with a filename, and returns it.
 
-C<method rel2abs : string ($path : string, $base : string = undef);>
+See L<File::Spec::Win32/"catfile"> for details.
+
+=head2 canonpath
+
+C<method canonpath : string ($path : string);>
+
+Returns a logical cleanup of a path from the path $path on Windows.
+
+=head2 splitpath
+
+C<method splitpath : string[] ($path : string, $nofile : int = 0);>
+
+Splits a path into volume, directory, and filename portions, and returns them as an array.
+
+See L<File::Spec::Win32/"splitpath"> for details.
+
+=head2 splitdir
+
+C<method splitdir : string[] ($path : string);>
+
+Splits the path $path to directory portions, and return them as an array.
+
+See L<File::Spec::Win32/"splitdir"> for details.
 
 =head2 catpath
 
 C<method catpath : string ($volume : string, $dir : string, $file : string);>
+
+Takes volume, directory and file portions and returns an entire path.
+
+See L<File::Spec::Win32/"catpath"> for details.
+
+=head2 rootdir
+
+C<method rootdir : string ();>
+
+Returns a string representation of the root directory. "\" on Windows.
+
+Currently, L<File::Spec::Win32> does not provide detailed documentation for this method.
+
+=head2 path
+
+C<method path : string[] ();>
+
+Returns the environment variable C<PATH> as a array.
+
+Currently, L<File::Spec::Win32> does not provide detailed documentation for this method.
+
+=head2 catdir
+
+C<method catdir : string ($dir_parts : string[]);>
+
+Concatenates two or more directory names $parts to form a complete path ending with a directory, and returns it.
+
+Currently, L<File::Spec::Win32> does not provide detailed documentation for this method.
+
+=head2 rel2abs
+
+C<method rel2abs : string ($path : string, $base : string = undef);>
+
+Converts a relative path to an absolute path $path and an optional base path $base, and returns it.
+
+Currently, L<File::Spec::Win32> does not provide detailed documentation for this method.
 
 =head1 Author
 

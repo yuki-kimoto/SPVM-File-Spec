@@ -32,10 +32,6 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     return "nul";
   }
   
-  method rootdir : string () {
-    return "\\";
-  }
-
   method tmpdir : string () {
     
     my $env_tmpdir = Sys->env("TMPDIR");
@@ -80,29 +76,54 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     return $is_abs;
   }
   
-  method path : string[] () {
+  method catfile : string ($parts : string[]) {
     
-    my $env_path = Sys->env("PATH");
-    unless ($env_path) {
-      return new string[0];
+    unless ($parts) {
+      die "The \$parts must be defined";
     }
     
-    my $pathes = Fn->split(";", $env_path);
+    my $parts_length = @$parts;
     
-    my $pathes_list = StringList->new;
-    for (my $i = 0; $i < @$pathes; $i++) {
-      my $path = $pathes->[$i];
-      my $path_ref = [$path];
-      Re->s($path_ref, "\"", "");
-      $path = $path_ref->[0];
-      if (length $path) {
-        $pathes_list->push($path);
+    unless ($parts_length > 0) {
+      die "The parts \$parts must have elements.";
+    }
+    
+    my $file_base_name = $parts->[$parts_length - 1];
+    
+    my $dir_parts = Array->copy_string_address($parts, 0, $parts_length - 1);
+    
+    if (@$dir_parts) {
+      unless (length $dir_parts->[0]) {
+        $dir_parts->[0] = "/";
+      }
+      
+      if (Re->m($dir_parts->[0], "^$DRIVE_RX_STRING\z")) {
+        $dir_parts->[0] .= "\\";
       }
     }
-    $pathes_list->unshift(".");
-    $pathes = $pathes_list->to_array;
     
-    return $pathes;
+    my $new_parts_list = StringList->new($dir_parts);
+    $new_parts_list->push($file_base_name);
+    my $new_parts = $new_parts_list->to_array;
+    
+    my $file = $self->_canon_cat($new_parts);
+    
+    return $file;
+  }
+  
+  method canonpath : string ($path : string) {
+    
+    unless ($path) {
+      die "The \$path must be defined";
+    }
+    
+    unless (length $path) {
+      return $path;
+    }
+    
+    my $canonpath = $self->_canon_cat([$path]);
+    
+    return $canonpath;
   }
   
   method splitpath : string[] ($path : string, $nofile : int = 0) {
@@ -134,7 +155,162 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     return $parts;
   }
-
+  
+  method catpath : string ($volume : string, $dir : string, $file : string) {
+    unless ($volume) {
+      $volume = "";
+    }
+    unless ($dir) {
+      $dir = "";
+    }
+    unless ($file) {
+      $file = "";
+    }
+    
+    my $path = $volume;
+    
+    # If it's UNC, make sure the glue separator is there, reusing
+    # whatever separator is first in the $volume
+    my $v = (string)undef;
+    if (my $match = Re->m($path, ["^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s"])) {
+      my $v = $match->cap1;
+      if (Re->m($dir, "^[^\\\\/]")) {
+        $path .= $v;
+      }
+    }
+    
+    $path .= $dir;
+    
+    # If the volume is not just A:, make sure the glue separator is 
+    # there, reusing whatever separator is first in the $volume if possible.
+    if (!Re->m($path, ["^[a-zA-Z]:\z", "s"]) && Re->m($path, "[^\\\\/]\z")
+        && Re->m($file, "[^\\\\/]"))
+    {
+      my $sep = "\\";
+      my $match = Re->m($path, "([\\\\/])");
+      if ($match) {
+        $sep = $match->cap1;
+      }
+      
+      $path .= $sep;
+    }
+    
+    $path .= $file;
+    
+    return $path;
+  }
+  
+  method rootdir : string () {
+    return "\\";
+  }
+  
+  method path : string[] () {
+    
+    my $env_path = Sys->env("PATH");
+    unless ($env_path) {
+      return new string[0];
+    }
+    
+    my $pathes = Fn->split(";", $env_path);
+    
+    my $pathes_list = StringList->new;
+    for (my $i = 0; $i < @$pathes; $i++) {
+      my $path = $pathes->[$i];
+      my $path_ref = [$path];
+      Re->s($path_ref, "\"", "");
+      $path = $path_ref->[0];
+      if (length $path) {
+        $pathes_list->push($path);
+      }
+    }
+    $pathes_list->unshift(".");
+    $pathes = $pathes_list->to_array;
+    
+    return $pathes;
+  }
+  
+  method catdir : string ($parts : string[]) {
+    
+    unless ($parts) {
+      die "The \$parts must be defined";
+    }
+    
+    unless (@$parts) {
+      return "";
+    }
+    
+    unless (length $parts->[0]) {
+      $parts->[0] = "/";
+    }
+    
+    if (Re->m($parts->[0], "^$DRIVE_RX_STRING\z")) {
+      $parts->[0] .= "\\";
+    }
+    
+    my $dir = $self->_canon_cat($parts);
+    
+    return $dir;
+  }
+  
+  method rel2abs : string ($path : string, $base : string = undef) {
+    
+    my $is_abs = $self->file_name_is_absolute($path);
+    
+    my $abs_path = (string)undef;
+    
+    # Check for volume (should probably document the '2' thing...)
+    if ($is_abs == 2) {
+      $abs_path = $self->canonpath($path) ;
+    }
+    elsif ($is_abs) {
+      # It's missing a volume, add one
+      my $vol_parts = $self->splitpath(Cwd->getcwd);
+      my $vol = $vol_parts->[0];
+      
+      $abs_path = $self->canonpath($vol . $path);
+    }
+    else {
+      if (!$base || $base eq "") {
+        my $drive = $self->splitpath($path)->[0];
+        if (length $drive) {
+          eval { $base = Cwd->getdcwd($drive); };
+          if ($@) {
+            unless (eval_error_id == basic_type_id Error::System) {
+              die $@;
+            }
+          }
+        }
+        unless ($base) {
+          $base = Cwd->getcwd;
+        }
+      }
+      elsif (!$self->file_name_is_absolute($base)) {
+        $base = $self->rel2abs($base) ;
+      }
+      else {
+        $base = $self->canonpath($base) ;
+      }
+      
+      my $path_parts = $self->splitpath($path, 1);
+      my $path_dir = $path_parts->[1];
+      my $path_base_file = $path_parts->[2];
+      
+      my $base_parts = $self->splitpath($base, 1);
+      my $base_volume = $base_parts->[0];
+      my $base_dir = $base_parts->[1];
+      
+      $path = $self->catpath( 
+       $base_volume, 
+       $self->catdir([$base_dir, $path_dir]), 
+       $path_base_file
+      );
+      
+      $abs_path = $self->canonpath($path);
+    }
+    
+    return $abs_path;
+  }
+  
   private method _canon_cat : string ($parts : string[]) {
     my $first = $parts->[0];
     
@@ -251,179 +427,4 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     return $path;
   }
   
-  method canonpath : string ($path : string) {
-    
-    unless ($path) {
-      die "The \$path must be defined";
-    }
-    
-    unless (length $path) {
-      return $path;
-    }
-    
-    my $canonpath = $self->_canon_cat([$path]);
-    
-    return $canonpath;
-  }
-  
-  method catdir : string ($parts : string[]) {
-    
-    unless ($parts) {
-      die "The \$parts must be defined";
-    }
-    
-    unless (@$parts) {
-      return "";
-    }
-    
-    unless (length $parts->[0]) {
-      $parts->[0] = "/";
-    }
-    
-    if (Re->m($parts->[0], "^$DRIVE_RX_STRING\z")) {
-      $parts->[0] .= "\\";
-    }
-    
-    my $dir = $self->_canon_cat($parts);
-    
-    return $dir;
-  }
-  
-  method catfile : string ($parts : string[]) {
-    
-    unless ($parts) {
-      die "The \$parts must be defined";
-    }
-    
-    my $parts_length = @$parts;
-    
-    unless ($parts_length > 0) {
-      die "The parts \$parts must have elements.";
-    }
-    
-    my $file_base_name = $parts->[$parts_length - 1];
-    
-    my $dir_parts = Array->copy_string_address($parts, 0, $parts_length - 1);
-    
-    if (@$dir_parts) {
-      unless (length $dir_parts->[0]) {
-        $dir_parts->[0] = "/";
-      }
-      
-      if (Re->m($dir_parts->[0], "^$DRIVE_RX_STRING\z")) {
-        $dir_parts->[0] .= "\\";
-      }
-    }
-    
-    my $new_parts_list = StringList->new($dir_parts);
-    $new_parts_list->push($file_base_name);
-    my $new_parts = $new_parts_list->to_array;
-    
-    my $file = $self->_canon_cat($new_parts);
-    
-    return $file;
-  }
-  
-  method rel2abs : string ($path : string, $base : string = undef) {
-    
-    my $is_abs = $self->file_name_is_absolute($path);
-    
-    my $abs_path = (string)undef;
-    
-    # Check for volume (should probably document the '2' thing...)
-    if ($is_abs == 2) {
-      $abs_path = $self->canonpath($path) ;
-    }
-    elsif ($is_abs) {
-      # It's missing a volume, add one
-      my $vol_parts = $self->splitpath(Cwd->getcwd);
-      my $vol = $vol_parts->[0];
-      
-      $abs_path = $self->canonpath($vol . $path);
-    }
-    else {
-      if (!$base || $base eq "") {
-        my $drive = $self->splitpath($path)->[0];
-        if (length $drive) {
-          eval { $base = Cwd->getdcwd($drive); };
-          if ($@) {
-            unless (eval_error_id == basic_type_id Error::System) {
-              die $@;
-            }
-          }
-        }
-        unless ($base) {
-          $base = Cwd->getcwd;
-        }
-      }
-      elsif (!$self->file_name_is_absolute($base)) {
-        $base = $self->rel2abs($base) ;
-      }
-      else {
-        $base = $self->canonpath($base) ;
-      }
-      
-      my $path_parts = $self->splitpath($path, 1);
-      my $path_dir = $path_parts->[1];
-      my $path_base_file = $path_parts->[2];
-      
-      my $base_parts = $self->splitpath($base, 1);
-      my $base_volume = $base_parts->[0];
-      my $base_dir = $base_parts->[1];
-      
-      $path = $self->catpath( 
-       $base_volume, 
-       $self->catdir([$base_dir, $path_dir]), 
-       $path_base_file
-      );
-      
-      $abs_path = $self->canonpath($path);
-    }
-    
-    return $abs_path;
-  }
-  
-  method catpath : string ($volume : string, $dir : string, $file : string) {
-    unless ($volume) {
-      $volume = "";
-    }
-    unless ($dir) {
-      $dir = "";
-    }
-    unless ($file) {
-      $file = "";
-    }
-    
-    my $path = $volume;
-    
-    # If it's UNC, make sure the glue separator is there, reusing
-    # whatever separator is first in the $volume
-    my $v = (string)undef;
-    if (my $match = Re->m($path, ["^([\\\\/])[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+\z", "s"])) {
-      my $v = $match->cap1;
-      if (Re->m($dir, "^[^\\\\/]")) {
-        $path .= $v;
-      }
-    }
-    
-    $path .= $dir;
-    
-    # If the volume is not just A:, make sure the glue separator is 
-    # there, reusing whatever separator is first in the $volume if possible.
-    if (!Re->m($path, ["^[a-zA-Z]:\z", "s"]) && Re->m($path, "[^\\\\/]\z")
-        && Re->m($file, "[^\\\\/]"))
-    {
-      my $sep = "\\";
-      my $match = Re->m($path, "([\\\\/])");
-      if ($match) {
-        $sep = $match->cap1;
-      }
-      
-      $path .= $sep;
-    }
-    
-    $path .= $file;
-    
-    return $path;
-  }
 }

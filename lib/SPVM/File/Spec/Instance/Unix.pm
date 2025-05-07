@@ -55,11 +55,15 @@ C<method catfile : string ($parts : string[]);>
 
 Concatenate one or more directory names and a filename $parts to form a complete path ending with a filename, and returns it.
 
+See L<File::Spec::Unix/"catfile"> for details.
+
 =head2 curdir
 
 C<method curdir : string ();>
 
 Returns a string representation of the current directory. "." on UNIX.
+
+See L<File::Spec::Unix/"curdir"> for details.
 
 =head2 devnull
 
@@ -67,11 +71,15 @@ C<method devnull : string ();>
 
 Returns a string representation of the null device. "/dev/null" on UNIX.
 
+See L<File::Spec::Unix/"devnull"> for details.
+
 =head2 rootdir
 
 C<method rootdir : string ();>
 
 Returns a string representation of the root directory. "/" on UNIX.
+
+See L<File::Spec::Unix/"rootdir"> for details.
 
 =head2 tmpdir
 
@@ -87,11 +95,15 @@ C<method updir : string ();>
 
 Returns a string representation of the parent directory. ".." on UNIX.
 
+See L<File::Spec::Unix/"updir"> for details.
+
 =head2 no_upwards
 
 C<method no_upwards : string[] ($parts : string[]);>
 
 Given a list of file names $parts, strip out those that refer to a parent directory, and returns them as an array. (Does not strip symlinks, only '.', '..', and equivalents.)
+
+See L<File::Spec::Unix/"no_upwards"> for details.
 
 =head2 file_name_is_absolute
 
@@ -107,11 +119,15 @@ C<method path : string[] ();>
 
 Returns the environment variable C<PATH> as a array.
 
+See L<File::Spec::Unix/"path"> for details.
+
 =head2 join
 
 C<method join : string ($parts : string[]);>
 
 The same as L</"catfile"> method.
+
+See L<File::Spec::Unix/"join"> for details.
 
 =head2 splitpath
 
