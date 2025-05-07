@@ -30,6 +30,14 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     return ".";
   }
   
+  method tmpdir : string () {
+    
+    my $env_tmpdir = Sys->env("TMPDIR");
+    my $dirlist = [$env_tmpdir, "/tmp"];
+    my $tmpdir = $self->_tmpdir($dirlist);
+    return $tmpdir;
+  }
+  
   method updir : string () {
     return "..";
   }
@@ -141,6 +149,24 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     return $is_abs;
   }
   
+  method path : string[] () {
+    
+    my $env_path = Sys->env("PATH");
+    unless ($env_path) {
+      return new string[0];
+    }
+    
+    my $pathes = &compatible_split(":", $env_path);
+    
+    for (my $i = 0; $i < @$pathes; $i++) {
+      if ($pathes->[$i] eq "") {
+        $pathes->[$i] = ".";
+      }
+    }
+    
+    return $pathes;
+  }
+
   method join : string ($parts : string[]) {
     
     return $self->catfile($parts);
@@ -399,33 +425,7 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
     
     return $separated_strings;
   }
-
-  method path : string[] () {
-    
-    my $env_path = Sys->env("PATH");
-    unless ($env_path) {
-      return new string[0];
-    }
-    
-    my $pathes = &compatible_split(":", $env_path);
-    
-    for (my $i = 0; $i < @$pathes; $i++) {
-      if ($pathes->[$i] eq "") {
-        $pathes->[$i] = ".";
-      }
-    }
-    
-    return $pathes;
-  }
-
-  method tmpdir : string () {
-    
-    my $env_tmpdir = Sys->env("TMPDIR");
-    my $dirlist = [$env_tmpdir, "/tmp"];
-    my $tmpdir = $self->_tmpdir($dirlist);
-    return $tmpdir;
-  }
-
+  
   method _tmpdir : string ($dirlist : string[]) {
     
     my $tmpdir = (string)undef;

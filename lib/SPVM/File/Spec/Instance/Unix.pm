@@ -47,6 +47,14 @@ C<method curdir : string ();>
 
 Returns a string representation of the current directory. "." on UNIX.
 
+=head2 tmpdir
+
+C<method tmpdir : string ();>
+
+Returns a string representation of the first writable directory from the following list or the current directory if none from the list are writable
+
+See L<File::Spec::Unix/"tmpdir"> for details.
+
 =head2 updir
 
 C<method updir : string ();>
@@ -89,37 +97,57 @@ Takes as argument a path $path and returns 1 if it is an absolute path. Otherwis
 
 See L<File::Spec::Unix/"file_name_is_absolute"> for details.
 
+=head2 path
+
+C<method path : string[] ();>
+
+Returns the environment variable C<PATH> as an array.
+
 =head2 join
 
 C<method join : string ($parts : string[]);>
+
+The same as L</"catfile"> method.
 
 =head2 catpath
 
 C<method catpath : string ($volume : string, $dir : string, $file : string);>
 
+Takes volume $volume, directory $dir and file $file portions and returns an entire path.
+
+See L<File::Spec::Unix/"catpath"> for details.
+
 =head2 splitpath
 
 C<method splitpath : string[] ($path : string, $no_file : int = 0);>
+
+Splits a path into volume, directory, and filename portions, and returns them as a new array.
+
+See L<File::Spec::Unix/"splitpath"> for details.
 
 =head2 rel2abs
 
 C<method rel2abs : string ($path : string, $base : string = undef);>
 
+Converts a relative path to an absolute path, and returns it.
+
+See L<File::Spec::Unix/"rel2abs"> for details.
+
 =head2 splitdir
 
 C<method splitdir : string[] ($path : string);>
+
+Splits the path $path to directory portions, and return them as a new array.
+
+See L<File::Spec::Unix/"splitdir"> for details.
 
 =head2 abs2rel
 
 C<method abs2rel : string ($path : string, $base : string = undef);>
 
-=head2 path
+Takes a destination path $path and an optional base path $base returns a relative path from the base path to the destination path.
 
-C<method path : string[] ();>
-
-=head2 tmpdir
-
-C<method tmpdir : string ();>
+See L<File::Spec::Unix/"abs2rel"> for details.
 
 =head1 Author
 
