@@ -1,3 +1,7 @@
+0.088 2025-05-20
+  [Prerequirement Changes]
+    * Require SPVM::Sys 0.536.
+    
 0.087 2025-05-07
   [Documentation Improvement]
     * Add many docs
