@@ -21,16 +21,7 @@ class Cwd {
   }
   
   static method realpath : string ($file : string) {
-    if (Sys::OS->is_windows) {
-      my $realpath = Sys::IO::Windows->realpath($file, undef);
-      
-      return $realpath;
-    }
-    else {
-      my $realpath = Sys::IO->realpath($file, undef);
-      
-      return $realpath;
-    }
+    return Sys->_realpath($file);
   }
   
   static method abs_path : string ($file :string) { return &realpath($file); }
