@@ -34,49 +34,42 @@ if ($^O eq 'MSWin32') {
     my $path = 't/Cwd.t';
     my $realpath = SPVM::Cwd->realpath($path);
     my $realpath_expected = Cwd::realpath($path);
-    warn "Got:$realpath, Expected:$realpath_expected";
     is($realpath, $realpath_expected);
   }
   {
     my $path = 't/lib/../Cwd.t';
     my $realpath = SPVM::Cwd->realpath($path);
     my $realpath_expected = Cwd::realpath($path);
-    warn "Got:$realpath, Expected:$realpath_expected";
     is($realpath, $realpath_expected);
   }
   {
     my $path = 't';
     my $realpath = SPVM::Cwd->realpath($path);
     my $realpath_expected = Cwd::realpath($path);
-    warn "Got:$realpath, Expected:$realpath_expected";
     is($realpath, $realpath_expected);
   }
   {
     my $path = 't/';
     my $realpath = SPVM::Cwd->realpath($path);
     my $realpath_expected = Cwd::realpath($path);
-    warn "Got:$realpath, Expected:$realpath_expected";
     is($realpath, $realpath_expected);
   }
   {
     my $path = 't//';
     my $realpath = SPVM::Cwd->realpath($path);
     my $realpath_expected = Cwd::realpath($path);
-    warn "Got:$realpath, Expected:$realpath_expected";
     is($realpath, $realpath_expected);
   }
   {
     my $path = '/';
     my $realpath = SPVM::Cwd->realpath($path);
     my $realpath_expected = Cwd::realpath($path);
-    warn "Got:$realpath, Expected:$realpath_expected";
     is($realpath, $realpath_expected);
   }
   {
     my $path = "$FindBin::Bin";
     my $realpath = SPVM::Cwd->realpath($path);
     my $realpath_expected = Cwd::realpath($path);
-    warn "Got:$realpath, Expected:$realpath_expected";
     is($realpath, $realpath_expected);
   }
   
@@ -85,42 +78,36 @@ if ($^O eq 'MSWin32') {
       my $path = "t\\Cwd.t";
       my $realpath = SPVM::Cwd->realpath($path);
       my $realpath_expected = Cwd::realpath($path);
-      warn "Got:$realpath, Expected:$realpath_expected";
       is($realpath, $realpath_expected);
     }
     {
       my $path = "t\\lib\\..\\Cwd.t";
       my $realpath = SPVM::Cwd->realpath($path);
       my $realpath_expected = Cwd::realpath($path);
-      warn "Got:$realpath, Expected:$realpath_expected";
       is($realpath, $realpath_expected);
     }
     {
       my $path = "t";
       my $realpath = SPVM::Cwd->realpath($path);
       my $realpath_expected = Cwd::realpath($path);
-      warn "Got:$realpath, Expected:$realpath_expected";
       is($realpath, $realpath_expected);
     }
     {
       my $path = "t\\";
       my $realpath = SPVM::Cwd->realpath($path);
       my $realpath_expected = Cwd::realpath($path);
-      warn "Got:$realpath, Expected:$realpath_expected";
       is($realpath, $realpath_expected);
     }
     {
       my $path = "t\\\\";
       my $realpath = SPVM::Cwd->realpath($path);
       my $realpath_expected = Cwd::realpath($path);
-      warn "Got:$realpath, Expected:$realpath_expected";
       is($realpath, $realpath_expected);
     }
     {
       my $path = '\\';
       my $realpath = SPVM::Cwd->realpath($path);
       my $realpath_expected = Cwd::realpath($path);
-      warn "Got:$realpath, Expected:$realpath_expected";
       is($realpath, $realpath_expected);
     }
   }
