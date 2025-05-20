@@ -22,11 +22,7 @@ class Cwd {
   
   static method realpath : string ($file : string) {
     if (Sys::OS->is_windows) {
-      my $realpath = Sys::IO->_fullpath(undef, $file, 0);
-      
-      $realpath = (mutable string)File::Spec->canonpath($realpath);
-      
-      Fn->replace_chars($realpath, '\\', '/');
+      my $realpath = Sys::IO::Windows->realpath($file, undef);
       
       return $realpath;
     }

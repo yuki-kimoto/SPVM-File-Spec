@@ -9,7 +9,7 @@ class TestCase::Cwd {
     
     return 1;
   }
-
+  
   static method getdcwd : string ($cur_dir_expected : string) {
     my $cur_dir = Cwd->getdcwd;
     
@@ -19,4 +19,5 @@ class TestCase::Cwd {
     
     return 1;
   }
+  
 }
