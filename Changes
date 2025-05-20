@@ -1,5 +1,8 @@
+0.089 2025-05-21
+  [Requirement Changes]
+    * Require SPVM::Sys 0.538.
 0.088 2025-05-20
-  [Prerequirement Changes]
+  [Requirement Changes]
     * Require SPVM::Sys 0.536.
   [Incompatible Changes]
     * Cwd#realpath method resolve symbolic link in Windows.
