@@ -38,11 +38,11 @@ The alias for the L</"realpath"> method.
 
 C<static method realpath : string ($file : string);>
 
-Calls the L<realpath|SPVM::Sys::IO/"realpath"> method in the L<Sys::IO|SPVM::Sys::IO> class except for Windows and returns the return value.
+Calls L<realpath|https://linux.die.net/man/3/realpath> system cal given the file $file, and returns its return value.
 
-On Windows, Calls the L<_fullpath|SPVM::Sys::IO/"_fullpath"> method in the L<Sys::IO|SPVM::Sys::IO> class and returns the return value.
+In Windows, L<realpath|https://linux.die.net/man/3/realpath> system call is emulated by L<GetFullPathNameW|https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfullpathnamew> function.
 
-On Windows, the path separaters C<\> of the return value are replaced with C</>.
+The path separaters C<\> of the return value are replaced with C</> on Windows.
 
 =head2 getdcwd
 

@@ -1,3 +1,7 @@
+0.089 2025-05-22
+  [Document Improvement]
+    * Improve docs for Cwd#realpath.
+    
 0.088 2025-05-20
   [Requirement Changes]
     * Require SPVM::Sys 0.538.
