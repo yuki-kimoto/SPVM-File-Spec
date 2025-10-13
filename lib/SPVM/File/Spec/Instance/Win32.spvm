@@ -216,9 +216,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     my $pathes_list = StringList->new;
     for (my $i = 0; $i < @$pathes; $i++) {
       my $path = $pathes->[$i];
-      my $path_ref = [$path];
-      Re->s($path_ref, "\"", "");
-      $path = $path_ref->[0];
+      Re->s((mutable string)$path, "\"", "");
       if (length $path) {
         $pathes_list->push($path);
       }
@@ -312,15 +310,13 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
   }
   
   private method _canon_cat : string ($parts : string[]) {
-    my $first = $parts->[0];
+    my $first = copy $parts->[0];
     
     my $volume = (string)undef;
     
     # drive letter - (C:)
     my $match = Re->m($first, "\A([A-Za-z]:)([\\\\/]?)");
-    my $first_ref = [$first];
-    Re->s($first_ref, "\A([A-Za-z]:)([\\\\/]?)", "");
-    $first = $first_ref->[0];
+    Re->s((mutable string)$first, "\A([A-Za-z]:)([\\\\/]?)", "");
     if ($match) {
       $volume = Fn->ucfirst($match->cap1);
       if (length $match->cap2) {
@@ -328,9 +324,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
       }
     }
     else {
-      my $first_ref = [$first];
-      my $replace_info = Re->s($first_ref, ["\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s"], "");
-      $first = $first_ref->[0];
+      my $replace_info = Re->s((mutable string)$first, ["\A(?:\\\\\\\\|//)([^\\\\/]+)(?:[\\\\/]([^\\\\/]+))?[\\\\/]?", "s"], "");
       
       # UNC volume (\\192.168.201.101)
       if ($replace_info) {
@@ -342,9 +336,7 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
         $volume .= "\\";
       }
       else {
-        my $first_ref = [$first];
-        my $replace_info = Re->s($first_ref, "\A[\\\\/]", "");
-        $first = $first_ref->[0];
+        my $replace_info = Re->s((mutable string)$first, "\A[\\\\/]", "");
         
         # root dir (\foo)
         if ($replace_info) {
@@ -360,18 +352,14 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     my $path = Fn->join("\\", $parts);
     
-    my $path_ref = [$path];
-    
     # /+ to \
-    Re->s($path_ref, ["/+", "g"], "\\");
+    Re->s((mutable string)$path, ["/+", "g"], "\\");
     
     # \+ to \
-    Re->s($path_ref, ["\\\\+", "g"], "\\");
+    Re->s((mutable string)$path, ["\\\\+", "g"], "\\");
     
     # xx\.\.\yy --> xx\yy
-    Re->s($path_ref, ["(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+", "g"], "\\");
-    
-    $path = $path_ref->[0];
+    Re->s((mutable string)$path, ["(?:(?:\A|\\\\)\.(?:\\\\\.)*(?:\\\\|\z))+", "g"], "\\");
     
     # xx\yy\..\zz --> xx\zz
     my $parts_list = StringList->new;
@@ -394,20 +382,14 @@ class File::Spec::Instance::Win32 extends File::Spec::Instance::Unix {
     
     # \xx --> xx
     
-    $path_ref->[0] = $path;
-    
-    Re->s($path_ref, ["\A\\\\", "g"], "");
+    Re->s((mutable string)$path, ["\A\\\\", "g"], "");
     
     # xx\ --> xx
-    Re->s($path_ref, ["\\\\\z", "g"], "");
-    
-    $path = $path_ref->[0];
+    Re->s((mutable string)$path, ["\\\\\z", "g"], "");
     
     if (Re->m($volume, "\\\\\z")) {
       # <vol>\.. --> <vol>\
-      $path_ref->[0] = $path;
-      Re->s($path_ref, "\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)", "");
-      $path = $path_ref->[0];
+      Re->s((mutable string)$path, "\A\.\.(?:\\\\\.\.)*(?:\\\\|\z)", "");
       
       # \\HOST\SHARE\ --> \\HOST\SHARE
       my $match = Re->m($volume, ["\A(\\\\\\\\.*)\\\\\z", "s"]);

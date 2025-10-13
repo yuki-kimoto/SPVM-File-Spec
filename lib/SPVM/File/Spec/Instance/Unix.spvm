@@ -23,31 +23,29 @@ class File::Spec::Instance::Unix extends File::Spec::Instance {
       die "The \$path must be defined";
     }
     
-    my $path_ref = [$path];
+    $path = copy $path;
     
     # xx////xx  -> xx/xx
-    Re->s($path_ref, ["/{2,}", "g"], "/");
+    Re->s((mutable string)$path, ["/{2,}", "g"], "/");
     
     # xx/././xx -> xx/xx
-    Re->s($path_ref, ["(?:/\.)+(?:/|\z)", "g"], "/");
+    Re->s((mutable string)$path, ["(?:/\.)+(?:/|\z)", "g"], "/");
     
     # ./xx      -> xx
-    unless ($path_ref->[0] eq "./") {
-      Re->s($path_ref, ["^(?:\./)+", "sg"], "");
+    unless ($path eq "./") {
+      Re->s((mutable string)$path, ["^(?:\./)+", "sg"], "");
     }
     
     # /../../xx -> xx
-    Re->s($path_ref, "^/(?:\.\./)+", "/");
+    Re->s((mutable string)$path, "^/(?:\.\./)+", "/");
     
     # /..       -> /
-    Re->s($path_ref, "^/\.\.$", "/");
+    Re->s((mutable string)$path, "^/\.\.$", "/");
     
     # xx/       -> xx
-    unless ($path_ref->[0] eq "/") {
-      Re->s($path_ref, "/\z", "");
+    unless ($path eq "/") {
+      Re->s((mutable string)$path, "/\z", "");
     }
-    
-    $path = $path_ref->[0];
     
     return $path;
   }
