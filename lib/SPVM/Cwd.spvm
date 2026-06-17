@@ -47,8 +47,6 @@ class Cwd {
     
     my $cwd = Sys::IO->getdcwd($drive_id);
     
-    Fn->replace_chars((mutable string)$cwd, '\\', '/');
-    
     return $cwd;
   }
 }

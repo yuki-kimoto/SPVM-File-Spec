@@ -20,12 +20,31 @@ my $start_memory_blocks_count = $api->get_memory_blocks_count();
 {
   my $cur_dir_expected = getcwd;
   ok(SPVM::TestCase::Cwd->getcwd($cur_dir_expected));
+  
+  my $expected = Cwd::getcwd();
+  is(SPVM::Cwd->getcwd, $expected);
 }
 
 # getdcwd
 if ($^O eq 'MSWin32') {
   my $cur_dir = Cwd::getdcwd();
   ok(SPVM::TestCase::Cwd->getdcwd($cur_dir));
+  
+  {
+    my $expected = Cwd::getdcwd();
+    is(SPVM::Cwd->getdcwd, $expected);
+  }
+  
+  {
+    my $expected = Cwd::getdcwd('C:');
+    is(SPVM::Cwd->getdcwd, $expected);
+  }
+  
+  {
+    my $expected = Cwd::getdcwd('c:');
+    is(SPVM::Cwd->getdcwd, $expected);
+  }
+  
 }
 
 # realpath, abs_path
