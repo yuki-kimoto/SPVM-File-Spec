@@ -3,6 +3,8 @@
     * Require SPVM::Sys 0.569.
   [Incompatible Changes]
     * Change Cwd#getdcwd to return the value of the system call. This is the same as the value of Perl's Cwd#getdcwd.
+  [Internal Changes]
+    * Do not use Sys private methods in Cwd class.
 0.091 2026-06-17
     * Catch up with latest SPVM::Sys.
 0.090 2025-10-13
