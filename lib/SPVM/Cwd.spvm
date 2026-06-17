@@ -6,12 +6,10 @@ class Cwd {
   
   use Fn;
   use Sys::IO;
-  use Sys;
-  use File::Spec;
   use Sys::OS;
-
+  
   static method getcwd : string () {
-    my $cwd = Sys->_getcwd;
+    my $cwd = Sys::IO->getcwd;
     
     if (Sys::OS->is_windows) {
       Fn->replace_chars((mutable string)$cwd, '\\', '/');
@@ -21,15 +19,13 @@ class Cwd {
   }
   
   static method realpath : string ($file : string) {
-    return Sys->_realpath($file);
+    return Sys::IO->realpath($file);
   }
   
   static method abs_path : string ($file :string) { return &realpath($file); }
   
   static method getdcwd : string ($drive : string = undef) {
-    unless (Sys::OS->is_windows) {
-      die Error::NotSupported "The getdcwd is not supported on this system(_WIN32)";
-    }
+    
     my $drive_id = 0;
     if ($drive) {
       unless (length $drive == 2) {
@@ -49,7 +45,7 @@ class Cwd {
       $drive_id = $drive_char - 'A' + 1;
     }
     
-    my $cwd = Sys->_getdcwd($drive_id);
+    my $cwd = Sys::IO->getdcwd($drive_id);
     
     Fn->replace_chars((mutable string)$cwd, '\\', '/');
     
