@@ -28,21 +28,18 @@ class Cwd {
     
     my $drive_id = 0;
     if ($drive) {
-      unless (length $drive == 2) {
-        die "The length of the \$drive must be 2";
-      }
-      
       my $drive_char = $drive->[0];
+      
       unless (($drive_char >= 'A' && $drive_char <= 'Z') || ($drive_char >= 'a' && $drive_char <= 'z')) {
         die "The first character of the \$drive must be [a-zA-Z]";
       }
-      unless ($drive->[1]) {
-        die "The second character of the \$drive must be \":\"";
+      
+      my $drive_upper_char = (int)$drive_char;
+      if ($drive_upper_char >= 'a' && $drive_upper_char <= 'z') {
+        $drive_upper_char = $drive_upper_char - 32;
       }
       
-      my $drive_upper = Fn->ucfirst($drive);
-      
-      $drive_id = $drive_char - 'A' + 1;
+      $drive_id = $drive_upper_char - 'A' + 1;
     }
     
     my $cwd = Sys::IO->getdcwd($drive_id);
