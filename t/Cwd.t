@@ -36,12 +36,13 @@ if ($^O eq 'MSWin32') {
   }
   
   {
-    my $expected = Cwd::getdcwd('C:');
+    my $expected = Cwd::getdcwd('D:');
+    warn "[Test Output]Cwd::getdcwd('D:'):$expected";
     is(SPVM::Cwd->getdcwd, $expected);
   }
   
   {
-    my $expected = Cwd::getdcwd('c:');
+    my $expected = Cwd::getdcwd('d:');
     is(SPVM::Cwd->getdcwd, $expected);
   }
   
