@@ -18,7 +18,7 @@ unless ($meta) {
   # Do something such as environment check.
 }
 
-my %spvm_requires = ('SPVM' => '0.990042');
+my %configure_requires_and_prereq_pm = ('SPVM' => '0.990191');
 WriteMakefile(
   NAME              => 'SPVM::File::Spec',
   VERSION_FROM      => 'lib/SPVM/File/Spec.pm',
@@ -43,14 +43,12 @@ WriteMakefile(
   },
   NORECURS => 1,
   CONFIGURE_REQUIRES => {
-    %spvm_requires,
+    %configure_requires_and_prereq_pm,
   },
   PREREQ_PM         => {
-    %spvm_requires,
-    'SPVM::Sys' => '0.569',
-    'SPVM::Regex' => '0.252',
-  },
-  TEST_REQUIRES => {
+    %configure_requires_and_prereq_pm,
+    'SPVM::Sys' => '0.572',
+    'SPVM::Regex' => '0.261',
   },
 );
 
