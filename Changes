@@ -1,10 +1,14 @@
 0.092 2026-06-18
   [Requirement Changes]
-    * Require SPVM::Sys 0.569.
+    * Require SPVM 0.990191.
+    * Require SPVM::Sys 0.572.
+    * Require SPVM::Regex 0.261.
   [Incompatible Changes]
     * Change Cwd#getdcwd to return the value of the system call. This is the same as the value of Perl's Cwd#getdcwd.
   [Internal Changes]
     * Do not use Sys private methods in Cwd class.
+  [Fix Test]
+    * Fix tests for Cwd#getdcwd in Windows.
 0.091 2026-06-17
     * Catch up with latest SPVM::Sys.
 0.090 2025-10-13
